@@ -21,5 +21,13 @@
   "bugs": {
     "url": "https://github.com/zgwnu/ng-bonita/issues"
   },
-  "homepage": "https://github.com/zgwnu/ng-bonita#readme"
+  "homepage": "https://github.com/zgwnu/ng-bonita#readme",
+  "devDependencies": {
+    "@angular/common": "^4.3.6",
+    "@angular/core": "^4.3.6",
+    "@angular/http": "^4.3.6",
+    "@angular/platform-browser": "^4.3.6",
+    "rxjs": "^5.4.3",
+    "zone.js": "^0.8.17"
+  }
 }
