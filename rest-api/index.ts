@@ -2,5 +2,6 @@ export * from './zgwnu-bonita-config.service'
 export * from './zgwnu-bonita-data-mapping.interface'
 export * from './zgwnu-bonita-response'
 export * from './zgwnu-bonita-error-response'
-export * from './zgwnu-bonita-search-parms'
 export * from './zgwnu-bonita-utils'
+export * from './zgwnu-bonita-session'
+
