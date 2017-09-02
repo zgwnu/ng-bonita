@@ -18,7 +18,7 @@ All Bonita BPM Services
 Bonita BPM Activity functionality.
 #### bpm / case
 Bonita BPM Case (process instance info, context) functionality.
-#### zgwnu-bonita-bpm-data
+#### bpm / data
 Bonita BPM Data level functionality.
 #### bpm / document
 Bonita BPM Case Document (document create, search, get) functionality.
