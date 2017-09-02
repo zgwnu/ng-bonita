@@ -1,6 +1,6 @@
 import { ZgwnuBonitaProcessActivationStateType } from './zgwnu-bonita-process-activation-state.type'
 import { ZgwnuBonitaProcessConfigurationStateType } from './zgwnu-bonita-process-configuration-state.type'
-import { ZgwnuBonitaUtils } from '../zgwnu-bonita-rest-api/zgwnu-bonita-utils'
+import { ZgwnuBonitaUtils } from '../../rest-api/zgwnu-bonita-utils'
 
 export class ZgwnuBonitaProcessDefinition {
 

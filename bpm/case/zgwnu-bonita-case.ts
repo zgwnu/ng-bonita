@@ -1,4 +1,4 @@
-import { ZgwnuBonitaUtils } from '../zgwnu-bonita-rest-api/zgwnu-bonita-utils'
+import { ZgwnuBonitaUtils } from '../../rest-api/zgwnu-bonita-utils'
 
 export class ZgwnuBonitaCase {
 

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core'
 import { Location } from '@angular/common'
 import { Headers, RequestOptions } from '@angular/http'
 
-import { ZgwnuBonitaSession } from '../zgwnu-bonita-authentication/zgwnu-bonita-session'
+import { ZgwnuBonitaSession } from './zgwnu-bonita-session'
 
 @Injectable()
 export class ZgwnuBonitaConfigService {

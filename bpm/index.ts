@@ -1,3 +1,4 @@
+export * from './zgwnu-bonita-search-parms'
 export * from './activity'
 export * from './case'
 export * from './data'

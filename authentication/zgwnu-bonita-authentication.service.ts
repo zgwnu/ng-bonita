@@ -12,14 +12,14 @@ import { Observable } from 'rxjs/Observable'
 import 'rxjs/add/operator/catch'
 import 'rxjs/add/operator/map'
 
-import { ZgwnuBonitaRestApiService } from '../zgwnu-bonita-rest-api/zgwnu-bonita-rest-api.service'
-import { ZgwnuBonitaDataMappingInterface } from '../zgwnu-bonita-rest-api/zgwnu-bonita-data-mapping.interface'
-import { ZgwnuBonitaConfigService } from '../zgwnu-bonita-rest-api/zgwnu-bonita-config.service'
+import { ZgwnuBonitaRestApiService } from '../rest-api/zgwnu-bonita-rest-api.service'
+import { ZgwnuBonitaDataMappingInterface } from '../rest-api/zgwnu-bonita-data-mapping.interface'
+import { ZgwnuBonitaConfigService } from '../rest-api/zgwnu-bonita-config.service'
 import { ZgwnuBonitaCredentials } from './zgwnu-bonita-credentials'
-import { ZgwnuBonitaSession } from './zgwnu-bonita-session'
-import { ZgwnuBonitaSessionMapping } from './zgwnu-bonita-session-mapping'
-import { ZgwnuBonitaResponse } from '../zgwnu-bonita-rest-api/zgwnu-bonita-response'
-import { ZgwnuBonitaErrorResponse } from '../zgwnu-bonita-rest-api/zgwnu-bonita-error-response'
+import { ZgwnuBonitaSession } from '../rest-api/zgwnu-bonita-session'
+import { ZgwnuBonitaSessionMapping } from '../rest-api/zgwnu-bonita-session-mapping'
+import { ZgwnuBonitaResponse } from '../rest-api/zgwnu-bonita-response'
+import { ZgwnuBonitaErrorResponse } from '../rest-api/zgwnu-bonita-error-response'
 
 @Injectable()
 export class ZgwnuBonitaAuthenticationService extends ZgwnuBonitaRestApiService {

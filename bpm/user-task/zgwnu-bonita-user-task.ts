@@ -1,4 +1,4 @@
-import { ZgwnuBonitaActivity } from './zgwnu-bonita-activity'
+import { ZgwnuBonitaActivity } from '../activity/zgwnu-bonita-activity'
 
 export class ZgwnuBonitaUserTask extends ZgwnuBonitaActivity {
 

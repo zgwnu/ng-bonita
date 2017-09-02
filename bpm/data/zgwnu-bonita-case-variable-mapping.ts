@@ -1,6 +1,6 @@
 import { Response } from '@angular/http'
 
-import { ZgwnuBonitaDataMappingInterface } from '../zgwnu-bonita-rest-api/zgwnu-bonita-data-mapping.interface'
+import { ZgwnuBonitaDataMappingInterface } from '../../rest-api/zgwnu-bonita-data-mapping.interface'
 import { ZgwnuBonitaCaseVariable } from './zgwnu-bonita-case-variable'
 
 export class ZgwnuBonitaCaseVariableMapping implements ZgwnuBonitaDataMappingInterface {

@@ -11,13 +11,13 @@ import { Observable } from 'rxjs/Observable'
 import 'rxjs/add/operator/catch'
 import 'rxjs/add/operator/map'
 
-import { ZgwnuBonitaRestApiService } from '../zgwnu-bonita-rest-api/zgwnu-bonita-rest-api.service'
-import { ZgwnuBonitaDataMappingInterface } from '../zgwnu-bonita-rest-api/zgwnu-bonita-data-mapping.interface'
-import { ZgwnuBonitaConfigService } from '../zgwnu-bonita-rest-api/zgwnu-bonita-config.service'
-import { ZgwnuBonitaSearchParms } from '../zgwnu-bonita-rest-api/zgwnu-bonita-search-parms'
+import { ZgwnuBonitaRestApiService } from '../../rest-api/zgwnu-bonita-rest-api.service'
+import { ZgwnuBonitaDataMappingInterface } from '../../rest-api/zgwnu-bonita-data-mapping.interface'
+import { ZgwnuBonitaConfigService } from '../../rest-api/zgwnu-bonita-config.service'
+import { ZgwnuBonitaSearchParms } from '../zgwnu-bonita-search-parms'
 import { ZgwnuBonitaTask } from './zgwnu-bonita-task'
 import { ZgwnuBonitaTaskMapping } from './zgwnu-bonita-task-mapping'
-import { ZgwnuBonitaResponse } from '../zgwnu-bonita-rest-api/zgwnu-bonita-response'
+import { ZgwnuBonitaResponse } from '../../rest-api/zgwnu-bonita-response'
 
 @Injectable()
 export class ZgwnuBonitaBpmTaskService extends ZgwnuBonitaRestApiService {
