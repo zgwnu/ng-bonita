@@ -2,8 +2,10 @@
   "name": "@zgwnu/ng-bonita",
   "version": "1.0.0",
   "description": "Angular Bonita Rest Api Services by ZGW NU",
-  "main": "index.ts",
+  "main": "index.js",
   "scripts": {
+    "postinstall": "npm run build",
+    "build:": "tsc",
     "test": "echo test"
   },
   "repository": {
