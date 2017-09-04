@@ -4,7 +4,7 @@
   "description": "Angular Bonita Rest Api Services by ZGW NU",
   "main": "index.js",
   "scripts": {
-    "build:": "tsc -p src",
+    "build": "tsc -p src",
     "test": "echo test"
   },
   "repository": {

@@ -1,6 +1,6 @@
 import { Response } from '@angular/http'
 
-import { ZgwnuBonitaDataMappingInterface } from '../zgwnu-bonita-rest-api/zgwnu-bonita-data-mapping.interface'
+import { ZgwnuBonitaDataMappingInterface } from '../../rest-api/zgwnu-bonita-data-mapping.interface'
 import { ZgwnuBonitaDocument } from './zgwnu-bonita-document'
 
 export class ZgwnuBonitaDocumentMapping implements ZgwnuBonitaDataMappingInterface {
