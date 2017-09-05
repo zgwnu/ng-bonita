@@ -1,6 +1,6 @@
 export { ZgwnuBonitaModule } from './zgwnu-bonita.module'
 export { ZgwnuBonitaSession } from './rest-api'
-import { ZgwnuBonitaCredentials } from './authentication'
-import { ZgwnuBonitaCreateCaseSuccessResponse, 
+export { ZgwnuBonitaCredentials } from './authentication'
+export { ZgwnuBonitaCreateCaseSuccessResponse, 
     ZgwnuBonitaDeployProcessDefinitionSuccessResponse, ZgwnuBonitaProcessDefinition, 
     ZgwnuBonitaProcessUpdateInput, ZgwnuBonitaProcessUpdateSuccessResponse } from './bpm/process'
