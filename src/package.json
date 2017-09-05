@@ -1,0 +1,31 @@
+{
+  "name": "zgwnu-ng-bonita-src",
+  "version": "1.0.0",
+  "description": "Source Angular Bonita Rest Api Services by ZGW NU",
+  "scripts": {
+    "transpile": "ngc",
+    "package": "rollup -c",
+    "minify": "uglifyjs dist/bundles/amazing.umd.js --screw-ie8 --compress --mangle --comments --output dist/bundles/amazing.umd.min.js",
+    "build": "npm run transpile && npm run package && npm run minify"
+  },
+  "author": "Onno Haldar",
+  "license": "MIT",
+  "dependencies": {
+    "@angular/core": "^4.3.6",
+    "@angular/common": "^4.3.6",
+    "@angular/http": "^4.3.6",
+    "@angular/router": "^4.3.6",
+    "@angular/platform-browser": "^4.3.6",
+    "@zgwnu/common-bonita": "git+https://github.com/zgwnu/common-bonita.git"    
+  },
+  "devDependencies": {
+    "@angular/compiler": "^4.3.6",
+    "@angular/compiler-cli": "^4.3.6",
+    "rxjs": "^5.4.3",
+    "zone.js": "^0.8.17",
+
+    "rollup": "^0.49.2",
+    "typescript": "^2.5.2",
+    "uglify-js": "^3.0.28"
+  }
+}

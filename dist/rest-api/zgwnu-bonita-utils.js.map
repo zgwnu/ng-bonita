@@ -1,1 +1,0 @@
-{"version":3,"file":"zgwnu-bonita-utils.js","sourceRoot":"","sources":["../../src/rest-api/zgwnu-bonita-utils.ts"],"names":[],"mappings":";;AAAA;IAAA;IAMA,CAAC;IAJG,uCAAY,GAAZ,UAAa,eAAuB;QAChC,MAAM,CAAC,IAAI,IAAI,CAAC,eAAe,CAAC,MAAM,CAAC,CAAC,EAAE,EAAE,CAAC,GAAG,GAAG,GAAG,eAAe,CAAC,MAAM,CAAC,EAAE,CAAC,CAAC,CAAA;IACrF,CAAC;IAEL,uBAAC;AAAD,CAAC,AAND,IAMC;AANY,4CAAgB"}
