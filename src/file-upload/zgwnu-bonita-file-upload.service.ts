@@ -32,23 +32,23 @@ export class ZgwnuBonitaFileUploadService extends ZgwnuBonitaRestApiService {
     }
 
     uploadFile(file: File, fileId: string): Observable<ZgwnuBonitaFileUploadResponse> {
-        return this.servletUploadFile(this.configService.fileUploadUrl, file, fileId)
+        return this.servletUploadFile(this.configService.bonitaUrls.fileUploadUrl, file, fileId)
     }
 
     uploadProcess(file: File, fileId: string): Observable<ZgwnuBonitaFileUploadResponse> {
-        return this.servletUploadFile(this.configService.processUploadUrl, file, fileId)
+        return this.servletUploadFile(this.configService.bonitaUrls.processUploadUrl, file, fileId)
     }
 
     uploadOrganization(file: File, fileId: string): Observable<ZgwnuBonitaFileUploadResponse> {
-        return this.servletUploadFile(this.configService.organizationUploadUrl, file, fileId)
+        return this.servletUploadFile(this.configService.bonitaUrls.organizationUploadUrl, file, fileId)
     }
 
     uploadActors(file: File, fileId: string): Observable<ZgwnuBonitaFileUploadResponse> {
-        return this.servletUploadFile(this.configService.actorsUploadUrl, file, fileId)
+        return this.servletUploadFile(this.configService.bonitaUrls.actorsUploadUrl, file, fileId)
     }
 
     uploadImage(file: File, fileId: string): Observable<ZgwnuBonitaFileUploadResponse> {
-        return this.servletUploadFile(this.configService.imageUploadUrl, file, fileId)
+        return this.servletUploadFile(this.configService.bonitaUrls.imageUploadUrl, file, fileId)
     }
 
     private servletUploadFile(servletUrl: string, file: File, fileId: string): Observable<ZgwnuBonitaFileUploadResponse> {

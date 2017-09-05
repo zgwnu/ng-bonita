@@ -30,7 +30,7 @@ export class ZgwnuBonitaBpmTaskService extends ZgwnuBonitaRestApiService {
     ) 
     { 
         super()
-        this.taskResourceUrl = configService.apiUrl + this.TASK_RESOURCE_PATH
+        this.taskResourceUrl = configService.bonitaUrls.apiUrl + this.TASK_RESOURCE_PATH
     }
 
     searchTasks(searchParms: ZgwnuBonitaSearchParms): Observable<ZgwnuBonitaTask[]> {

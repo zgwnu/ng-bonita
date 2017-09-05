@@ -7,3 +7,5 @@ export { ZgwnuBonitaCreateCaseSuccessResponse,
 export { ZgwnuBonitaCase } from './bpm/case'
 export { ZgwnuBonitaDocument, ZgwnuBonitaDocumentCreateInput, 
     ZgwnuBonitaDocumentUpdateInput } from './bpm/document' 
+export { ZgwnuBonitaCaseVariable } from './bpm/data'
+export { ZgwnuBonitaActivity, ZgwnuBonitaActivityDeployActor } from './bpm/activity'

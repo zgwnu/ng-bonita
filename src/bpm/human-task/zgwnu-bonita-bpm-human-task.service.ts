@@ -30,7 +30,7 @@ export class ZgwnuBonitaBpmHumanTaskService extends ZgwnuBonitaRestApiService {
     ) 
     { 
         super()
-        this.humanTaskResourceUrl = configService.apiUrl + this.HUMAN_TASK_RESOURCE_PATH
+        this.humanTaskResourceUrl = configService.bonitaUrls.apiUrl + this.HUMAN_TASK_RESOURCE_PATH
     }
 
     searchHumanTasks(searchParms: ZgwnuBonitaSearchParms): Observable<ZgwnuBonitaHumanTask[]> {

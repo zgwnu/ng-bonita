@@ -32,7 +32,7 @@ export class ZgwnuBonitaBpmDataService extends ZgwnuBonitaRestApiService {
         super()
         
         // configure resource url
-        this.caseVariableResourceUrl = configService.apiUrl + this.caseVariableResourcePath
+        this.caseVariableResourceUrl = configService.bonitaUrls.apiUrl + this.caseVariableResourcePath
     }
 
     // CaseVariable

@@ -32,7 +32,7 @@ export class ZgwnuBonitaBpmUserTaskService extends ZgwnuBonitaRestApiService {
         super()
 
         // configure resource urls
-        this.userTaskResourceUrl = configService.apiUrl + this.USER_TASK_RESOURCE_PATH
+        this.userTaskResourceUrl = configService.bonitaUrls.apiUrl + this.USER_TASK_RESOURCE_PATH
     }
 
     getUserTask(userTaskId: string): Observable<ZgwnuBonitaUserTask> {
