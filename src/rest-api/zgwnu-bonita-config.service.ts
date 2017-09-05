@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core'
 import { Headers, RequestOptions } from '@angular/http'
 
 import { ZgwnuBonitaSession } from './zgwnu-bonita-session'
+import { ZgwnuBonitaUrls } from './zgwnu-bonita-urls'
 
 @Injectable()
 export class ZgwnuBonitaConfigService {
     // default zgwnu Business Data Model Package configuration
-    businessDataModelPackage: string = 'com.zaakgerichtwerkennu.model'
+    public businessDataModelPackage: string = 'com.zaakgerichtwerkennu.model'
 
     // default bonita path configuration
     private basePath: string = '/bonita'
@@ -19,27 +20,27 @@ export class ZgwnuBonitaConfigService {
     private formsDocumentImagePath: string = '/portal/formsDocumentImage'
     
     // server configuration urls
-    baseUrl: string
-    apiUrl: string
-    fileUploadUrl: string
-    processUploadUrl: string
-    organizationUploadUrl: string
-    actorsUploadUrl: string
-    imageUploadUrl: string
-    formsDocumentImageUrl: string
+    public baseUrl: string
+    public apiUrl: string
+    public fileUploadUrl: string
+    public processUploadUrl: string
+    public organizationUploadUrl: string
+    public actorsUploadUrl: string
+    public imageUploadUrl: string
+    public formsDocumentImageUrl: string
 
     // rest api options
     readonly bonitaSessionTokenKey: string = 'X-Bonita-API-Token'
     private defaultHeaders: Headers = new Headers({ 'Content-Type': 'application/json' })
-    options: RequestOptions = new RequestOptions({ headers: this.defaultHeaders })
-    sendOptions: RequestOptions
+    public options: RequestOptions = new RequestOptions({ headers: this.defaultHeaders })
+    public sendOptions: RequestOptions
 
     // current session
     private _session: ZgwnuBonitaSession
 
-    constructor (hostUrl: string)
+    constructor (bonitaUrls: ZgwnuBonitaUrls)
     {
-        this.baseUrl = hostUrl + this.basePath
+        this.baseUrl = bonitaUrls.hostUrl + this.basePath
         this.apiUrl = this.baseUrl + this.apiPath
         this.fileUploadUrl = this.baseUrl + this.fileUploadPath
         this.processUploadUrl = this.baseUrl + this.processUploadPath
@@ -72,6 +73,5 @@ export class ZgwnuBonitaConfigService {
             optionsRef.headers.append(this.bonitaSessionTokenKey, this._session.token)
         }
     }
-
 
 }
