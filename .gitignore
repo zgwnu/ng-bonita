@@ -1,1 +1,3 @@
 node_modules
+*.ngfactory.ts
+*.ngsummary.json

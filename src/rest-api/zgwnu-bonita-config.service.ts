@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core'
-import { Location } from '@angular/common'
 import { Headers, RequestOptions } from '@angular/http'
 
 import { ZgwnuBonitaSession } from './zgwnu-bonita-session'
@@ -20,7 +19,6 @@ export class ZgwnuBonitaConfigService {
     private formsDocumentImagePath: string = '/portal/formsDocumentImage'
     
     // server configuration urls
-    hostUrl: string 
     baseUrl: string
     apiUrl: string
     fileUploadUrl: string
@@ -39,28 +37,9 @@ export class ZgwnuBonitaConfigService {
     // current session
     private _session: ZgwnuBonitaSession
 
-    constructor (
-        location: Location)
+    constructor (hostUrl: string)
     {
-        this.initialize()
-    }
-
-    initialize() {
-        
-        if (location.hostname == 'localhost') {
-            // local development server configuration (Bonita Studio with Angular JIT)
-            this.hostUrl = 'http://localhost:8080' 
-        } else {
-            // external test or production server configuration (Bonita Platform with AOT WAR deployment)
-            this.hostUrl = location.origin
-        }
-
-        this.configUrls()
-
-    }
-
-    private configUrls() {
-        this.baseUrl = this.hostUrl + this.basePath
+        this.baseUrl = hostUrl + this.basePath
         this.apiUrl = this.baseUrl + this.apiPath
         this.fileUploadUrl = this.baseUrl + this.fileUploadPath
         this.processUploadUrl = this.baseUrl + this.processUploadPath
@@ -87,6 +66,9 @@ export class ZgwnuBonitaConfigService {
 
     appendSessionOptions(optionsRef: RequestOptions) {
         if (this._session.token) {
+            if (!optionsRef.headers) {
+                optionsRef.headers = this.defaultHeaders
+            }
             optionsRef.headers.append(this.bonitaSessionTokenKey, this._session.token)
         }
     }
