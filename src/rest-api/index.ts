@@ -1,4 +1,5 @@
 export * from './zgwnu-bonita-config.service'
+export * from './zgwnu-bonita-rest-api.service'
 export * from './zgwnu-bonita-session'
 export * from './zgwnu-bonita-data-mapping.interface'
 export * from './zgwnu-bonita-error-response'

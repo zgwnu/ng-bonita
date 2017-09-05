@@ -31,9 +31,6 @@
     "index.ts"
   ],
   "angularCompilerOptions": {
-    "annotateForClosureCompiler": true,
-    "strictMetadataEmit": true,
-    "flatModuleOutFile": "index.js",
-    "flatModuleId": "@zgwnu/ng-bonita"
+    "strictMetadataEmit": true
   }
 }
