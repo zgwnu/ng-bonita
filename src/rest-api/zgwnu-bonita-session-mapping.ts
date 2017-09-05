@@ -8,7 +8,10 @@ export class ZgwnuBonitaSessionMapping implements ZgwnuBonitaDataMappingInterfac
 
     mapResponse(res: Response) {
         let body = res.json()
-        let headers = res.headers
+        let headers: any
+        if (res.headers != null) {
+            headers = res.headers
+        }
         let sessionData: ZgwnuBonitaSession = new ZgwnuBonitaSession(body, headers)
         return sessionData
     }

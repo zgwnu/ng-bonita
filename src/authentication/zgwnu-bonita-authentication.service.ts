@@ -23,7 +23,7 @@ import { ZgwnuBonitaErrorResponse } from '../rest-api/zgwnu-bonita-error-respons
 
 @Injectable()
 export class ZgwnuBonitaAuthenticationService extends ZgwnuBonitaRestApiService {
-    private readonly LOGIN_SERVICE_PATH: string = '/loginservice'
+    private readonly LOGIN_SERVICE_PATH = '/loginservice'
     private readonly CURRENT_SESSION_RESOURCE_PATH = '/system/session/unusedid'
 
     successResponse: ZgwnuBonitaResponse
@@ -47,7 +47,7 @@ export class ZgwnuBonitaAuthenticationService extends ZgwnuBonitaRestApiService 
         let credsUrlEncoded: string = 'username=' + creds.username + '&password=' + creds.password + '&redirect=false'
         let headers: Headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' })
         let options: RequestOptions = new RequestOptions({ headers: headers })
-        let postUrl: string = this.configService.baseUrl + this.LOGIN_SERVICE_PATH
+        let postUrl: string = this.configService.bonitaUrls.baseUrl + this.LOGIN_SERVICE_PATH
 
         return this.http.post(postUrl, credsUrlEncoded, options)
                         .map(this.mapSuccessResponse)
@@ -56,7 +56,7 @@ export class ZgwnuBonitaAuthenticationService extends ZgwnuBonitaRestApiService 
 
     getCurrentSession(): Observable<ZgwnuBonitaSession> {
         let sessionMapping: ZgwnuBonitaDataMappingInterface = new ZgwnuBonitaSessionMapping()
-        return this.http.get(this.configService.apiUrl + this.CURRENT_SESSION_RESOURCE_PATH, this.configService.options)
+        return this.http.get(this.configService.bonitaUrls.apiUrl + this.CURRENT_SESSION_RESOURCE_PATH, this.configService.options)
                 .map(sessionMapping.mapResponse)
                 .catch(this.handleResponseError)
 

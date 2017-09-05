@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core'
 
-/*
+import { ZgwnuBonitaConfigService } from './rest-api' 
 import { ZgwnuBonitaAuthenticationService } from './authentication'
+/*
 import { ZgwnuBonitaBpmProcessService } from './bpm/process'
 import { ZgwnuBonitaBpmCaseService } from './bpm/case'
 import { ZgwnuBonitaBpmCaseDocumentService } from './bpm/document' 
@@ -13,13 +14,12 @@ import { ZgwnuBonitaBpmUserTaskService } from './bpm/user-task'
 import { ZgwnuBonitaBusinessDataService } from './bdm'
 import { ZgwnuBonitaFileUploadService } from './file-upload'
 */
-import { ZgwnuBonitaConfigService } from './rest-api' 
 
 @NgModule({
     providers: [
         ZgwnuBonitaConfigService,
+        ZgwnuBonitaAuthenticationService, 
         /*
-        ZgwnuBonitaAuthenticationService,
         ZgwnuBonitaBpmProcessService,
         ZgwnuBonitaBpmCaseService, 
         ZgwnuBonitaBpmCaseDocumentService, 

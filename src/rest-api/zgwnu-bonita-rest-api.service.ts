@@ -8,6 +8,7 @@ import { Injectable } from '@angular/core'
 import { Response } from '@angular/http'
 
 import { Observable } from 'rxjs/Observable'
+import { ErrorObservable } from 'rxjs/observable/ErrorObservable'
 import 'rxjs/add/observable/throw'
 
 import { ZgwnuBonitaConfigService } from './zgwnu-bonita-config.service'
@@ -24,7 +25,7 @@ export abstract class ZgwnuBonitaRestApiService {
     protected mapSuccessResponse(res: Response) {
         let successResponse: ZgwnuBonitaResponse = new ZgwnuBonitaResponse()
         successResponse.status = res.status
-        successResponse.statusText = res.statusText
+        if (res.statusText) successResponse.statusText = res.statusText
         return successResponse
     }
 
@@ -32,7 +33,7 @@ export abstract class ZgwnuBonitaRestApiService {
         let errorResponse: ZgwnuBonitaErrorResponse = new ZgwnuBonitaErrorResponse()
         if (error instanceof Response) {
             errorResponse.status = error.status
-            errorResponse.statusText = error.statusText
+            if (error.statusText) errorResponse.statusText = error.statusText
             const body = error.json()
             errorResponse.exception = body.exception
             errorResponse.message = body.message
