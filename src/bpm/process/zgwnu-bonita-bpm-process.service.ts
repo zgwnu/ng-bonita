@@ -36,7 +36,7 @@ export class ZgwnuBonitaBpmProcessService extends ZgwnuBonitaRestApiService {
         super()
 
         // configure resource urls
-        this.resourceUrl = configService.apiUrl + this.RESOURCE_PATH
+        this.resourceUrl = configService.bonitaUrls.apiUrl + this.RESOURCE_PATH
     }
 
     searchProcessDefinitions(searchParms: ZgwnuBonitaSearchParms): Observable<ZgwnuBonitaProcessDefinition[]> {
@@ -73,7 +73,7 @@ export class ZgwnuBonitaBpmProcessService extends ZgwnuBonitaRestApiService {
     private mapCreateCaseSuccessResponse(res: Response) {
         let successResponse = new ZgwnuBonitaCreateCaseSuccessResponse()
         successResponse.status = res.status
-        successResponse.statusText = res.statusText
+        if (res.statusText) successResponse.statusText = res.statusText
         successResponse.caseId = res.json().caseId
         return successResponse
     }
@@ -95,7 +95,7 @@ export class ZgwnuBonitaBpmProcessService extends ZgwnuBonitaRestApiService {
         let utils: ZgwnuBonitaUtils = new ZgwnuBonitaUtils()
         let successResponse = new ZgwnuBonitaDeployProcessDefinitionSuccessResponse()
         successResponse.status = res.status
-        successResponse.statusText = res.statusText
+        if (res.statusText) successResponse.statusText = res.statusText
         let body: any = res.json()
         successResponse.id = body.id
         successResponse.deploymentDate = utils.getDateValue(body.deploymentDate)
@@ -119,7 +119,7 @@ export class ZgwnuBonitaBpmProcessService extends ZgwnuBonitaRestApiService {
     private mapUpdateProcessDefinitionUpdateSuccessResponse(res: Response) {
         let updateRes: ZgwnuBonitaProcessUpdateSuccessResponse = new ZgwnuBonitaProcessUpdateSuccessResponse()
         updateRes.status = res.status
-        updateRes.statusText = res.statusText
+        if (res.statusText) updateRes.statusText = res.statusText
         return updateRes
     }
 

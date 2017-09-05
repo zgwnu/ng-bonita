@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core'
 
 import { ZgwnuBonitaConfigService } from './rest-api' 
 import { ZgwnuBonitaAuthenticationService } from './authentication'
-/*
 import { ZgwnuBonitaBpmProcessService } from './bpm/process'
+/*
 import { ZgwnuBonitaBpmCaseService } from './bpm/case'
 import { ZgwnuBonitaBpmCaseDocumentService } from './bpm/document' 
 import { ZgwnuBonitaBpmDataService } from './bpm/data'
@@ -19,8 +19,8 @@ import { ZgwnuBonitaFileUploadService } from './file-upload'
     providers: [
         ZgwnuBonitaConfigService,
         ZgwnuBonitaAuthenticationService, 
+        ZgwnuBonitaBpmProcessService, 
         /*
-        ZgwnuBonitaBpmProcessService,
         ZgwnuBonitaBpmCaseService, 
         ZgwnuBonitaBpmCaseDocumentService, 
         ZgwnuBonitaBpmDataService, 
