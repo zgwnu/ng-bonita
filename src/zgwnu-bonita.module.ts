@@ -3,9 +3,9 @@ import { NgModule } from '@angular/core'
 import { ZgwnuBonitaConfigService } from './rest-api' 
 import { ZgwnuBonitaAuthenticationService } from './authentication'
 import { ZgwnuBonitaBpmProcessService } from './bpm/process'
-/*
 import { ZgwnuBonitaBpmCaseService } from './bpm/case'
 import { ZgwnuBonitaBpmCaseDocumentService } from './bpm/document' 
+/*
 import { ZgwnuBonitaBpmDataService } from './bpm/data'
 import { ZgwnuBonitaBpmActivityService } from './bpm/activity'
 import { ZgwnuBonitaBpmTaskService } from './bpm/task'
@@ -20,9 +20,10 @@ import { ZgwnuBonitaFileUploadService } from './file-upload'
         ZgwnuBonitaConfigService,
         ZgwnuBonitaAuthenticationService, 
         ZgwnuBonitaBpmProcessService, 
-        /*
         ZgwnuBonitaBpmCaseService, 
         ZgwnuBonitaBpmCaseDocumentService, 
+        /* 
+        
         ZgwnuBonitaBpmDataService, 
         ZgwnuBonitaBpmActivityService, 
         ZgwnuBonitaBpmTaskService, 

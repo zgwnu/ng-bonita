@@ -32,7 +32,7 @@ export class ZgwnuBonitaBpmCaseDocumentService extends ZgwnuBonitaRestApiService
         super()
 
         // configure resource urls
-        this.resourceUrl = configService.apiUrl + this.resourcePath
+        this.resourceUrl = configService.bonitaUrls.apiUrl + this.resourcePath
     }
 
     createDocument(documentCreateInput: ZgwnuBonitaDocumentCreateInput): Observable<ZgwnuBonitaDocument> {

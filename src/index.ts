@@ -4,3 +4,6 @@ export { ZgwnuBonitaCredentials } from './authentication'
 export { ZgwnuBonitaCreateCaseSuccessResponse, 
     ZgwnuBonitaDeployProcessDefinitionSuccessResponse, ZgwnuBonitaProcessDefinition, 
     ZgwnuBonitaProcessUpdateInput, ZgwnuBonitaProcessUpdateSuccessResponse } from './bpm/process'
+export { ZgwnuBonitaCase } from './bpm/case'
+export { ZgwnuBonitaDocument, ZgwnuBonitaDocumentCreateInput, 
+    ZgwnuBonitaDocumentUpdateInput } from './bpm/document' 
