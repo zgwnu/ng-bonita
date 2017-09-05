@@ -7,13 +7,11 @@ import { ZgwnuBonitaBpmCaseService } from './bpm/case'
 import { ZgwnuBonitaBpmCaseDocumentService } from './bpm/document' 
 import { ZgwnuBonitaBpmDataService } from './bpm/data'
 import { ZgwnuBonitaBpmActivityService } from './bpm/activity'
-/*
 import { ZgwnuBonitaBpmTaskService } from './bpm/task'
 import { ZgwnuBonitaBpmHumanTaskService } from './bpm/human-task'
 import { ZgwnuBonitaBpmUserTaskService } from './bpm/user-task'
 import { ZgwnuBonitaBusinessDataService } from './bdm'
 import { ZgwnuBonitaFileUploadService } from './file-upload'
-*/
 
 @NgModule({
     providers: [
@@ -24,15 +22,12 @@ import { ZgwnuBonitaFileUploadService } from './file-upload'
         ZgwnuBonitaBpmCaseDocumentService, 
         ZgwnuBonitaBpmDataService, 
         ZgwnuBonitaBpmActivityService, 
-        /* 
-        
         ZgwnuBonitaBpmActivityService, 
         ZgwnuBonitaBpmTaskService, 
         ZgwnuBonitaBpmHumanTaskService, 
         ZgwnuBonitaBpmUserTaskService, 
         ZgwnuBonitaBusinessDataService, 
         ZgwnuBonitaFileUploadService, 
-        */
     ]
 })
 export class ZgwnuBonitaModule {}
