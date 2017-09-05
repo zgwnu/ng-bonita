@@ -30,7 +30,7 @@ export class ZgwnuBonitaBusinessDataService extends ZgwnuBonitaRestApiService {
     ) 
     { 
         super()
-        this.resourceUrl = configService.apiUrl + this.resourcePath
+        this.resourceUrl = configService.bonitaUrls.apiUrl + this.resourcePath
     }
 
     // Bonita Rest Api Business Data
@@ -87,7 +87,7 @@ export class ZgwnuBonitaBusinessDataService extends ZgwnuBonitaRestApiService {
     }
 
     protected buildGetFromContextUrl(businessDataContext: ZgwnuBonitaBusinessDataContext): string {
-        return this.configService.baseUrl + '/' + businessDataContext.link
+        return this.configService.bonitaUrls.baseUrl + '/' + businessDataContext.link
     }
 
     private getMapping(mappingParm?: ZgwnuBonitaDataMappingInterface): ZgwnuBonitaDataMappingInterface {
