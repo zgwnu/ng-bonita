@@ -16,11 +16,11 @@ const globals = {
 export default {
   input: '../dist/index.js',
   output: { 
-      file : '../dist/bundles/zgwnu-bonita.umd.js',
+      file : '../dist/bundles/ng-bonita.umd.js',
       format: 'umd',
   }, 
   exports: 'named',
-  name: 'ng.zgwnu-bonita',
+  name: 'zgwnu.ng-bonita',
   plugins: [resolve()],
   external: Object.keys(globals),
   globals: globals

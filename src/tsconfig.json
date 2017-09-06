@@ -28,7 +28,7 @@
     ]
   },
   "files": [
-    "index.ts"
+    "ng-bonita.ts"
   ],
   "angularCompilerOptions": {
     "strictMetadataEmit": true
