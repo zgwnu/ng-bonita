@@ -7,7 +7,7 @@ Angular Bonita Rest Api Services developed ZGW NU to create BPM application exam
 
 # Install
 ## NPM
-__npm install https://github.com/zgwnu/ng-bonita.git --save__
+__npm install @zgwnu/ng-bonita --save__
 
 # Content
 All the Angular Services are based on the bonita Rest Api Documentation. See for additional info how to use the Rest Api https://documentation.bonitasoft.com/?page=_rest-api
