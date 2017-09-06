@@ -7,7 +7,9 @@
       "dist:build": "npm --prefix run build && npm run dist:cfg",
       "dist:rebuild": "npm --prefix run rebuild && npm run dist:cfg",
       "dist:cfg": "cp cfg/npm/* dist",
-      "dist:publish": "",
+      "dist:publish": "npm publish dist --access public",
+      "build": "npm run dist:build && npm run dist:publish",
+      "rebuild": "npm run dist:rebuild && npm run dist:publish",
       "test": "echo test"
     },
     "repository": {
