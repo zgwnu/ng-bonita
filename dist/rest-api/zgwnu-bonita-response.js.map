@@ -1,1 +1,0 @@
-{"version":3,"sources":["../../src/rest-api/zgwnu-bonita-response.ts"],"names":[],"mappings":"AAAA;IAAA;IAGA,CAAC;IAAD,0BAAC;AAAD,CAHA,AAGC,IAAA","file":"zgwnu-bonita-response.js","sourceRoot":"","sourcesContent":["export class ZgwnuBonitaResponse {\n    status: number\n    statusText: string\n}"]}
