@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Source Angular Bonita Rest Api Services by ZGW NU",
   "scripts": {
+    "cleanup": "find . -type f -name '*.ng*.*' -delete",
     "transpile": "ngc",
     "package": "rollup -c",
     "minify": "uglifyjs ../dist/bundles/zgwnu-bonita.umd.js --screw-ie8 --compress --mangle --comments --output ../dist/bundles/zgwnu-bonita.umd.min.js",
