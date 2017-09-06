@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../src/bpm/activity/index.ts"],"names":[],"mappings":"AAAA,cAAc,qCAAqC,CAAA;AACnD,cAAc,yBAAyB,CAAA;AACvC,cAAc,sCAAsC,CAAA","file":"index.js","sourceRoot":"","sourcesContent":["export * from './zgwnu-bonita-bpm-activity.service'\nexport * from './zgwnu-bonita-activity'\nexport * from './zgwnu-bonita-activity-deploy-actor'"]}

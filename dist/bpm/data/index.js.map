@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../src/bpm/data/index.ts"],"names":[],"mappings":"AAAA,cAAc,iCAAiC,CAAA;AAC/C,cAAc,8BAA8B,CAAA","file":"index.js","sourceRoot":"","sourcesContent":["export * from './zgwnu-bonita-bpm-data.service'\nexport * from './zgwnu-bonita-case-variable'\n"]}

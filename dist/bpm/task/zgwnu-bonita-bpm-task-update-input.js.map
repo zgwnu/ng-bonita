@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../src/bpm/task/zgwnu-bonita-bpm-task-update-input.ts"],"names":[],"mappings":"AAAA;IAAA;IAGA,CAAC;IAAD,oCAAC;AAAD,CAHA,AAGC,IAAA","file":"zgwnu-bonita-bpm-task-update-input.js","sourceRoot":"","sourcesContent":["export class ZgwnuBonitaBpmTaskUpdateInput {\n    assigned_id?: string\n    state?: string\n}"]}
