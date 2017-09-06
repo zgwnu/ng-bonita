@@ -14,7 +14,7 @@ const globals = {
 };
 
 export default {
-  input: '../dist/index.js',
+  input: '../dist/ng-bonita.js',
   output: { 
       file : '../dist/bundles/ng-bonita.umd.js',
       format: 'umd',
