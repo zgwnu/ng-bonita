@@ -3,11 +3,13 @@
   "version": "1.0.0",
   "description": "Source Angular Bonita Rest Api Services by ZGW NU",
   "scripts": {
-    "cleanup": "find . -type f -name '*.ng*.*' -delete",
+    "cleanup:dist": "rm -d -f ../dist",
+    "cleanup:ngc": "find . -type f -name '*.ng*.*' -delete",
+    "cleanup": "npm run cleanup:dist && npm run cleanup:ngc",
     "transpile": "ngc",
     "package": "rollup -c",
     "minify": "uglifyjs ../dist/bundles/zgwnu-bonita.umd.js --screw-ie8 --compress --mangle --comments --output ../dist/bundles/zgwnu-bonita.umd.min.js",
-    "build": "npm run transpile && npm run package && npm run minify"
+    "build": "npm run cleanup && npm run transpile && npm run package && npm run minify"
   },
   "author": "Onno Haldar",
   "license": "MIT",
