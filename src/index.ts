@@ -1,5 +1,5 @@
 // Bonita Angular Module(s)
-export * from './zgwnu-ng-bonita.module'
+export { ZgwnuNgBonitaModule } from './zgwnu-ng-bonita.module'
 
 // Bonita Authentication
 export { ZgwnuBonitaCredentials } from './authentication/zgwnu-bonita-credentials'
