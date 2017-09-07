@@ -2,7 +2,6 @@ import resolve from 'rollup-plugin-node-resolve';
 
 const globals = {
   '@angular/core': 'ng.core',
-  '@angular/platform-browser': 'ng.platformBrowser',
   '@angular/common': 'ng.common',
   '@angular/http': 'ng.http',
   '@angular/router': 'ng.router',
