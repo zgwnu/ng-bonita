@@ -13,7 +13,6 @@
       "@angular/common": ["node_modules/@angular/common"],
       "@angular/http": ["node_modules/@angular/http"],
       "@angular/router": ["node_modules/@angular/router"],
-      "@angular/platform-browser": ["node_modules/@angular/platform-browser"],
       "rxjs/*": ["node_modules/rxjs/*"]
     },
     "rootDir": ".",
