@@ -6,7 +6,6 @@
 //
 import { Injectable } from '@angular/core'
 import { Http, Headers, RequestOptions, Response } from '@angular/http'
-import { Router } from '@angular/router'
 
 import { Observable } from 'rxjs/Observable'
 import 'rxjs/add/operator/catch'
@@ -31,19 +30,13 @@ export class ZgwnuBonitaAuthenticationService extends ZgwnuBonitaRestApiService 
 
     constructor(
         private configService: ZgwnuBonitaConfigService,
-        private http: Http,
-        private router: Router)
+        private http: Http
+        )
     { 
         super()
-        
-        // initialize authentication using current session
-        this.getCurrentSession()
-            .subscribe(
-                currentSession => configService.session = currentSession
-            )
     }
 
-    private executeLogin(creds: ZgwnuBonitaCredentials): Observable<ZgwnuBonitaResponse> {
+    login(creds: ZgwnuBonitaCredentials): Observable<ZgwnuBonitaResponse> {
         let credsUrlEncoded: string = 'username=' + creds.username + '&password=' + creds.password + '&redirect=false'
         let headers: Headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' })
         let options: RequestOptions = new RequestOptions({ headers: headers })
@@ -54,32 +47,12 @@ export class ZgwnuBonitaAuthenticationService extends ZgwnuBonitaRestApiService 
                         .catch(this.handleResponseError)
     }
 
-    getCurrentSession(): Observable<ZgwnuBonitaSession> {
+    getSession(): Observable<ZgwnuBonitaSession> {
         let sessionMapping: ZgwnuBonitaDataMappingInterface = new ZgwnuBonitaSessionMapping()
         return this.http.get(this.configService.bonitaUrls.apiUrl + this.CURRENT_SESSION_RESOURCE_PATH, this.configService.options)
                 .map(sessionMapping.mapResponse)
                 .catch(this.handleResponseError)
 
-    }
-
-    login(creds: ZgwnuBonitaCredentials) {
-        this.executeLogin(creds)
-            .subscribe(
-                successResponse => {
-                    this.successResponse = successResponse
-                    this.getCurrentSession()
-                        .subscribe(
-                            session => {
-                                 if (creds.username == session.user_name) {
-                                     this.configService.session = session
-                                     if (creds.navigateTo) { this.router.navigate([creds.navigateTo]) }
-                                 }
-                            },
-                            errorResponse => this.errorResponse = errorResponse
-                        )    
-                },
-                errorResponse => this.errorResponse = errorResponse
-            )
     }
 
 }
