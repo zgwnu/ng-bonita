@@ -15,7 +15,6 @@ export class AppComponent implements OnInit {
   ngOnInit() {
   //  let creds: ZgwnuBonitaCredentials = new ZgwnuBonitaCredentials('onno.haldar', 'zgw')
 
-    
   }
 
 }
