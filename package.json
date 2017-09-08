@@ -1,31 +1,36 @@
 {
-    "name": "ng-bonita-build",
-    "version": "1.0.0",
-    "description": "Build Package @zgwnu/ng-bonita",
-    "main": "index.js",
-    "scripts": {
-      "dist:build": "npm --prefix src/zgwnu-ng-bonita run build && npm run dist:cfg",
-      "dist:rebuild": "npm --prefix src/zgwnu-ng-bonita run rebuild && npm run dist:cfg",
-      "dist:cfg": "cp cfg/npm/* dist",
-      "dist:publish": "npm publish dist --access public",
-      "build": "npm run dist:build && npm run dist:publish",
-      "rebuild": "npm run dist:rebuild && npm run dist:publish",
-      "test": "echo test"
-    },
-    "repository": {
-      "type": "git",
-      "url": "git+https://github.com/zgwnu/ng-bonita.git"
-    },
-    "keywords": [
-      "build",
-      "bonita",
-      "bpm",
-      "zgwnu"
-    ],
-    "author": "Onno Haldar <onno@zgw.nu>",
-    "license": "MIT",
-    "bugs": {
-      "url": "https://github.com/zgwnu/ng-bonita/issues"
-    },
-    "homepage": "https://github.com/zgwnu/ng-bonita#readme"
+  "name": "zgwnu-ng-bonita-src",
+  "version": "1.0.0",
+  "description": "Source Angular Bonita Rest Api Services by ZGW NU",
+  "scripts": {
+    "cleanup:dist": "rm -R dist",
+    "cleanup:ngc": "find lib/zgwnu-ng-bonita -type f -name '*.ng*.*' -delete",
+    "transpile": "ngc -p lib/zgwnu-ng-bonita/tsconfig-ngc.json",
+    "package": "rollup -c lib/zgwnu-ng-bonita/rollup.config.js",
+    "minify": "uglifyjs dist/bundles/ng-bonita.umd.js --screw-ie8 --compress --mangle --comments --output dist/bundles/ng-bonita.umd.min.js",
+    "build": "npm run transpile && npm run package && npm run minify && npm run cleanup:ngc",
+    "rebuild": "npm run cleanup:dist && npm run build",
+    "dist:cfg": "cp cfg/npm/* dist",
+    "dist:publish": "npm publish dist --access public"
+  },
+  "author": "Onno Haldar",
+  "license": "MIT",
+  "dependencies": {
+    "@angular/core": "^4.3.6",
+    "@angular/common": "^4.3.6",
+    "@angular/http": "^4.3.6",
+    "@angular/router": "^4.3.6",
+    "@angular/platform-browser": "^4.3.6",
+    "@zgwnu/common-bonita": "git+https://github.com/zgwnu/common-bonita.git"
+  },
+  "devDependencies": {
+    "@angular/compiler": "^4.3.6",
+    "@angular/compiler-cli": "^4.3.6",
+    "rollup": "^0.49.2",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "rxjs": "^5.4.3",
+    "typescript": "^2.5.2",
+    "uglify-js": "^3.0.28",
+    "zone.js": "^0.8.17"
   }
+}
