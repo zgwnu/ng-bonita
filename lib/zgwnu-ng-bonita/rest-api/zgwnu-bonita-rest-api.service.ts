@@ -17,7 +17,7 @@ import { ZgwnuBonitaResponse } from './zgwnu-bonita-response'
 import { ZgwnuBonitaErrorResponse } from './zgwnu-bonita-error-response'
 
 @Injectable()
-export class ZgwnuBonitaRestApiService {
+export abstract class ZgwnuBonitaRestApiService {
     
     protected mapping: ZgwnuBonitaDataMappingInterface = new ZgwnuBonitaDataMapping()
 

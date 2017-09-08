@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core'
+import { ZgwnuBonitaAuthenticationService } from '../../../zgwnu-ng-bonita/authentication/zgwnu-bonita-authentication.service'
+import { ZgwnuBonitaCredentials }  from '../../../zgwnu-ng-bonita/authentication/zgwnu-bonita-credentials'
 
 @Component({
   selector: 'my-app',
@@ -9,11 +11,12 @@ export class AppComponent implements OnInit {
   public name = 'Angular'
 
   constructor(
+    private authenticationService: ZgwnuBonitaAuthenticationService
   )
   {}
 
   ngOnInit() {
-  //  let creds: ZgwnuBonitaCredentials = new ZgwnuBonitaCredentials('onno.haldar', 'zgw')
+    this.authenticationService.login(new ZgwnuBonitaCredentials('onno.haldar', 'zgw'))
 
   }
 
