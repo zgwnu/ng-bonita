@@ -15,7 +15,7 @@ import { ZgwnuBonitaRestApiService } from '../rest-api/zgwnu-bonita-rest-api.ser
 import { ZgwnuBonitaDataMappingInterface } from '../rest-api/zgwnu-bonita-data-mapping.interface'
 import { ZgwnuBonitaConfigService } from '../rest-api/zgwnu-bonita-config.service'
 import { ZgwnuBonitaCredentials } from './zgwnu-bonita-credentials'
-import { ZgwnuBonitaSession } from '../zgwnu-bonita-session'
+import { ZgwnuBonitaSession } from '../rest-api/zgwnu-bonita-session'
 import { ZgwnuBonitaSessionMapping } from '../rest-api/zgwnu-bonita-session-mapping'
 import { ZgwnuBonitaResponse } from '../rest-api/zgwnu-bonita-response'
 import { ZgwnuBonitaErrorResponse } from '../rest-api/zgwnu-bonita-error-response'
