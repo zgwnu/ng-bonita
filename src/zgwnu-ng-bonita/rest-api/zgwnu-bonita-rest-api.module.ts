@@ -3,13 +3,13 @@ import { CommonModule } from '@angular/common'
 import { HttpModule } from '@angular/http'
 
 import { ZgwnuBonitaConfigService } from './zgwnu-bonita-config.service'
-import { ZgwnuBonitaRestApiService } from './zgwnu-bonita-rest-api.service'
  
 @NgModule({
   imports: [ 
     CommonModule,
     HttpModule, 
     ZgwnuBonitaConfigService, 
+    ZgwnuBonitaRestApiService, 
   ],
   providers: [
     ZgwnuBonitaConfigService, 
