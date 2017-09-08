@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Source Angular Bonita Rest Api Services by ZGW NU",
   "scripts": {
-    "cleanup:dist": "rm -R dist",
+    "cleanup:dist": "rm -R dist/*",
     "cleanup:ngc": "find lib/zgwnu-ng-bonita -type f -name '*.ng*.*' -delete",
     "transpile": "ngc -p lib/zgwnu-ng-bonita/tsconfig-ngc.json",
     "package": "rollup -c lib/zgwnu-ng-bonita/rollup.config.js",
