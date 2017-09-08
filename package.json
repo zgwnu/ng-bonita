@@ -4,8 +4,8 @@
     "description": "Build Package @zgwnu/ng-bonita",
     "main": "index.js",
     "scripts": {
-      "dist:build": "npm --prefix run build && npm run dist:cfg",
-      "dist:rebuild": "npm --prefix run rebuild && npm run dist:cfg",
+      "dist:build": "npm --prefix src/zgwnu-ng-bonita run build && npm run dist:cfg",
+      "dist:rebuild": "npm --prefix src/zgwnu-ng-bonita run rebuild && npm run dist:cfg",
       "dist:cfg": "cp cfg/npm/* dist",
       "dist:publish": "npm publish dist --access public",
       "build": "npm run dist:build && npm run dist:publish",

@@ -4,7 +4,6 @@ const globals = {
   '@angular/core': 'ng.core',
   '@angular/common': 'ng.common',
   '@angular/http': 'ng.http',
-  '@angular/router': 'ng.router',
   'rxjs/Observable': 'Rx',
   'rxjs/observable/ErrorObservable': 'Rx',
   'rxjs/add/operator/map': 'Rx.Observable',
@@ -13,9 +12,9 @@ const globals = {
 };
 
 export default {
-  input: '../dist/ng-bonita.js',
+  input: '../../dist/ng-bonita.js',
   output: { 
-      file : '../dist/bundles/ng-bonita.umd.js',
+      file : '../../dist/bundles/ng-bonita.umd.js',
       format: 'umd',
   }, 
   exports: 'named',

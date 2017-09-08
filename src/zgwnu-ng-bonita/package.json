@@ -5,9 +5,9 @@
   "scripts": {
     "cleanup:dist": "rm -R ../dist",
     "cleanup:ngc": "find . -type f -name '*.ng*.*' -delete",
-    "transpile": "ngc",
+    "transpile": "ngc -p tsconfig-ngc.json",
     "package": "rollup -c",
-    "minify": "uglifyjs ../dist/bundles/ng-bonita.umd.js --screw-ie8 --compress --mangle --comments --output ../dist/bundles/ng-bonita.umd.min.js",
+    "minify": "uglifyjs ../../dist/bundles/ng-bonita.umd.js --screw-ie8 --compress --mangle --comments --output ../../dist/bundles/ng-bonita.umd.min.js",
     "build": "npm run transpile && npm run package && npm run minify && npm run cleanup:ngc",
     "rebuild": "npm run cleanup:dist && npm run build"
   },
