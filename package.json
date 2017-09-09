@@ -7,7 +7,7 @@
     "jit:build": "tsc -p lib/test/src/",
     "jit:serve": "lite-server -c=bs-config.json",
     "cleanup:dist": "rm -R dist/*",
-    "cleanup:ngc": "find lib/test/src/app/zgwnu-ng-bonita -type f -name '*.ng*.*' -delete",
+    "cleanup:ngc": "find lib/zgwnu-ng-bonita -type f -name '*.ng*.*' -delete",
     "transpile": "ngc -p tsconfig-build.json",
     "package": "rollup -c rollup.config.js",
     "minify": "uglifyjs dist/bundles/ng-bonita.umd.js --screw-ie8 --compress --mangle --comments --output dist/bundles/ng-bonita.umd.min.js",
@@ -21,6 +21,7 @@
   "dependencies": {
     "@angular/common": "^4.3.6",
     "@angular/compiler": "^4.3.6",
+    "@angular/compiler-cli": "^4.3.6",
     "@angular/core": "^4.3.6",
     "@angular/http": "^4.3.6",
     "@angular/platform-browser": "^4.3.6",
