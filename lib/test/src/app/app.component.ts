@@ -20,6 +20,18 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     console.log(this.configService)
     console.log(this.authenticationService)
+    this.authenticationService.login(new ZgwnuBonitaCredentials('onno.haldar', 'zgw'))
+      .subscribe(
+        response => {
+          console.log(response)
+          this.authenticationService.getSession()
+            .subscribe(
+              session => console.log(session),
+              errorResponse => console.log(errorResponse)
+            )
+        },
+        errorResponse => console.log(errorResponse)
+      )
   }
 
 }
