@@ -5,7 +5,10 @@
   "scripts": {
     "jit:cfg": "cp lib/test/cfg/jit/*.* lib/test/dest",
     "jit:build": "tsc -p lib/test/src/",
+    "jit:watch": "tsc -w -p lib/test/src/",
     "jit:serve": "lite-server -c=bs-config.json",
+    "prestart": "npm run jit:build && npm run jit:cfg",
+    "start": "concurrently \"npm run jit:watch\" \"npm run jit:serve\"",
     "cleanup:dist": "rm -R dist/*",
     "cleanup:ngc": "find lib/zgwnu-ng-bonita -type f -name '*.ng*.*' -delete",
     "transpile": "ngc -p tsconfig-build.json",

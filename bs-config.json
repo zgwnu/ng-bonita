@@ -2,7 +2,8 @@
     "server": {
       "baseDir": "lib/test/dest",
       "routes": {
-        "/node_modules": "node_modules"
+        "/node_modules": "node_modules",
+        "/dist/bundles/ng-bonita.umd.js": "dist"
       }
     }
   }

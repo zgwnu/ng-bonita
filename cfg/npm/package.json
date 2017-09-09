@@ -1,10 +1,10 @@
 {
   "name": "@zgwnu/ng-bonita",
-  "version": "1.0.2",
+  "version": "1.0.4-alpha-1",
   "description": "Angular Bonita Rest Api Services developed ZGW NU to create BPM application examples.",
-  "main": "dist/bundles/zgwnu-bonita.umd.js",
-  "module": "ng-bonita.js",
-  "typings": "ng-bonita.d.ts",
+  "main": "bundles/ng-bonita.umd.js",
+  "module": "zgwnu-ng-bonita.js",
+  "typings": "zgwnu-ng-bonita.d.ts",
   "scripts": {
     "test": "echo test"
   },
