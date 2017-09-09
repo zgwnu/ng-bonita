@@ -1,6 +1,6 @@
 {
     "server": {
-      "baseDir": "dest",
+      "baseDir": "lib/test/dest",
       "routes": {
         "/node_modules": "node_modules"
       }
