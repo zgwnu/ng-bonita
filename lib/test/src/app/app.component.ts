@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 
-//import { ZgwnuBonitaConfigService, ZgwnuBonitaAuthenticationService, 
-//  ZgwnuBonitaCredentials }  from './zgwnu-ng-bonita'
-
-  import { ZgwnuBonitaConfigService, ZgwnuBonitaAuthenticationService, 
+// test classes from dist module
+import { ZgwnuBonitaConfigService, ZgwnuBonitaAuthenticationService, 
     ZgwnuBonitaCredentials }  from '../../../../dist'  
 
 @Component({
