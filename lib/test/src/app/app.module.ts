@@ -1,7 +1,8 @@
 import { NgModule }             from '@angular/core'
 import { BrowserModule }        from '@angular/platform-browser'
 
-import { ZgwnuNgBonitaModule }  from './zgwnu-ng-bonita'
+//import { ZgwnuNgBonitaModule }  from './zgwnu-ng-bonita'
+import { ZgwnuNgBonitaModule } from './dist'
 
 import { AppComponent }  from './app.component'
 

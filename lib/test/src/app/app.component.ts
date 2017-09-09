@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core'
 
-import { ZgwnuBonitaConfigService, ZgwnuBonitaAuthenticationService, 
-  ZgwnuBonitaCredentials }  from './zgwnu-ng-bonita'
+//import { ZgwnuBonitaConfigService, ZgwnuBonitaAuthenticationService, 
+//  ZgwnuBonitaCredentials }  from './zgwnu-ng-bonita'
+
+  import { ZgwnuBonitaConfigService, ZgwnuBonitaAuthenticationService, 
+    ZgwnuBonitaCredentials }  from './dist'  
 
 @Component({
   selector: 'my-app',
