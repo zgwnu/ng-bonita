@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 
-import { ZgwnuBonitaConfigService }  from './zgwnu-ng-bonita'
-
+import { ZgwnuBonitaConfigService, ZgwnuBonitaAuthenticationService, 
+  ZgwnuBonitaCredentials }  from './zgwnu-ng-bonita'
 
 @Component({
   selector: 'my-app',
@@ -12,13 +12,14 @@ export class AppComponent implements OnInit {
   public name = 'Angular'
 
   constructor(
-    private config: ZgwnuBonitaConfigService,
+    private configService: ZgwnuBonitaConfigService,
+    private authenticationService: ZgwnuBonitaAuthenticationService,
   )
   {}
 
   ngOnInit() {
-    console.log(this.config)
-
+    console.log(this.configService)
+    console.log(this.authenticationService)
   }
 
 }
