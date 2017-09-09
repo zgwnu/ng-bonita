@@ -4,7 +4,7 @@
   "description": "Source Angular Bonita Rest Api Services by ZGW NU",
   "scripts": {
     "cleanup:dist": "rm -R dist/*",
-    "cleanup:ngc": "find lib/zgwnu-ng-bonita -type f -name '*.ng*.*' -delete",
+    "cleanup:ngc": "find lib/test/src/app/zgwnu-ng-bonita -type f -name '*.ng*.*' -delete",
     "transpile": "ngc -p tsconfig-build.json",
     "package": "rollup -c rollup.config.js",
     "minify": "uglifyjs dist/bundles/ng-bonita.umd.js --screw-ie8 --compress --mangle --comments --output dist/bundles/ng-bonita.umd.min.js",
