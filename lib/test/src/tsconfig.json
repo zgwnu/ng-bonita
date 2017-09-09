@@ -12,6 +12,6 @@
     "outDir": "../dest"
   },
   "exclude": [
-    "app/dist"
+    "../../../dist"
   ]
 }
