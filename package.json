@@ -3,13 +3,6 @@
   "version": "1.0.0",
   "description": "Source Angular Bonita Rest Api Services by ZGW NU",
   "scripts": {
-    "jit:cfg": "cp lib/test/cfg/jit/*.* lib/test/dest",
-    "jit:build": "tsc -p lib/test/",
-    "jit:watch": "tsc -p lib/test/ -w",
-    "jit:serve": "lite-server -c=bs-config.json",
-    "prestart": "npm run jit:cfg && npm run jit:build",
-    "start": "concurrently \"npm run jit:watch\" \"npm run jit:serve\"",
-
     "cleanup:dist": "rm -R dist/*",
     "cleanup:ngc": "find lib/zgwnu-ng-bonita -type f -name '*.ng*.*' -delete",
     "transpile": "ngc -p tsconfig-build.json",
@@ -26,10 +19,7 @@
     "@angular/core": "^4.3.6",
     "@angular/common": "^4.3.6",
     "@angular/http": "^4.3.6",
-    "@angular/router": "^4.3.6",
-    "@angular/platform-browser": "^4.3.6",
-    "@angular/platform-browser-dynamic": "^4.3.6",
-    "@zgwnu/common-bonita": "git+https://github.com/zgwnu/common-bonita.git"
+    "@angular/platform-browser": "^4.3.6"
   },
   "devDependencies": {
     "@angular/compiler": "^4.3.6",
