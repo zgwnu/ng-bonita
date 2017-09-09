@@ -25,7 +25,7 @@ import { ZgwnuBonitaErrorResponse } from '../rest-api/zgwnu-bonita-error-respons
 @Injectable()
 export class ZgwnuBonitaAuthenticationService extends ZgwnuBonitaHttpService {
     private readonly LOGIN_SERVICE_PATH = '/loginservice'
-    private readonly CURRENT_SESSION_RESOURCE_PATH = '/system/session/unusedid'
+    private readonly SESSION_RESOURCE_PATH = '/system/session/unusedid'
 
     successResponse: ZgwnuBonitaResponse
     errorResponse: ZgwnuBonitaErrorResponse
@@ -51,7 +51,7 @@ export class ZgwnuBonitaAuthenticationService extends ZgwnuBonitaHttpService {
 
     getSession(): Observable<ZgwnuBonitaSession> {
         let sessionMapping: ZgwnuBonitaDataMappingInterface = new ZgwnuBonitaSessionMapping()
-        return this.get(this.configService.bonitaUrls.apiUrl + this.CURRENT_SESSION_RESOURCE_PATH, this.configService.options)
+        return this.get(this.configService.bonitaUrls.apiUrl + this.SESSION_RESOURCE_PATH, this.configService.options)
                 .map(sessionMapping.mapResponse)
                 .catch(this.handleResponseError)
 
