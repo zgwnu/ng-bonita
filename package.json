@@ -12,8 +12,8 @@
 
     "cleanup:dist": "rm -R dist/*",
     "cleanup:ngc": "find lib/zgwnu-ng-bonita -type f -name '*.ng*.*' -delete",
-    "transpile": "ngc -p lib/zgwnu-ng-bonita/tsconfig-ngc.json",
-    "package": "rollup -c lib/zgwnu-ng-bonita/rollup.config.js",
+    "transpile": "ngc -p tsconfig-build.json",
+    "package": "rollup -c rollup.config.js",
     "minify": "uglifyjs dist/bundles/ng-bonita.umd.js --screw-ie8 --compress --mangle --comments --output dist/bundles/ng-bonita.umd.min.js",
     "build": "npm run transpile && npm run package && npm run minify && npm run cleanup:ngc",
     "rebuild": "npm run cleanup:dist && npm run build",

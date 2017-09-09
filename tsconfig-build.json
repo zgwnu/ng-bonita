@@ -14,8 +14,8 @@
       "@angular/http": ["node_modules/@angular/http"],
       "rxjs/*": ["node_modules/rxjs/*"]
     },
-    "rootDir": ".",
-    "outDir": "../../dist",
+    "rootDir": "lib/zgwnu-ng-bonita",
+    "outDir": "dist",
     "sourceMap": true,
     "inlineSources": true,
     "target": "es5",
@@ -26,7 +26,7 @@
     ]
   },
   "files": [
-    "index.ts"
+    "lib/zgwnu-ng-bonita/index.ts"
   ],
   "angularCompilerOptions": {
     "strictMetadataEmit": true
