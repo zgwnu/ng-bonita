@@ -5,13 +5,15 @@
 //
 //
 import { Injectable } from '@angular/core'
-import { Http, Response } from '@angular/http'
+import { Response } from '@angular/http'
 
 import { Observable } from 'rxjs/Observable'
 import 'rxjs/add/operator/catch'
 import 'rxjs/add/operator/map'
 
-import { ZgwnuBonitaRestApiService } from '../../rest-api/zgwnu-bonita-rest-api.service'
+import { ZgwnuBonitaHttpService } from '../../rest-api/zgwnu-bonita-http.service'
+import { ZgwnuBonitaBackendService } from '../../rest-api/zgwnu-bonita-backend.service'
+import { ZgwnuBonitaRequestOptions } from '../../rest-api/zgwnu-bonita-request-options'
 import { ZgwnuBonitaUtils } from '../../rest-api/zgwnu-bonita-utils'
 import { ZgwnuBonitaConfigService } from '../../rest-api/zgwnu-bonita-config.service'
 import { ZgwnuBonitaSearchParms } from '../zgwnu-bonita-search-parms'
@@ -24,16 +26,16 @@ import { ZgwnuBonitaProcessUpdateInput } from './zgwnu-bonita-process-update-inp
 import { ZgwnuBonitaProcessUpdateSuccessResponse } from './zgwnu-bonita-process-update-success-response'
 
 @Injectable()
-export class ZgwnuBonitaBpmProcessService extends ZgwnuBonitaRestApiService {
+export class ZgwnuBonitaBpmProcessService extends ZgwnuBonitaHttpService {
     private readonly RESOURCE_PATH: string = '/bpm/process'
     private resourceUrl: string
 
     constructor(
         private configService: ZgwnuBonitaConfigService,
-        private http: Http
-    ) 
+        private bonitaBackend: ZgwnuBonitaBackendService, 
+        )
     { 
-        super()
+        super(bonitaBackend, new ZgwnuBonitaRequestOptions())
 
         // configure resource urls
         this.resourceUrl = configService.bonitaUrls.apiUrl + this.RESOURCE_PATH
@@ -41,7 +43,7 @@ export class ZgwnuBonitaBpmProcessService extends ZgwnuBonitaRestApiService {
 
     searchProcessDefinitions(searchParms: ZgwnuBonitaSearchParms): Observable<ZgwnuBonitaProcessDefinition[]> {
         let processDefinitionMapping: ZgwnuBonitaProcessDefinitionMapping = new ZgwnuBonitaProcessDefinitionMapping()
-        return this.http.get(this.buildSearchRequest(searchParms), this.configService.options)
+        return this.get(this.buildSearchRequest(searchParms), this.configService.options)
                         .map(processDefinitionMapping.mapResponseArray)
                         .catch(this.handleResponseError)
     }
@@ -52,7 +54,7 @@ export class ZgwnuBonitaBpmProcessService extends ZgwnuBonitaRestApiService {
 
     getProcessDefinition(processDefinitionId: string): Observable<ZgwnuBonitaProcessDefinition> {
         let processDefinitionMapping: ZgwnuBonitaProcessDefinitionMapping = new ZgwnuBonitaProcessDefinitionMapping()
-        return this.http.get(this.resourceUrl + '/' + processDefinitionId, this.configService.options)
+        return this.get(this.resourceUrl + '/' + processDefinitionId, this.configService.options)
                         .map(processDefinitionMapping.mapResponse)
                         .catch(this.handleResponseError)
     }
@@ -65,7 +67,7 @@ export class ZgwnuBonitaBpmProcessService extends ZgwnuBonitaRestApiService {
     //
     createCase(processId: string, contractValues: any): Observable<ZgwnuBonitaCreateCaseSuccessResponse> {
         let postUrl: string = this.resourceUrl + '/' + processId + '/instantiation'
-        return this.http.post(postUrl, contractValues, this.configService.sendOptions)
+        return this.post(postUrl, contractValues, this.configService.sendOptions)
                         .map(this.mapCreateCaseSuccessResponse)
                         .catch(this.handleResponseError)
     }
@@ -86,7 +88,7 @@ export class ZgwnuBonitaBpmProcessService extends ZgwnuBonitaRestApiService {
     //
     deployProcessDefinition(processUploadResponse: ZgwnuBonitaFileUploadResponse): Observable<ZgwnuBonitaDeployProcessDefinitionSuccessResponse> {
         let requestPayload: any = { "fileupload": processUploadResponse.tempPath }
-        return this.http.post(this.resourceUrl, requestPayload, this.configService.sendOptions)
+        return this.post(this.resourceUrl, requestPayload, this.configService.sendOptions)
                         .map(this.mapDeployProcessDefinitionSuccessResponse)
                         .catch(this.handleResponseError)
     }
@@ -111,7 +113,7 @@ export class ZgwnuBonitaBpmProcessService extends ZgwnuBonitaRestApiService {
     }
 
     updateProcessDefinition(processDefinitionId: string, updateInput: ZgwnuBonitaProcessUpdateInput):  Observable<ZgwnuBonitaProcessUpdateSuccessResponse> {
-        return this.http.put(this.resourceUrl + '/' + processDefinitionId, updateInput, this.configService.sendOptions)
+        return this.put(this.resourceUrl + '/' + processDefinitionId, updateInput, this.configService.sendOptions)
                         .map(this.mapUpdateProcessDefinitionUpdateSuccessResponse)
                         .catch(this.handleResponseError)        
     }
