@@ -15,7 +15,7 @@ All the Angular Services are based on the bonita Rest Api Documentation. See for
 ## rest-api
 All basic Bonita Rest Api classes and settings that will be (re)used.
 ## authentication
-Basic Bonita BPM Rest Api login and session functionality.
+Basic Bonita BPM Rest Api login and session functionality.  
 ------------------------------------------------------------
 _the following part is under reconstruction at this moment_
 ------------------------------------------------------------
