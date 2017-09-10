@@ -16,23 +16,26 @@ All the Angular Services are based on the bonita Rest Api Documentation. See for
 All basic Bonita Rest Api classes and settings that will be (re)used.
 ## authentication
 Basic Bonita BPM Rest Api login and session functionality.
-## bpm
+------------------------------------------------------------
+_the following part is under reconstruction at this moment_
+------------------------------------------------------------
+## bpm (NOT WORKING AT THIS MOMENT)
 All Bonita BPM Services
-### bpm / activity
+### bpm / activity (NOT WORKING AT THIS MOMENT)
 Bonita BPM Activity functionality.
-### bpm / case
+### bpm / case (NOT WORKING AT THIS MOMENT)
 Bonita BPM Case (process instance info, context) functionality.
-### bpm / data
+### bpm / data (NOT WORKING AT THIS MOMENT)
 Bonita BPM Data level functionality.
-### bpm / document
+### bpm / document (NOT WORKING AT THIS MOMENT)
 Bonita BPM Case Document (document create, search, get) functionality.
-### bpm / human-task
+### bpm / human-task (NOT WORKING AT THIS MOMENT)
 Bonita BPM Human Task functionality.
-### bpm / user-task
+### bpm / user-task (NOT WORKING AT THIS MOMENT)
 Bonita BPM User Task functionality.
-### bpm / process
+### bpm / process (NOT WORKING AT THIS MOMENT)
 Bonita BPM Process (info and instantiation) functionality.
-## bdm
+## bdm (NOT WORKING AT THIS MOMENT)
 Functionality to retrieve Business Data.
-## file-upload
+## file-upload (NOT WORKING AT THIS MOMENT)
 Functionality to upload files to the Bonita server.
