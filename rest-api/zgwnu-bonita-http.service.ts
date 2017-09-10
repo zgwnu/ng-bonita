@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { Http, Response, XHRBackend,  RequestOptions} from '@angular/http'
+import { Http, Response } from '@angular/http'
 
 import { Observable } from 'rxjs/Observable'
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable'
@@ -9,19 +9,18 @@ import { ZgwnuBonitaDataMappingInterface } from './zgwnu-bonita-data-mapping.int
 import { ZgwnuBonitaDataMapping } from './zgwnu-bonita-data-mapping'
 import { ZgwnuBonitaResponse } from './zgwnu-bonita-response'
 import { ZgwnuBonitaErrorResponse } from './zgwnu-bonita-error-response'
-
-export function httpFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions): Http {
-    return new Http(xhrBackend, requestOptions);
-  }
+import { ZgwnuBonitaBackendService } from '../rest-api/zgwnu-bonita-backend.service'
+import { ZgwnuBonitaRequestOptions } from './zgwnu-bonita-request-options'
 
 @Injectable()
 export abstract class ZgwnuBonitaHttpService extends Http {
 
     constructor(
-        private xhrBackend: XHRBackend,
+        private backendService: ZgwnuBonitaBackendService,
+        private requestOptions: ZgwnuBonitaRequestOptions,
     )
     {
-        super(xhrBackend, new RequestOptions())
+        super(backendService, requestOptions)
     }
 
     protected mapping: ZgwnuBonitaDataMappingInterface = new ZgwnuBonitaDataMapping()

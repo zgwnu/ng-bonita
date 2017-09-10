@@ -13,7 +13,7 @@ import 'rxjs/add/operator/map'
 
 import { ZgwnuBonitaHttpService } from '../rest-api/zgwnu-bonita-http.service'
 import { ZgwnuBonitaBackendService } from '../rest-api/zgwnu-bonita-backend.service'
-//import { ZgwnuBonitaRestApiService } from '../rest-api/zgwnu-bonita-rest-api.service'
+import { ZgwnuBonitaRequestOptions } from '../rest-api/zgwnu-bonita-request-options'
 import { ZgwnuBonitaDataMappingInterface } from '../rest-api/zgwnu-bonita-data-mapping.interface'
 import { ZgwnuBonitaConfigService } from '../rest-api/zgwnu-bonita-config.service'
 import { ZgwnuBonitaCredentials } from './zgwnu-bonita-credentials'
@@ -35,7 +35,7 @@ export class ZgwnuBonitaAuthenticationService extends ZgwnuBonitaHttpService {
         private bonitaBackend: ZgwnuBonitaBackendService, 
         )
     { 
-        super(bonitaBackend)
+        super(bonitaBackend, new ZgwnuBonitaRequestOptions())
     }
 
     login(creds: ZgwnuBonitaCredentials): Observable<ZgwnuBonitaResponse> {
