@@ -36,7 +36,6 @@ export class ZgwnuBonitaBpmProcessService extends ZgwnuBonitaHttpService {
         )
     { 
         super(bonitaBackend, new ZgwnuBonitaRequestOptions())
-
         // configure resource urls
         this.resourceUrl = configService.bonitaUrls.apiUrl + this.RESOURCE_PATH
     }
