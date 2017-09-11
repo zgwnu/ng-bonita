@@ -7,7 +7,7 @@ import { ZgwnuBonitaUrls } from './zgwnu-bonita-urls'
 @Injectable()
 export class ZgwnuBonitaConfigService {
     // default zgwnu Business Data Model Package configuration
-    public businessDataModelPackage: string = 'com.zaakgerichtwerkennu.model'
+    public businessDataModelPackage: string = 'com.zgwnu.model'
 
     // urlconfig
     public bonitaUrls: ZgwnuBonitaUrls = new ZgwnuBonitaUrls()
