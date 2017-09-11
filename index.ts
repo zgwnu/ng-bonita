@@ -5,6 +5,8 @@ export { ZgwnuNgBonitaModule } from './zgwnu-ng-bonita.module'
 export { ZgwnuBonitaConfigService } from './rest-api/zgwnu-bonita-config.service'
 export { ZgwnuBonitaDataMappingInterface } from './rest-api/zgwnu-bonita-data-mapping.interface'
 export { ZgwnuBonitaSession } from './rest-api/zgwnu-bonita-session'
+export { ZgwnuBonitaResponse } from './rest-api/zgwnu-bonita-response'
+export { ZgwnuBonitaErrorResponse } from './rest-api/zgwnu-bonita-error-response'
 
 // Make Authentication (Service) Classes available outside Module
 export { ZgwnuBonitaAuthenticationService } from './authentication/zgwnu-bonita-authentication.service'
