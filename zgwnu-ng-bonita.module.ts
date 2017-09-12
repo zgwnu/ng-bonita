@@ -1,5 +1,6 @@
 import { NgModule }     from '@angular/core'
 import { HttpModule }   from '@angular/http'
+import { HttpClientModule } from '@angular/common/http'
 
 import { ZgwnuBonitaConfigService } from './rest-api/zgwnu-bonita-config.service'
 import { ZgwnuBonitaBackendService } from './rest-api/zgwnu-bonita-backend.service'
@@ -8,7 +9,8 @@ import { ZgwnuBonitaBpmProcessService } from './bpm/process/zgwnu-bonita-bpm-pro
 
 @NgModule({
   imports: [
-    HttpModule,  
+    HttpModule, 
+    HttpClientModule,   
    ],
   providers: [
     ZgwnuBonitaConfigService, 
