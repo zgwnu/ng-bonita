@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core'
 import { HttpHandler } from '@angular/common/http'
 
 @Injectable()
-export class ZgwnuBonitaHandlerService extends HttpHandler {
+export class ZgwnuBonitaClientHandlerService extends HttpHandler {
 
     constructor(
 
@@ -12,7 +12,7 @@ export class ZgwnuBonitaHandlerService extends HttpHandler {
     }
 
     handle(req: any): any {
-        console.log('ZgwnuBonitaClientHandler.handle', req)
+        console.log('ZgwnuBonitaClientHandlerService.handle', req)
     }
     
 }
