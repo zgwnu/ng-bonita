@@ -1,22 +1,38 @@
 import { NgModule }     from '@angular/core'
-import { HttpModule }   from '@angular/http'
-import { HttpClientModule } from '@angular/common/http'
+import { HttpModule }   from '@angular/http' // Refactoring => HttpClientModule
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 
-import { ZgwnuBonitaConfigService } from './rest-api/zgwnu-bonita-config.service'
+// Refactoring => HttpClientModule
 import { ZgwnuBonitaBackendService } from './rest-api/zgwnu-bonita-backend.service'
 import { ZgwnuBonitaAuthenticationService } from './authentication/zgwnu-bonita-authentication.service'
 import { ZgwnuBonitaBpmProcessService } from './bpm/process/zgwnu-bonita-bpm-process.service'
 
+// Imports Generic Module Services
+import { ZgwnuBonitaConfigService } from './rest-api/zgwnu-bonita-config.service'
+
+// Imports HttpClient based Services
+import { ZgwnuBonitaClientInterceptorService } from './rest-api/zgwnu-bonita-client-interceptor.service'
+import { ZgwnuBonitaClientAuthenticationService } from './authentication/zgwnu-bonita-client-authentication.service'
+
 @NgModule({
   imports: [
-    HttpModule, 
+    HttpModule, // Refactoring => HttpClientModule
     HttpClientModule,   
    ],
   providers: [
+    // Provide Generic Module Services
     ZgwnuBonitaConfigService, 
-    ZgwnuBonitaBackendService, 
+    // Refactoring => HttpClientModule
     ZgwnuBonitaAuthenticationService, 
     ZgwnuBonitaBpmProcessService, 
+    ZgwnuBonitaBackendService,
+    // Provide HttpClient based Services
+    ZgwnuBonitaClientAuthenticationService,  
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ZgwnuBonitaClientInterceptorService,
+      multi: true,
+    }
   ]
 })
 export class ZgwnuNgBonitaModule { }

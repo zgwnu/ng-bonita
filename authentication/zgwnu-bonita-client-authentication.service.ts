@@ -4,37 +4,58 @@
 // based on http://documentation.bonitasoft.com/?page=rest-api-overview#toc2
 //
 //
+
+// ANGULAR Imports
 import { Injectable } from '@angular/core'
-import { HttpHeaders } from '@angular/common/http'
+import { HttpHeaders, HttpClient } from '@angular/common/http'
 
-import { ZgwnuBonitaClientService } from '../rest-api/zgwnu-bonita-client.service'
-import { ZgwnuBonitaClientHandlerService } from '../rest-api/zgwnu-bonita-client-handler.service'
+// RXJS Imports
+import { Observable } from 'rxjs/Observable'
+import 'rxjs/add/operator/catch'
+import 'rxjs/add/operator/map'
+
+// ZGWNU Ng Bonita Module Imports
 import { ZgwnuBonitaConfigService } from '../rest-api/zgwnu-bonita-config.service'
-
 import { ZgwnuBonitaCredentials } from './zgwnu-bonita-credentials'
 
 @Injectable()
-export class ZgwnuBonitaAuthenticationService extends ZgwnuBonitaClientService {
+export class ZgwnuBonitaClientAuthenticationService {
     private readonly LOGIN_SERVICE_PATH = '/loginservice'
     private readonly SESSION_RESOURCE_PATH = '/system/session/unusedid'
 
     constructor(
-        private AuthenticationHandlerService: ZgwnuBonitaClientHandlerService,  
         private configService: ZgwnuBonitaConfigService,  
+        private httpClient: HttpClient, 
     )
     {
-        super(AuthenticationHandlerService)
     }
 
-    login(creds: ZgwnuBonitaCredentials) {
-        let credsUrlEncoded: string = 'username=' + creds.username + '&password=' + creds.password + '&redirect=false'
+    login(creds: ZgwnuBonitaCredentials, resp: (success: boolean) => void) {
         let loginUrl: string = this.configService.bonitaUrls.baseUrl + this.LOGIN_SERVICE_PATH
-        let loginHeaders: HttpHeaders = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' })
+        let loginBody: string = 
+            'username=' + creds.username + '&password=' + creds.password + '&redirect=false'
+        let loginHeaders: HttpHeaders = 
+            new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
 
-        this.post(loginUrl, credsUrlEncoded, { headers: loginHeaders })
-            .subscribe(
-                response => console.log(response)
-            )
+        this.httpClient.post(
+            loginUrl, 
+            loginBody,
+            { 
+                headers: loginHeaders,
+                observe: 'response',
+                responseType: 'json'
+            }
+        )
+        .subscribe(
+            response => {
+                console.log(response)
+                resp(true)
+            },
+            error => {
+                console.log(error)
+                resp(false)
+            }
+        )
     }
 
 }
