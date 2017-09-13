@@ -17,6 +17,7 @@ import 'rxjs/add/operator/map'
 // ZGWNU Ng Bonita Module Imports
 import { ZgwnuBonitaConfigService } from '../rest-api/zgwnu-bonita-config.service'
 import { ZgwnuBonitaSessionInterface } from '../rest-api/zgwnu-bonita-session.interface'
+import { ZgwnuBonitaSession } from '../rest-api/zgwnu-bonita-session'
 import { ZgwnuBonitaResponse } from '../rest-api/zgwnu-bonita-response'
 import { ZgwnuBonitaCredentials } from './zgwnu-bonita-credentials'
 
@@ -32,7 +33,7 @@ export class ZgwnuBonitaClientAuthenticationService {
     {
     }
 
-    login(creds: ZgwnuBonitaCredentials, resp: (response: ZgwnuBonitaResponse, error?: any) => void) {
+    login(creds: ZgwnuBonitaCredentials, resp: (error?: any, response?: ZgwnuBonitaResponse, session?: ZgwnuBonitaSession) => void) {
         let loginUrl: string = this.configService.bonitaUrls.baseUrl + this.LOGIN_SERVICE_PATH
         let loginBody: string = 
             'username=' + creds.username + '&password=' + creds.password + '&redirect=false'
@@ -53,24 +54,35 @@ export class ZgwnuBonitaClientAuthenticationService {
                 let bonitaResponse: ZgwnuBonitaResponse = new ZgwnuBonitaResponse()
                 bonitaResponse.status = response.status
                 bonitaResponse.statusText = response.statusText
-                this.getSession(() => {
-                    resp(bonitaResponse)
+                this.getSession((error, session) => {
+                    if (error) {
+                        resp(error)
+                    } else {
+                        resp(undefined, bonitaResponse, session)
+                    }
                 })
             },
             error => {
-                resp(undefined, error)
+                resp(error)
             }
         )
     }
 
-    getSession(resp: () => void) {
-        this.httpClient.get<ZgwnuBonitaSessionInterface>(this.configService.bonitaUrls.apiUrl + this.SESSION_RESOURCE_PATH)
+    getSession(resp: (error?: any, session?: ZgwnuBonitaSession) => void) {
+        this.httpClient.get<ZgwnuBonitaSessionInterface>(
+            this.configService.bonitaUrls.apiUrl + this.SESSION_RESOURCE_PATH,
+            { observe: 'response' }
+        )
         .subscribe(
-            body => {
-                console.log(body)
+            response => {
+                let session: ZgwnuBonitaSession = new ZgwnuBonitaSession()
+                session = response.body
+                session.token = response.headers.get('X-Bonita-API-Token')
+                this.configService.session = session
+                resp(undefined, session)
             },
             error => {
-                console.log(error)
+                resp(error)
             }
         )
     }
