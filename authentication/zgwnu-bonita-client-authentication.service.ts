@@ -16,6 +16,7 @@ import 'rxjs/add/operator/map'
 
 // ZGWNU Ng Bonita Module Imports
 import { ZgwnuBonitaConfigService } from '../rest-api/zgwnu-bonita-config.service'
+import { ZgwnuBonitaSessionInterface } from '../rest-api/zgwnu-bonita-session.interface'
 import { ZgwnuBonitaResponse } from '../rest-api/zgwnu-bonita-response'
 import { ZgwnuBonitaCredentials } from './zgwnu-bonita-credentials'
 
@@ -63,7 +64,7 @@ export class ZgwnuBonitaClientAuthenticationService {
     }
 
     getSession(resp: () => void) {
-        this.httpClient.get(this.configService.bonitaUrls.apiUrl + this.SESSION_RESOURCE_PATH)
+        this.httpClient.get<ZgwnuBonitaSessionInterface>(this.configService.bonitaUrls.apiUrl + this.SESSION_RESOURCE_PATH)
         .subscribe(
             body => {
                 console.log(body)

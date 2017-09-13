@@ -1,26 +1,6 @@
-import { Headers } from '@angular/http'
+import { ZgwnuBonitaSessionInterface } from './zgwnu-bonita-session.interface'
 
-export class ZgwnuBonitaSession {
-
-  constructor(sessionData: any, headerData?: Headers)
-  {
-    this.user_id = sessionData.user_id
-    this.user_name = sessionData.user_name
-    this.session_id = sessionData.session_id
-    this.conf = sessionData.conf
-    this.is_technical_user = (sessionData.is_technical_user == 'true')
-    this.version = sessionData.version
-    
-    if (sessionData.tenant) { this.tenant = sessionData.tenant }
-    
-    if (headerData) { 
-      let headers = headerData.toJSON()
-      console.log(headers)
-      this.token = headers['X-Bonita-API-Token'][0]
-    }
-
-  }
-
+export class ZgwnuBonitaSession implements ZgwnuBonitaSessionInterface {
   user_id: string
   user_name: string
   session_id: string

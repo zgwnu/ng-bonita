@@ -4,7 +4,6 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 
 // Refactoring => HttpClientModule
 import { ZgwnuBonitaBackendService } from './rest-api/zgwnu-bonita-backend.service'
-import { ZgwnuBonitaAuthenticationService } from './authentication/zgwnu-bonita-authentication.service'
 import { ZgwnuBonitaBpmProcessService } from './bpm/process/zgwnu-bonita-bpm-process.service'
 
 // Imports Generic Module Services
@@ -23,7 +22,6 @@ import { ZgwnuBonitaClientAuthenticationService } from './authentication/zgwnu-b
     // Provide Generic Module Services
     ZgwnuBonitaConfigService, 
     // Refactoring => HttpClientModule
-    ZgwnuBonitaAuthenticationService, 
     ZgwnuBonitaBpmProcessService, 
     ZgwnuBonitaBackendService,
     // Provide HttpClient based Services
