@@ -12,7 +12,7 @@ export class ZgwnuBonitaSessionMapping implements ZgwnuBonitaDataMappingInterfac
         if (res.headers != null) {
             headers = res.headers
         }
-        let sessionData: ZgwnuBonitaSession = new ZgwnuBonitaSession(body, headers)
+        let sessionData: ZgwnuBonitaSession = new ZgwnuBonitaSession()
         return sessionData
     }
 

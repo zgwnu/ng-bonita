@@ -7,12 +7,14 @@
 
 // ANGULAR Imports
 import { Injectable } from '@angular/core'
-import { HttpHeaders, HttpClient } from '@angular/common/http'
+import { HttpHeaders, HttpClient, HttpResponse, HttpErrorResponse } from '@angular/common/http'
 
 // RXJS Imports
 import { Observable } from 'rxjs/Observable'
-import 'rxjs/add/operator/catch'
+import { ErrorObservable } from 'rxjs/observable/ErrorObservable'
 import 'rxjs/add/operator/map'
+import 'rxjs/add/operator/catch'
+import 'rxjs/add/observable/throw'
 
 // ZGWNU Ng Bonita Module Imports
 import { ZgwnuBonitaConfigService } from '../rest-api/zgwnu-bonita-config.service'
@@ -85,6 +87,37 @@ export class ZgwnuBonitaClientAuthenticationService {
                 resp(error)
             }
         )
+    }
+
+    loginMapped(creds: ZgwnuBonitaCredentials): Observable<ZgwnuBonitaResponse> {
+        let loginUrl: string = this.configService.bonitaUrls.baseUrl + this.LOGIN_SERVICE_PATH
+        let loginBody: string = 
+            'username=' + creds.username + '&password=' + creds.password + '&redirect=false'
+        let loginHeaders: HttpHeaders = 
+            new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
+
+        return this.httpClient.post(
+            loginUrl, 
+            loginBody,
+            { 
+                headers: loginHeaders,
+                observe: 'response',
+                responseType: 'json'
+            }
+        )
+        .map(this.mapBonitaResponse)
+        .catch((error:  HttpErrorResponse) => this.catchBonitaError(error))
+    }
+
+    protected mapBonitaResponse(response: HttpResponse<Object>) {
+        let bonitaResponse: ZgwnuBonitaResponse = new ZgwnuBonitaResponse()
+        bonitaResponse.status = response.status
+        bonitaResponse.statusText = response.statusText
+        return bonitaResponse
+    }
+
+    protected catchBonitaError(error: HttpErrorResponse) {
+        return Observable.throw(error)
     }
 
 }
