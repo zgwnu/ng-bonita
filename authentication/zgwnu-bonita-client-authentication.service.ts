@@ -52,10 +52,24 @@ export class ZgwnuBonitaClientAuthenticationService {
                 let bonitaResponse: ZgwnuBonitaResponse = new ZgwnuBonitaResponse()
                 bonitaResponse.status = response.status
                 bonitaResponse.statusText = response.statusText
-                resp(bonitaResponse)
+                this.getSession(() => {
+                    resp(bonitaResponse)
+                })
             },
             error => {
                 resp(undefined, error)
+            }
+        )
+    }
+
+    getSession(resp: () => void) {
+        this.httpClient.get(this.configService.bonitaUrls.apiUrl + this.SESSION_RESOURCE_PATH)
+        .subscribe(
+            body => {
+                console.log(body)
+            },
+            error => {
+                console.log(error)
             }
         )
     }
