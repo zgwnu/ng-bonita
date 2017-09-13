@@ -16,6 +16,7 @@ import 'rxjs/add/operator/map'
 
 // ZGWNU Ng Bonita Module Imports
 import { ZgwnuBonitaConfigService } from '../rest-api/zgwnu-bonita-config.service'
+import { ZgwnuBonitaResponse } from '../rest-api/zgwnu-bonita-response'
 import { ZgwnuBonitaCredentials } from './zgwnu-bonita-credentials'
 
 @Injectable()
@@ -30,7 +31,7 @@ export class ZgwnuBonitaClientAuthenticationService {
     {
     }
 
-    login(creds: ZgwnuBonitaCredentials, resp: (success: boolean) => void) {
+    login(creds: ZgwnuBonitaCredentials, resp: (response: ZgwnuBonitaResponse, error?: any) => void) {
         let loginUrl: string = this.configService.bonitaUrls.baseUrl + this.LOGIN_SERVICE_PATH
         let loginBody: string = 
             'username=' + creds.username + '&password=' + creds.password + '&redirect=false'
@@ -48,12 +49,13 @@ export class ZgwnuBonitaClientAuthenticationService {
         )
         .subscribe(
             response => {
-                console.log(response)
-                resp(true)
+                let bonitaResponse: ZgwnuBonitaResponse = new ZgwnuBonitaResponse()
+                bonitaResponse.status = response.status
+                bonitaResponse.statusText = response.statusText
+                resp(bonitaResponse)
             },
             error => {
-                console.log(error)
-                resp(false)
+                resp(undefined, error)
             }
         )
     }
