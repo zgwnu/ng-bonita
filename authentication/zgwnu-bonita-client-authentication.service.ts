@@ -11,16 +11,12 @@ import { HttpHeaders, HttpClient, HttpResponse, HttpErrorResponse } from '@angul
 
 // RXJS Imports
 import { Observable } from 'rxjs/Observable'
-import { ErrorObservable } from 'rxjs/observable/ErrorObservable'
 import 'rxjs/add/operator/map'
 import 'rxjs/add/operator/catch'
-import 'rxjs/add/observable/throw'
 
 // ZGWNU Ng Bonita Module Imports
 import { ZgwnuBonitaConfigService } from '../rest-api/zgwnu-bonita-config.service'
 import { ZgwnuBonitaResponseMapService } from '../rest-api/zgwnu-bonita-response-map.service'
-import { ZgwnuBonitaSessionService } from '../rest-api/zgwnu-bonita-session.service'
-import { ZgwnuBonitaSessionInterface } from '../rest-api/zgwnu-bonita-session.interface'
 import { ZgwnuBonitaResponse } from '../rest-api/zgwnu-bonita-response'
 import { ZgwnuBonitaCredentials } from './zgwnu-bonita-credentials'
 
@@ -37,7 +33,6 @@ export class ZgwnuBonitaClientAuthenticationService {
         private httpClient: HttpClient, 
         private configService: ZgwnuBonitaConfigService,  
         private responseMapService: ZgwnuBonitaResponseMapService,  
-        private sessionService: ZgwnuBonitaSessionService,  
     )
     {
     }
@@ -58,19 +53,8 @@ export class ZgwnuBonitaClientAuthenticationService {
                 responseType: 'json'
             }
         )
-        .map(response => this.mapLoginResponse(response, this.sessionService))
+        .map(this.responseMapService.mapBonitaResponse)
         .catch(this.responseMapService.catchBonitaError)
-    }
-
-    private mapLoginResponse(response: HttpResponse<Object>, sessionService: ZgwnuBonitaSessionService): ZgwnuBonitaResponse {
-        // subcribe to sessionService.getSession() sessions data into configService.session
-        // this must be done to make CRSF security token availabe after login
-        sessionService.getSession().subscribe()
-        // create and set login response object
-        let bonitaResponse: ZgwnuBonitaResponse = new ZgwnuBonitaResponse()
-        bonitaResponse.status = response.status
-        bonitaResponse.statusText = response.statusText
-        return bonitaResponse
     }
 
 }
