@@ -12,6 +12,7 @@ import { HttpHeaders, HttpClient, HttpResponse, HttpErrorResponse } from '@angul
 // RXJS Imports
 import { Observable } from 'rxjs/Observable'
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable'
+import { bindCallback } from 'rxjs/observable/bindCallback'
 import 'rxjs/add/operator/map'
 import 'rxjs/add/operator/catch'
 import 'rxjs/add/observable/throw'
@@ -89,6 +90,23 @@ export class ZgwnuBonitaClientAuthenticationService {
         )
     }
 
+    getSessionMapped(): Observable<ZgwnuBonitaSession> {
+        return this.httpClient.get<ZgwnuBonitaSessionInterface>(
+            this.configService.bonitaUrls.apiUrl + this.SESSION_RESOURCE_PATH,
+            { observe: 'response' }
+        )
+        .map(this.mapBonitaSession)
+        .catch(this.catchBonitaError)
+    }
+
+    private mapBonitaSession(response: HttpResponse<ZgwnuBonitaSessionInterface>): ZgwnuBonitaSession {
+        let session: ZgwnuBonitaSession = new ZgwnuBonitaSession()
+        session = response.body
+        session.token = response.headers.get('X-Bonita-API-Token')
+        this.configService.session = session
+        return session
+    }
+
     loginMapped(creds: ZgwnuBonitaCredentials): Observable<ZgwnuBonitaResponse> {
         let loginUrl: string = this.configService.bonitaUrls.baseUrl + this.LOGIN_SERVICE_PATH
         let loginBody: string = 
@@ -106,17 +124,18 @@ export class ZgwnuBonitaClientAuthenticationService {
             }
         )
         .map(this.mapBonitaResponse)
-        .catch((error:  HttpErrorResponse) => this.catchBonitaError(error))
+        .catch(this.catchBonitaError)
+        //.catch((error:  HttpErrorResponse) => this.catchBonitaError(error))
     }
 
-    protected mapBonitaResponse(response: HttpResponse<Object>) {
+    protected mapBonitaResponse(response: HttpResponse<Object>): ZgwnuBonitaResponse {
         let bonitaResponse: ZgwnuBonitaResponse = new ZgwnuBonitaResponse()
         bonitaResponse.status = response.status
         bonitaResponse.statusText = response.statusText
         return bonitaResponse
     }
 
-    protected catchBonitaError(error: HttpErrorResponse) {
+    protected catchBonitaError(error: HttpErrorResponse): ErrorObservable {
         return Observable.throw(error)
     }
 
