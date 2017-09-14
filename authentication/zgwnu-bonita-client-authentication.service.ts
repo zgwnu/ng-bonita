@@ -63,7 +63,10 @@ export class ZgwnuBonitaClientAuthenticationService {
     }
 
     private mapLoginResponse(response: HttpResponse<Object>, sessionService: ZgwnuBonitaSessionService): ZgwnuBonitaResponse {
+        // subcribe to sessionService.getSession() sessions data into configService.session
+        // this must be done to make CRSF security token availabe after login
         sessionService.getSession().subscribe()
+        // create and set login response object
         let bonitaResponse: ZgwnuBonitaResponse = new ZgwnuBonitaResponse()
         bonitaResponse.status = response.status
         bonitaResponse.statusText = response.statusText

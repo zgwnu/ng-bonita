@@ -38,10 +38,15 @@ export class ZgwnuBonitaSessionService {
     private mapBonitaSession(response: HttpResponse<ZgwnuBonitaSessionInterface>, configService: ZgwnuBonitaConfigService): ZgwnuBonitaSession {
         let session: ZgwnuBonitaSession = new ZgwnuBonitaSession()
         // get session data from response Body
-        session = response.body
-        // get Bonita CRSF Security Token from response Headers
+        session.conf = response.body.conf
+        session.is_technical_user = response.body.is_technical_user
+        session.session_id = response.body.session_id
+        if (response.body.tenant) session.tenant = response.body.tenant
         session.token = response.headers.get(configService.bonitaSessionTokenKey)
-        // save Bonita Session Data as Config
+        session.user_id = response.body.user_id
+        session.user_name = response.body.user_name
+        session.version = response.body.version
+        // store Bonita Session Data in Config Service
         this.configService.session = session
         return session
     }

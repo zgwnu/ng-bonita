@@ -3,6 +3,7 @@ export { ZgwnuNgBonitaModule } from './zgwnu-ng-bonita.module'
 
 // Make Rest Api (Service) Classes available outside Module 
 export { ZgwnuBonitaConfigService } from './rest-api/zgwnu-bonita-config.service'
+export { ZgwnuBonitaSessionService } from './rest-api/zgwnu-bonita-session.service'
 // Refactoring => HttpClientModule
 export { ZgwnuBonitaDataMappingInterface } from './rest-api/zgwnu-bonita-data-mapping.interface'
 export { ZgwnuBonitaSession } from './rest-api/zgwnu-bonita-session'
