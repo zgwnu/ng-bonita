@@ -15,7 +15,7 @@ import { ZgwnuBonitaSession } from '../rest-api/zgwnu-bonita-session'
 import { ZgwnuBonitaResponse } from '../rest-api/zgwnu-bonita-response'
 
 @Injectable()
-export class ZgwnuBonitaClientAuthenticationService {
+export class ZgwnuBonitaSessionService {
     private readonly SESSION_RESOURCE_PATH = '/system/session/unusedid'
 
     constructor(

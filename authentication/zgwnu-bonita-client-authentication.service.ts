@@ -19,8 +19,8 @@ import 'rxjs/add/observable/throw'
 // ZGWNU Ng Bonita Module Imports
 import { ZgwnuBonitaConfigService } from '../rest-api/zgwnu-bonita-config.service'
 import { ZgwnuBonitaResponseMapService } from '../rest-api/zgwnu-bonita-response-map.service'
+import { ZgwnuBonitaSessionService } from '../rest-api/zgwnu-bonita-session.service'
 import { ZgwnuBonitaSessionInterface } from '../rest-api/zgwnu-bonita-session.interface'
-import { ZgwnuBonitaSession } from '../rest-api/zgwnu-bonita-session'
 import { ZgwnuBonitaResponse } from '../rest-api/zgwnu-bonita-response'
 import { ZgwnuBonitaCredentials } from './zgwnu-bonita-credentials'
 
@@ -32,12 +32,12 @@ export interface GetSessionInterface {
 @Injectable()
 export class ZgwnuBonitaClientAuthenticationService {
     private readonly LOGIN_SERVICE_PATH = '/loginservice'
-    private readonly SESSION_RESOURCE_PATH = '/system/session/unusedid'
 
     constructor(
         private httpClient: HttpClient, 
         private configService: ZgwnuBonitaConfigService,  
         private responseMapService: ZgwnuBonitaResponseMapService,  
+        private sessionService: ZgwnuBonitaSessionService,  
     )
     {
     }
@@ -58,35 +58,16 @@ export class ZgwnuBonitaClientAuthenticationService {
                 responseType: 'json'
             }
         )
-        .map(response => this.mapLoginResponse(response))
+        .map(response => this.mapLoginResponse(response, this.sessionService))
         .catch(this.responseMapService.catchBonitaError)
     }
 
-    private mapLoginResponse(response: HttpResponse<Object>): ZgwnuBonitaResponse {
+    private mapLoginResponse(response: HttpResponse<Object>, sessionService: ZgwnuBonitaSessionService): ZgwnuBonitaResponse {
+        sessionService.getSession().subscribe()
         let bonitaResponse: ZgwnuBonitaResponse = new ZgwnuBonitaResponse()
         bonitaResponse.status = response.status
         bonitaResponse.statusText = response.statusText
         return bonitaResponse
-    }
-
-    getSession(): Observable<ZgwnuBonitaSession> {
-        return this.httpClient.get<ZgwnuBonitaSessionInterface>(
-            this.configService.bonitaUrls.apiUrl + this.SESSION_RESOURCE_PATH,
-            { observe: 'response' }
-        )
-        .map(response => this.mapBonitaSession(response, this.configService))
-        .catch(this.responseMapService.catchBonitaError)
-    }
-
-    private mapBonitaSession(response: HttpResponse<ZgwnuBonitaSessionInterface>, configService: ZgwnuBonitaConfigService): ZgwnuBonitaSession {
-        let session: ZgwnuBonitaSession = new ZgwnuBonitaSession()
-        // get session data from response Body
-        session = response.body
-        // get Bonita CRSF Security Token from response Headers
-        session.token = response.headers.get(configService.bonitaSessionTokenKey)
-        // save Bonita Session Data as Config
-        this.configService.session = session
-        return session
     }
 
 }
