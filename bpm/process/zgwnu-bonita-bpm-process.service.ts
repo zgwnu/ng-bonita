@@ -50,4 +50,16 @@ export class ZgwnuBonitaBpmProcessService {
         return processDefinitions
     }
 
+    getProcessDefinition(processDefinitionId: string): Observable<ZgwnuBonitaProcessDefinition> {
+        let getUrl: string = this.resourceUrl + '/' + processDefinitionId
+        return this.httpClient.get<ZgwnuBonitaProcessDefinitionDataInterface>(getUrl)
+            .map(this.mapProcessDefinition)
+            .catch(this.responseMapService.catchBonitaError)
+    }
+
+    private mapProcessDefinition(body: ZgwnuBonitaProcessDefinitionDataInterface): ZgwnuBonitaProcessDefinition {
+        let processDefinition: ZgwnuBonitaProcessDefinition = new ZgwnuBonitaProcessDefinition(body)
+        return processDefinition
+    }
+
 }
