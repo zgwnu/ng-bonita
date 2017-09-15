@@ -21,7 +21,7 @@ import { ZgwnuBonitaResponse } from '../rest-api/zgwnu-bonita-response'
 import { ZgwnuBonitaCredentials } from './zgwnu-bonita-credentials'
 
 @Injectable()
-export class ZgwnuBonitaClientAuthenticationService {
+export class ZgwnuBonitaAuthenticationService {
     private readonly LOGIN_SERVICE_PATH = '/loginservice'
 
     constructor(

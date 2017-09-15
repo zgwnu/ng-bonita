@@ -26,7 +26,7 @@ import { ZgwnuBonitaProcessUpdateInput } from './zgwnu-bonita-process-update-inp
 import { ZgwnuBonitaProcessUpdateSuccessResponse } from './zgwnu-bonita-process-update-success-response'
 
 @Injectable()
-export class ZgwnuBonitaBpmProcessService extends ZgwnuBonitaHttpService {
+export class ZgwnuBonitaBpmProcessServiceOld extends ZgwnuBonitaHttpService {
     private readonly RESOURCE_PATH: string = '/bpm/process'
     private resourceUrl: string
 

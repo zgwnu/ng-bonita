@@ -23,7 +23,6 @@ import { ZgwnuBonitaProcessDefinition } from './zgwnu-bonita-process-definition'
 
 @Injectable()
 export class ZgwnuBonitaBpmProcessService {
-
     private readonly RESOURCE_PATH: string = '/bpm/process'
     private resourceUrl: string
 
@@ -37,7 +36,6 @@ export class ZgwnuBonitaBpmProcessService {
     }
 
     searchProcessDefinitions(searchParms: ZgwnuBonitaSearchParms): Observable<ZgwnuBonitaProcessDefinition[]> {
-        // NOTE: => variant met HttpParms?
         let searchUrl: string = this.resourceUrl + '?' + searchParms.getUrlEncondedParms()
         return this.httpClient.get<ZgwnuBonitaProcessDefinitionDataInterface[]>(searchUrl)
             .map(this.mapProcessDefinitions)
@@ -47,7 +45,7 @@ export class ZgwnuBonitaBpmProcessService {
     private mapProcessDefinitions(body: ZgwnuBonitaProcessDefinitionDataInterface[]): ZgwnuBonitaProcessDefinition[] {
         let processDefinitions: ZgwnuBonitaProcessDefinition[] = []
         for (let data of body) {
-            let processDefinition: ZgwnuBonitaProcessDefinition = new ZgwnuBonitaProcessDefinition(data)
+            processDefinitions.push(new ZgwnuBonitaProcessDefinition(data))
         }
         return processDefinitions
     }

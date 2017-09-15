@@ -13,7 +13,7 @@ export { ZgwnuBonitaErrorResponse } from './rest-api/zgwnu-bonita-error-response
 // Make Authentication (Service) Classes available outside Module
 // Refactoring => HttpClientModule
 // HttpClient based (Service) Classes
-export { ZgwnuBonitaClientAuthenticationService } from './authentication/zgwnu-bonita-client-authentication.service'
+export { ZgwnuBonitaAuthenticationService } from './authentication/zgwnu-bonita-authentication.service'
 export { ZgwnuBonitaCredentials } from './authentication/zgwnu-bonita-credentials'
 
 // Make Bpm (Service) Classes available outside Module

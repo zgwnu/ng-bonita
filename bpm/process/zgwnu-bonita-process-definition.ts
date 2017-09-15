@@ -1,28 +1,29 @@
 // ZGWNU Ng Bonita Module Imports
 import { ZgwnuBonitaProcessActivationStateType } from './zgwnu-bonita-process-activation-state.type'
 import { ZgwnuBonitaProcessConfigurationStateType } from './zgwnu-bonita-process-configuration-state.type'
+import { ZgwnuBonitaProcessDefinitionDataInterface } from './zgwnu-bonita-process-definition-data.interface'
 import { ZgwnuBonitaUtils } from '../../rest-api/zgwnu-bonita-utils'
 
 export class ZgwnuBonitaProcessDefinition {
 
-  constructor(processDefinitionData?: any) 
+  constructor(data?: ZgwnuBonitaProcessDefinitionDataInterface) 
   {
     const utils = new ZgwnuBonitaUtils()
 
-    if (processDefinitionData) {
-      this.id = processDefinitionData.id
-      this.icon = processDefinitionData.icon
-      this.displayDescription = processDefinitionData.displayDescription
-      this.deploymentDate = utils.getDateValue(processDefinitionData.deploymentDate)
-      this.description = processDefinitionData.description
-      this.activationState = processDefinitionData.activationState
-      this.name = processDefinitionData.name
-      this.deployedBy = processDefinitionData.deployedBy
-      this.displayName = processDefinitionData.displayName
-      this.actorinitiatorid = processDefinitionData.actorinitiatorid
-      this.last_update_date = utils.getDateValue(processDefinitionData.last_update_date)
-      this.configurationState = processDefinitionData.configurationState
-      this.version = processDefinitionData.version
+    if (data) {
+      this.id = data.id
+      this.icon = data.icon
+      this.displayDescription = data.displayDescription
+      this.deploymentDate = utils.getDateValue(data.deploymentDate)
+      this.description = data.description
+      this.activationState = data.activationState
+      this.name = data.name
+      this.deployedBy = data.deployedBy
+      this.displayName = data.displayName
+      this.actorinitiatorid = data.actorinitiatorid
+      this.last_update_date = utils.getDateValue(data.last_update_date)
+      this.configurationState = data.configurationState
+      this.version = data.version
     }
   }
 
