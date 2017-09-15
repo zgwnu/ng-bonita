@@ -18,10 +18,12 @@ import 'rxjs/add/operator/catch'
 import { ZgwnuBonitaConfigService } from '../../rest-api/zgwnu-bonita-config.service'
 import { ZgwnuBonitaResponseMapService } from '../../rest-api/zgwnu-bonita-response-map.service'
 import { ZgwnuBonitaResponse } from '../../rest-api/zgwnu-bonita-response'
+import { ZgwnuBonitaFileUploadResponse } from '../../file-upload/zgwnu-bonita-file-upload-response'
 import { ZgwnuBonitaSearchParms } from '../zgwnu-bonita-search-parms'
 import { ZgwnuBonitaProcessDefinitionDataInterface } from './zgwnu-bonita-process-definition-data.interface'
 import { ZgwnuBonitaProcessDefinition } from './zgwnu-bonita-process-definition'
 import { ZgwnuBonitaCreateCaseSuccessResponse } from './zgwnu-bonita-create-case-success-response'
+import { ZgwnuBonitaDeployProcessDefinitionSuccessResponse } from './zgwnu-bonita-deploy-process-definition-success-response'
 
 @Injectable()
 export class ZgwnuBonitaBpmProcessService {
@@ -71,15 +73,13 @@ export class ZgwnuBonitaBpmProcessService {
     //
     // Post URL template: ../API/bpm/process/:processId/instantiation
     //
-    createCase(processId: string, contractValues: any): Observable<ZgwnuBonitaCreateCaseSuccessResponse> {
-        console.log('ZgwnuBonitaBpmProcessService.createCase')
-        console.log(this.configService.session)
-        let postUrl: string = this.resourceUrl + '/' + processId + '/instantiation'
+    createCase(processId: string, contractInput: any): Observable<ZgwnuBonitaCreateCaseSuccessResponse> {
+        let createCaseUrl: string = this.resourceUrl + '/' + processId + '/instantiation'
         let sendHeaders: HttpHeaders = new HttpHeaders().set(
                 this.configService.bonitaSessionTokenKey, this.configService.session.token)
         return this.httpClient.post(
-            postUrl,
-            contractValues,
+            createCaseUrl,
+            contractInput,
             {
                 headers: sendHeaders,
                 observe: 'response',
@@ -98,4 +98,42 @@ export class ZgwnuBonitaBpmProcessService {
         return successResponse
     }
 
+
+    // Deploy a process definition
+    //
+    // based on: http://documentation.bonitasoft.com/?page=bpm-api#toc28
+    //
+    // Post URL template: ../API/bpm/process
+    //
+    deployProcessDefinition(processUploadResponse: ZgwnuBonitaFileUploadResponse): Observable<ZgwnuBonitaDeployProcessDefinitionSuccessResponse> {
+        let requestPayload: any = { "fileupload": processUploadResponse.tempPath }
+        return this.httpClient.post(
+            this.resourceUrl,
+            requestPayload,
+            {
+                headers: sendHeaders,
+                observe: 'response',
+                responseType: 'json'
+            }
+        )
+        .map(this.mapDeployProcessDefinitionSuccessResponse)
+        .catch(this.responseMapService.catchBonitaError)
+    }
+
+    private mapDeployProcessDefinitionSuccessResponse(response: HttpResponse<Object>): ZgwnuBonitaDeployProcessDefinitionSuccessResponse {
+        let successResponse: ZgwnuBonitaDeployProcessDefinitionSuccessResponse = new ZgwnuBonitaDeployProcessDefinitionSuccessResponse()
+        successResponse.status = response.status
+        successResponse.statusText = response.statusText
+        successResponse.id = response.body['id']
+        successResponse.deploymentDate = response.body['deploymentDate']
+        successResponse.description = response.body['description']
+        successResponse.activationState = response.body['activationState']
+        successResponse.name = response.body['name']
+        successResponse.displayName = response.body['displayName']
+        successResponse.actorinitiatorid = response.body['actorinitiatorid'] 
+        successResponse.last_update_date = response.body['last_update_date']
+        successResponse.configurationState = response.body['configurationState']
+        successResponse.version = response.body['version']        
+        return successResponse
+    }
 }

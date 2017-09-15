@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core'
-import { Headers, RequestOptions } from '@angular/http'
+import { HttpHeaders } from '@angular/common/http'
+import { Headers, RequestOptions } from '@angular/http' // rest api options => OLD (Http)
 
 import { ZgwnuBonitaSession } from './zgwnu-bonita-session'
 import { ZgwnuBonitaUrls } from './zgwnu-bonita-urls'
@@ -12,11 +13,14 @@ export class ZgwnuBonitaConfigService {
     // urlconfig
     public bonitaUrls: ZgwnuBonitaUrls = new ZgwnuBonitaUrls()
 
-    // rest api options
+    // rest api options => OLD (Http)
     readonly bonitaSessionTokenKey: string = 'X-Bonita-API-Token'
     private defaultHeaders: Headers = new Headers({ 'Content-Type': 'application/json' })
-    public options: RequestOptions = new RequestOptions({ headers: this.defaultHeaders })
-    public sendOptions: RequestOptions
+    options: RequestOptions = new RequestOptions({ headers: this.defaultHeaders })
+    sendOptions: RequestOptions
+
+    // rest api options => NEW (HttpClient)
+    sendHeaders: HttpHeaders
 
     // current session
     private _session: ZgwnuBonitaSession
@@ -27,11 +31,16 @@ export class ZgwnuBonitaConfigService {
 
     set session(session: ZgwnuBonitaSession) {
         this._session = session
-        this.configSendOptions()
+        this.configSendOptions() // rest api options => OLD (Http)
+        this.configSendHeaders()
     }
 
     get session() {
         return this._session
+    }
+
+    private configSendHeaders() {
+        this.sendHeaders = new HttpHeaders().set(this.bonitaSessionTokenKey, this.session.token)
     }
 
     private configSendOptions() {
