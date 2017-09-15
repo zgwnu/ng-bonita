@@ -42,8 +42,8 @@ export class ZgwnuBonitaBpmProcessService {
     }
 
     searchProcessDefinitions(searchParms: ZgwnuBonitaSearchParms): Observable<ZgwnuBonitaProcessDefinition[]> {
-        let searchUrl: string = this.resourceUrl + '?' + searchParms.getUrlEncondedParms()
-        return this.httpClient.get<ZgwnuBonitaProcessDefinitionDataInterface[]>(searchUrl)
+        return this.httpClient.get<ZgwnuBonitaProcessDefinitionDataInterface[]>(
+            this.resourceUrl + '?' + searchParms.getUrlEncondedParms())
             .map(this.mapProcessDefinitions)
             .catch(this.responseMapService.catchBonitaError)
     }
@@ -57,15 +57,14 @@ export class ZgwnuBonitaBpmProcessService {
     }
 
     getProcessDefinition(processDefinitionId: string): Observable<ZgwnuBonitaProcessDefinition> {
-        let getUrl: string = this.resourceUrl + '/' + processDefinitionId
-        return this.httpClient.get<ZgwnuBonitaProcessDefinitionDataInterface>(getUrl)
+        return this.httpClient.get<ZgwnuBonitaProcessDefinitionDataInterface>(
+            this.resourceUrl + '/' + processDefinitionId)
             .map(this.mapProcessDefinition)
             .catch(this.responseMapService.catchBonitaError)
     }
 
     private mapProcessDefinition(body: ZgwnuBonitaProcessDefinitionDataInterface): ZgwnuBonitaProcessDefinition {
-        let processDefinition: ZgwnuBonitaProcessDefinition = new ZgwnuBonitaProcessDefinition(body)
-        return processDefinition
+        return new ZgwnuBonitaProcessDefinition(body)
     }
 
 

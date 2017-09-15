@@ -19,6 +19,7 @@ import { ZgwnuBonitaConfigService } from '../../rest-api/zgwnu-bonita-config.ser
 import { ZgwnuBonitaResponseMapService } from '../../rest-api/zgwnu-bonita-response-map.service'
 import { ZgwnuBonitaResponse } from '../../rest-api/zgwnu-bonita-response'
 import { ZgwnuBonitaSearchParms } from '../zgwnu-bonita-search-parms'
+import { ZgwnuBonitaCaseDataInterface } from './zgwnu-bonita-case-data.interface'
 import { ZgwnuBonitaCase } from './zgwnu-bonita-case'
 
 @Injectable()
@@ -36,7 +37,35 @@ export class ZgwnuBonitaBpmCaseService {
     }
 
     searchCases(searchParms: ZgwnuBonitaSearchParms): Observable<ZgwnuBonitaCase[]> {
-        
+        return this.httpClient.get<ZgwnuBonitaCaseDataInterface[]>(
+            this.resourceUrl + '?' + searchParms.getUrlEncondedParms())
+            .map(this.mapCases)
+            .catch(this.responseMapService.catchBonitaError)
+    }
+
+    private mapCases(body: ZgwnuBonitaCaseDataInterface[]): ZgwnuBonitaCase[] {
+        let cases: ZgwnuBonitaCase[] = []
+        for (let data of body) {
+            cases.push(new ZgwnuBonitaCase(data))   
+        }
+        return cases
+    }
+
+
+    getCase(caseId: string): Observable<ZgwnuBonitaCase> {
+        return this.httpClient.get<ZgwnuBonitaCaseDataInterface>(this.resourceUrl + '/' + caseId)
+            .map(this.mapCase)
+            .catch(this.responseMapService.catchBonitaError)
+    }
+
+    private mapCase(body: ZgwnuBonitaCaseDataInterface): ZgwnuBonitaCase {
+        return new ZgwnuBonitaCase(body)
+    }
+
+
+    getCaseContext(caseId: string): Observable<any> {
+        return this.httpClient.get(this.resourceUrl + '/' + caseId + '/context')
+        .catch(this.responseMapService.catchBonitaError)    
     }
 
 }
