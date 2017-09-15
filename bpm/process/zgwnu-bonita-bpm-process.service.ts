@@ -24,6 +24,8 @@ import { ZgwnuBonitaProcessDefinitionDataInterface } from './zgwnu-bonita-proces
 import { ZgwnuBonitaProcessDefinition } from './zgwnu-bonita-process-definition'
 import { ZgwnuBonitaCreateCaseSuccessResponse } from './zgwnu-bonita-create-case-success-response'
 import { ZgwnuBonitaDeployProcessDefinitionSuccessResponse } from './zgwnu-bonita-deploy-process-definition-success-response'
+import { ZgwnuBonitaProcessUpdateInput } from './zgwnu-bonita-process-update-input'
+import { ZgwnuBonitaProcessUpdateSuccessResponse } from './zgwnu-bonita-process-update-success-response'
 
 @Injectable()
 export class ZgwnuBonitaBpmProcessService {
@@ -74,14 +76,11 @@ export class ZgwnuBonitaBpmProcessService {
     // Post URL template: ../API/bpm/process/:processId/instantiation
     //
     createCase(processId: string, contractInput: any): Observable<ZgwnuBonitaCreateCaseSuccessResponse> {
-        let createCaseUrl: string = this.resourceUrl + '/' + processId + '/instantiation'
-        let sendHeaders: HttpHeaders = new HttpHeaders().set(
-                this.configService.bonitaSessionTokenKey, this.configService.session.token)
         return this.httpClient.post(
-            createCaseUrl,
+            this.resourceUrl + '/' + processId + '/instantiation',
             contractInput,
             {
-                headers: sendHeaders,
+                headers: this.configService.sendHeaders,
                 observe: 'response',
                 responseType: 'json'
             }
@@ -106,12 +105,11 @@ export class ZgwnuBonitaBpmProcessService {
     // Post URL template: ../API/bpm/process
     //
     deployProcessDefinition(processUploadResponse: ZgwnuBonitaFileUploadResponse): Observable<ZgwnuBonitaDeployProcessDefinitionSuccessResponse> {
-        let requestPayload: any = { "fileupload": processUploadResponse.tempPath }
         return this.httpClient.post(
             this.resourceUrl,
-            requestPayload,
+            { "fileupload": processUploadResponse.tempPath },
             {
-                headers: sendHeaders,
+                headers: this.configService.sendHeaders,
                 observe: 'response',
                 responseType: 'json'
             }
@@ -134,6 +132,29 @@ export class ZgwnuBonitaBpmProcessService {
         successResponse.last_update_date = response.body['last_update_date']
         successResponse.configurationState = response.body['configurationState']
         successResponse.version = response.body['version']        
+        return successResponse
+    }
+
+
+
+    updateProcessDefinition(processDefinitionId: string, updateInput: ZgwnuBonitaProcessUpdateInput):  Observable<ZgwnuBonitaProcessUpdateSuccessResponse> {
+        return this.httpClient.put(
+            this.resourceUrl + '/' + processDefinitionId,
+            updateInput,
+            {
+                headers: this.configService.sendHeaders,
+                observe: 'response',
+                responseType: 'json'
+            }
+        )
+        .map(this.mapUpdateProcessDefinitionUpdateSuccessResponse)
+        .catch(this.responseMapService.catchBonitaError)
+    }
+
+    private mapUpdateProcessDefinitionUpdateSuccessResponse(response: HttpResponse<Object>): ZgwnuBonitaProcessUpdateSuccessResponse {
+        let successResponse: ZgwnuBonitaProcessUpdateSuccessResponse = new ZgwnuBonitaProcessUpdateSuccessResponse()
+        successResponse.status = response.status
+        successResponse.statusText = response.statusText
         return successResponse
     }
 }
