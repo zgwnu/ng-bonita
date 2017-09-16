@@ -14,6 +14,7 @@ import { ZgwnuBonitaResponseMapService } from './rest-api/zgwnu-bonita-response-
 import { ZgwnuBonitaSessionService } from './rest-api/zgwnu-bonita-session.service'
 import { ZgwnuBonitaAuthenticationService } from './authentication/zgwnu-bonita-authentication.service'
 import { ZgwnuBonitaBpmProcessService } from './bpm/process/zgwnu-bonita-bpm-process.service'
+import { ZgwnuBonitaBpmCaseService } from './bpm/case/zgwnu-bonita-bpm-case.service'
 
 @NgModule({
   imports: [
@@ -37,6 +38,7 @@ import { ZgwnuBonitaBpmProcessService } from './bpm/process/zgwnu-bonita-bpm-pro
     ZgwnuBonitaSessionService, 
     ZgwnuBonitaAuthenticationService,  
     ZgwnuBonitaBpmProcessService,  
+    ZgwnuBonitaBpmCaseService,  
   ]
 })
 export class ZgwnuNgBonitaModule { }

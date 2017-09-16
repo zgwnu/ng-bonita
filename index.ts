@@ -27,3 +27,7 @@ export { ZgwnuBonitaDeployProcessDefinitionSuccessResponse } from './bpm/process
 export { ZgwnuBonitaProcessDefinition } from './bpm/process/zgwnu-bonita-process-definition'
 export { ZgwnuBonitaProcessUpdateInput } from './bpm/process/zgwnu-bonita-process-update-input'
 export { ZgwnuBonitaProcessUpdateSuccessResponse } from './bpm/process/zgwnu-bonita-process-update-success-response'
+
+// Make (Service) Classes available outside Module
+export { ZgwnuBonitaBpmCaseService } from './bpm/case/zgwnu-bonita-bpm-case.service'
+export { ZgwnuBonitaCase } from './bpm/case/zgwnu-bonita-case'
