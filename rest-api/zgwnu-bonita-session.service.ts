@@ -38,15 +38,16 @@ export class ZgwnuBonitaSessionService {
     private mapBonitaSession(response: HttpResponse<ZgwnuBonitaSessionInterface>, configService: ZgwnuBonitaConfigService): ZgwnuBonitaSession {
         let session: ZgwnuBonitaSession = new ZgwnuBonitaSession()
         // get session data from response Body
-        if (response.body.conf) session.conf = response.body.conf
-        if (response.body.is_technical_user) session.is_technical_user = response.body.is_technical_user
-        if (response.body.session_id) session.session_id = response.body.session_id
-        if (response.body.tenant) session.tenant = response.body.tenant
-        let sessionTokenValue: string = response.headers.get(configService.bonitaSessionTokenKey)
-        if (sessionTokenValue) session.token = sessionTokenValue
-        if (response.body.user_id) session.user_id = response.body.user_id
-        if (response.body.user_name) session.user_name = response.body.user_name
-        if (response.body.version) session.version = response.body.version
+        if (response.body) {
+            session.conf = response.body.conf
+            session.is_technical_user = response.body.is_technical_user
+            session.session_id = response.body.session_id
+            session.tenant = response.body.tenant
+            session.token = response.headers.get(configService.bonitaSessionTokenKey) || ''
+            session.user_id = response.body.user_id
+            session.user_name = response.body.user_name
+            session.version = response.body.version
+        }
         // store Bonita Session Data in Config Service
         this.configService.session = session
         return session

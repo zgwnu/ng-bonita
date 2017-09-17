@@ -40,10 +40,11 @@ export class ZgwnuBonitaConfigService {
     }
 
     private configSendHeaders() {
-        let sessionTokenKey: string = this.bonitaSessionTokenKey
-        let sessionTokenValue: string = this._session.token
-        let tokenHeader = { sessionTokenKey: sessionTokenValue }
-        this.sendHeaders = new HttpHeaders(tokenHeader)
+        if (this._session.token) {
+            this.sendHeaders = new HttpHeaders().set(this.bonitaSessionTokenKey, this._session.token)
+        } else {
+            this.sendHeaders = new HttpHeaders()
+        }
     }
 
     private configSendOptions() {
