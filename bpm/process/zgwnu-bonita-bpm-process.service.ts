@@ -11,7 +11,7 @@ import { HttpHeaders, HttpClient, HttpResponse } from '@angular/common/http'
 
 // RXJS Imports
 import { Observable } from 'rxjs/Observable'
-import 'rxjs/add/operator/map'
+import { map } from 'rxjs/operator/map'
 import 'rxjs/add/operator/catch'
 
 // ZGWNU Ng Bonita Module Imports
