@@ -31,8 +31,9 @@ export class ZgwnuBonitaResponseMapService {
         if (httpError.error instanceof Error) {
             // A client-side or network error occurred
             let error: Error = httpError.error
-            bonitaError.message = error.message    
-            bonitaError.explanations = [error.name, error.stack]
+            bonitaError.message = error.message
+            if (error.name) bonitaError.explanations.push(error.name)
+            if (error.stack) bonitaError.explanations.push(error.stack)
         } else {
             // A Bonita Rest Api Server Error occured
             if (httpError.error.message) bonitaError.message = httpError.error.message
