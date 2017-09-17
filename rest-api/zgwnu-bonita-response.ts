@@ -1,4 +1,4 @@
 export class ZgwnuBonitaResponse {
-    status: number
-    statusText: string
+    status: number = 0
+    statusText: string = ''
 }

@@ -92,7 +92,11 @@ export class ZgwnuBonitaBpmProcessService {
         let successResponse: ZgwnuBonitaCreateCaseSuccessResponse = new ZgwnuBonitaCreateCaseSuccessResponse()
         successResponse.status = response.status
         successResponse.statusText = response.statusText
-        successResponse.caseId = response.body['caseId']
+        if (response.body != null) {
+            // a body is available so lets map te properties!
+            let body: any = (<any>response.body)
+            successResponse.caseId = body['caseId']
+        }
         return successResponse
     }
 
@@ -121,16 +125,20 @@ export class ZgwnuBonitaBpmProcessService {
         let successResponse: ZgwnuBonitaDeployProcessDefinitionSuccessResponse = new ZgwnuBonitaDeployProcessDefinitionSuccessResponse()
         successResponse.status = response.status
         successResponse.statusText = response.statusText
-        successResponse.id = response.body['id']
-        successResponse.deploymentDate = response.body['deploymentDate']
-        successResponse.description = response.body['description']
-        successResponse.activationState = response.body['activationState']
-        successResponse.name = response.body['name']
-        successResponse.displayName = response.body['displayName']
-        successResponse.actorinitiatorid = response.body['actorinitiatorid'] 
-        successResponse.last_update_date = response.body['last_update_date']
-        successResponse.configurationState = response.body['configurationState']
-        successResponse.version = response.body['version']        
+        if (response.body != null) {
+            // a body is available so lets map te properties!
+            let body: any = (<any>response.body)
+            successResponse.id = body['id']
+            successResponse.deploymentDate = body['deploymentDate']
+            successResponse.description = body['description']
+            successResponse.activationState = body['activationState']
+            successResponse.name = body['name']
+            successResponse.displayName = body['displayName']
+            successResponse.actorinitiatorid = body['actorinitiatorid'] 
+            successResponse.last_update_date = body['last_update_date']
+            successResponse.configurationState = body['configurationState']
+            successResponse.version = body['version']
+        }
         return successResponse
     }
 
