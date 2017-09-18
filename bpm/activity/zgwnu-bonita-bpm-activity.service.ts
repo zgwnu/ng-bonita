@@ -1,54 +1,64 @@
 // ZaakgerichtWerken.nu Bonita Rest Api BPM Activity Service
 // --------------------------------------------------------------------------
 //
-// based on http://documentation.bonitasoft.com/?page=bpm-api#toc1
+// based on https://documentation.bonitasoft.com/?page=bpm-api#toc1
 //
 //
+// ANGULAR Imports
 import { Injectable } from '@angular/core'
-import { Http, Response, Headers, RequestOptions } from '@angular/http'
+import { HttpHeaders, HttpClient, HttpResponse } from '@angular/common/http'
 
+// RXJS Imports
 import { Observable } from 'rxjs/Observable'
-import 'rxjs/add/operator/catch'
 import 'rxjs/add/operator/map'
+import 'rxjs/add/operator/catch'
 
-import { ZgwnuBonitaRestApiService } from '../../rest-api/zgwnu-bonita-rest-api.service'
-import { ZgwnuBonitaDataMappingInterface } from '../../rest-api/zgwnu-bonita-data-mapping.interface'
+// ZGWNU Ng Bonita Module Imports
 import { ZgwnuBonitaConfigService } from '../../rest-api/zgwnu-bonita-config.service'
-import { ZgwnuBonitaSearchParms } from '../zgwnu-bonita-search-parms'
-import { ZgwnuBonitaActivity } from './zgwnu-bonita-activity'
-import { ZgwnuBonitaActivityMapping } from './zgwnu-bonita-activity-mapping'
+import { ZgwnuBonitaResponseMapService } from '../../rest-api/zgwnu-bonita-response-map.service'
 import { ZgwnuBonitaResponse } from '../../rest-api/zgwnu-bonita-response'
+import { ZgwnuBonitaSearchParms } from '../zgwnu-bonita-search-parms'
+import { ZgwnuBonitaActivityInterface } from './zgwnu-bonita-activity.interface'
+import { ZgwnuBonitaActivity } from './zgwnu-bonita-activity'
 
 @Injectable()
-export class ZgwnuBonitaBpmActivityService extends ZgwnuBonitaRestApiService {
-    private readonly ACTIVITY_RESOURCE_PATH: string = '/bpm/activity'
-    private activityResourceUrl: string
+export class ZgwnuBonitaBpmActivityService {
+    private readonly RESOURCE_PATH: string = '/bpm/activity'
+    private resourceUrl: string
 
     constructor(
-        private configService: ZgwnuBonitaConfigService,
-        private http: Http
-    ) 
-    { 
-        super()
-        this.activityResourceUrl = configService.bonitaUrls.apiUrl + this.ACTIVITY_RESOURCE_PATH
+        private httpClient: HttpClient,  
+        private configService: ZgwnuBonitaConfigService, 
+        private responseMapService: ZgwnuBonitaResponseMapService,  
+    )
+    {
+        this.resourceUrl = configService.bonitaUrls.apiUrl + this.RESOURCE_PATH
     }
 
     searchActivities(searchParms: ZgwnuBonitaSearchParms): Observable<ZgwnuBonitaActivity[]> {
-        let activityMapping: ZgwnuBonitaDataMappingInterface = new ZgwnuBonitaActivityMapping()
-        return this.http.get(this.buildActivitySearchRequest(searchParms), this.configService.options)
-                        .map(activityMapping.mapResponseArray)
-                        .catch(this.handleResponseError)
+        return this.httpClient.get<ZgwnuBonitaActivityInterface[]>(
+            this.resourceUrl + '?' + searchParms.getUrlEncondedParms())
+            .map(this.mapActivities)
+            .catch(this.responseMapService.catchBonitaError)
     }
 
-    private buildActivitySearchRequest(searchParms: ZgwnuBonitaSearchParms): string {
-        return this.activityResourceUrl + '?' + searchParms.getUrlEncondedParms()
+    private mapActivities(body: ZgwnuBonitaActivityInterface[]): ZgwnuBonitaActivity[] {
+        let activities: ZgwnuBonitaActivity[] = []
+        for (let data of body) {
+            activities.push(new ZgwnuBonitaActivity(data))   
+        }
+        return activities
     }
+
 
     getActivity(activityId: string): Observable<ZgwnuBonitaActivity> {
-        let activityMapping: ZgwnuBonitaDataMappingInterface = new ZgwnuBonitaActivityMapping()
-        return this.http.get(this.activityResourceUrl + '/' + activityId, this.configService.options)
-                        .map(activityMapping.mapResponse)
-                        .catch(this.handleResponseError)
+        return this.httpClient.get<ZgwnuBonitaActivityInterface>(this.resourceUrl + '/' + activityId)
+            .map(this.mapActivity)
+            .catch(this.responseMapService.catchBonitaError)
+    }
+
+    private mapActivity(body: ZgwnuBonitaActivityInterface): ZgwnuBonitaActivity {
+        return new ZgwnuBonitaActivity(body)
     }
 
 }

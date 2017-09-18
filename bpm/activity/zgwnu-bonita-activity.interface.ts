@@ -1,45 +1,7 @@
 import { ZgwnuBonitaDate } from '../../rest-api/zgwnu-bonita-date'
 import { ZgwnuBonitaActivityDeployActor } from './zgwnu-bonita-activity-deploy-actor'
 
-export class ZgwnuBonitaActivity {
-
-    constructor(data?: any) 
-    {
-        if (data) {
-            this.id = data.id
-            this.type = data.type
-            this.name = data.name
-            this.displayName = data.displayName
-            this.description = data.description
-            this.displayDescription = data.displayDescription
-            this.state = data.state
-            this.reached_state_date = data.reached_state_date
-            this.last_update_date = data.last_update_date
-            this.dueDate = data.dueDate
-            this.priority = data.priority
-
-            this.processId = data.processId
-            this.parentCaseId = data.parentCaseId
-            this.rootCaseId = data.rootCaseId
-            this.rootContainerId = data.rootContainerId
-            
-            this.executedBy = data.executedBy
-            this.executedBySubstitute = data.executedBySubstitute
-            if (this.actorId instanceof ZgwnuBonitaActivityDeployActor) {
-                this.actorId.id = data.actorId.id
-                this.actorId.process_id = data.actorId.process_id
-                this.actorId.description = data.actorId.description
-                this.actorId.name = data.actorId.name
-                this.actorId.displayName = data.actorId.displayName
-
-            } else {
-                this.actorId = data.actorId
-            }
-            this.assigned_id = data.assigned_id
-            if (data.assigned_date != '') this.assigned_date = data.assigned_date
-        }
-    }
-
+export interface ZgwnuBonitaActivityInterface {
     id: string // "the activity id (long)",
     type: string // "the activity type (string),
     name: string // "the activity technical name (string)",

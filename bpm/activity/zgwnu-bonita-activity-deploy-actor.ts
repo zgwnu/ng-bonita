@@ -1,9 +1,4 @@
-
 export class ZgwnuBonitaActivityDeployActor {
-
-    constructor()
-    {    }
-
   id : string //"actor id",
   process_id : string //"process definition id",
   description : string //"a description of the actor",
