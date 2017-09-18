@@ -6,7 +6,7 @@
 //
 // ANGULAR Imports
 import { Injectable } from '@angular/core'
-import { HttpHeaders, HttpClient, HttpResponse } from '@angular/common/http'
+import { HttpClient } from '@angular/common/http'
 
 // RXJS Imports
 import { Observable } from 'rxjs/Observable'
@@ -43,12 +43,10 @@ export class ZgwnuBonitaBpmActivityService {
     }
 
     private mapActivities(body: ZgwnuBonitaActivityDataInterface[]): ZgwnuBonitaActivity[] {
-        console.log('mapActivities', body)
         let activities: ZgwnuBonitaActivity[] = []
         for (let data of body) {
             activities.push(new ZgwnuBonitaActivity(data))   
         }
-        console.log('mapActivities', activities)
         return activities
     }
 

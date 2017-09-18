@@ -1,0 +1,8 @@
+export declare type ZgwnuBonitaActivityType = 
+'AUTOMATIC_TASK' |
+'HUMAN_TASK' |
+'USER_TASK' |
+'MANUAL_TASK' |
+'LOOP_ACTIVITY' |
+'MULTI_INSTANCE_ACTIVITY' |
+'SUB_PROCESS'

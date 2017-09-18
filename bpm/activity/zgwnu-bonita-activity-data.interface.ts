@@ -1,10 +1,12 @@
 // ZGWNU Ng Bonita Module Imports
 import { ZgwnuBonitaActivityDeployActor } from './zgwnu-bonita-activity-deploy-actor'
+import { ZgwnuBonitaActivityType } from './zgwnu-bonita-activity.type'
 import { ZgwnuBonitaActivityStateType } from './zgwnu-bonita-activity-state.type'
+import { ZgwnuBonitaActivityPriorityType } from './zgwnu-bonita-activity-priority.type'
 
 export interface ZgwnuBonitaActivityDataInterface {
     id: string // "the activity id (long)",
-    type: string // "the activity type (string),
+    type: ZgwnuBonitaActivityType // "the activity type (string),
     name: string // "the activity technical name (string)",
     displayName: string // "the human readable activity name (string)",
     description: string // "the activity description (string)",
@@ -13,7 +15,7 @@ export interface ZgwnuBonitaActivityDataInterface {
     reached_state_date: string // "the date ('yyyy-MM-dd HH:mm:ss.SSS') when this activity reached the current state, for example '2014-10-17 16:05:42.626'",
     last_update_date: string // "the date ('yyyy-MM-dd HH:mm:ss.SSS') when this activity was last updated, for example '2014-10-17 16:05:42.626)",
     dueDate: string // "the date ('yyyy-MM-dd HH:mm:ss.SSS') when this activity is due, for example '2014-10-17 16:05:42.626'",
-    priority: string // "the priority (string) of the current task",
+    priority: ZgwnuBonitaActivityPriorityType // "the priority (string) of the current task",
 
     processId: string // "the process definition id (long) of the case which define this task",
     parentCaseId: string // "the immediate containing case id (long, a.k.a process instance id)",

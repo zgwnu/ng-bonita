@@ -34,3 +34,7 @@ export { ZgwnuBonitaCase } from './bpm/case/zgwnu-bonita-case'
 // Make Bpm Activity (Service) Classes available outside Module
 export { ZgwnuBonitaBpmActivityService } from './bpm/activity/zgwnu-bonita-bpm-activity.service'
 export { ZgwnuBonitaActivity } from './bpm/activity/zgwnu-bonita-activity'
+
+// Make Bpm Human Task (Service) Classes available outside Module
+export { ZgwnuBonitaBpmHumanTaskService } from './bpm/human-task/zgwnu-bonita-bpm-human-task.service'
+export { ZgwnuBonitaHumanTask } from './bpm/human-task/zgwnu-bonita-human-task'

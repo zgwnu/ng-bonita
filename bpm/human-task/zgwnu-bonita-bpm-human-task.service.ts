@@ -1,54 +1,65 @@
 // ZaakgerichtWerken.nu Bonita Rest Api BPM Human Task Service
 // --------------------------------------------------------------------------
 //
-// based on http://documentation.bonitasoft.com/?page=bpm-api#toc3
+// based on https://documentation.bonitasoft.com/?page=bpm-api#toc3
 //
 //
+
+// ANGULAR Imports
 import { Injectable } from '@angular/core'
-import { Http } from '@angular/http'
+import { HttpClient } from '@angular/common/http'
 
+// RXJS Imports
 import { Observable } from 'rxjs/Observable'
-import 'rxjs/add/operator/catch'
 import 'rxjs/add/operator/map'
+import 'rxjs/add/operator/catch'
 
-import { ZgwnuBonitaRestApiService } from '../../rest-api/zgwnu-bonita-rest-api.service'
-import { ZgwnuBonitaDataMappingInterface } from '../../rest-api/zgwnu-bonita-data-mapping.interface'
+// ZGWNU Ng Bonita Module Imports
 import { ZgwnuBonitaConfigService } from '../../rest-api/zgwnu-bonita-config.service'
-import { ZgwnuBonitaSearchParms } from '../zgwnu-bonita-search-parms'
-import { ZgwnuBonitaHumanTask } from './zgwnu-bonita-human-task'
-import { ZgwnuBonitaHumanTaskMapping } from './zgwnu-bonita-human-task-mapping'
+import { ZgwnuBonitaResponseMapService } from '../../rest-api/zgwnu-bonita-response-map.service'
 import { ZgwnuBonitaResponse } from '../../rest-api/zgwnu-bonita-response'
+import { ZgwnuBonitaSearchParms } from '../zgwnu-bonita-search-parms'
+import { ZgwnuBonitaHumanTaskDataInterface } from './zgwnu-bonita-human-task-data.interface'
+import { ZgwnuBonitaHumanTask } from './zgwnu-bonita-human-task'
 
 @Injectable()
-export class ZgwnuBonitaBpmHumanTaskService extends ZgwnuBonitaRestApiService {
-    private readonly HUMAN_TASK_RESOURCE_PATH: string = '/bpm/humanTask'
-    private humanTaskResourceUrl: string
+export class ZgwnuBonitaBpmHumanTaskService {
+    private readonly RESOURCE_PATH: string = '/bpm/humanTask'
+    private resourceUrl: string
 
     constructor(
-        private configService: ZgwnuBonitaConfigService,
-        private http: Http
-    ) 
-    { 
-        super()
-        this.humanTaskResourceUrl = configService.bonitaUrls.apiUrl + this.HUMAN_TASK_RESOURCE_PATH
+        private httpClient: HttpClient,  
+        private configService: ZgwnuBonitaConfigService, 
+        private responseMapService: ZgwnuBonitaResponseMapService,  
+    )
+    {
+        this.resourceUrl = configService.bonitaUrls.apiUrl + this.RESOURCE_PATH
     }
 
     searchHumanTasks(searchParms: ZgwnuBonitaSearchParms): Observable<ZgwnuBonitaHumanTask[]> {
-        let humanTaskMapping: ZgwnuBonitaDataMappingInterface = new ZgwnuBonitaHumanTaskMapping()
-        return this.http.get(this.buildHumanTaskSearchRequest(searchParms), this.configService.options)
-                        .map(humanTaskMapping.mapResponseArray)
-                        .catch(this.handleResponseError)
+        return this.httpClient.get<ZgwnuBonitaHumanTaskDataInterface[]>(
+            this.resourceUrl + '?' + searchParms.getUrlEncondedParms())
+            .map(this.mapHumanTasks)
+            .catch(this.responseMapService.catchBonitaError)
     }
 
-    private buildHumanTaskSearchRequest(searchParms: ZgwnuBonitaSearchParms): string {
-        return this.humanTaskResourceUrl + '?' + searchParms.getUrlEncondedParms()
+    private mapHumanTasks(body: ZgwnuBonitaHumanTaskDataInterface[]): ZgwnuBonitaHumanTask[] {
+        let humanTasks: ZgwnuBonitaHumanTask[] = []
+        for (let data of body) {
+            humanTasks.push(new ZgwnuBonitaHumanTask(data))   
+        }
+        return humanTasks
     }
+
 
     getHumanTask(humanTaskId: string): Observable<ZgwnuBonitaHumanTask> {
-        let humanTaskMapping: ZgwnuBonitaDataMappingInterface = new ZgwnuBonitaHumanTaskMapping()
-        return this.http.get(this.humanTaskResourceUrl + '/' + humanTaskId, this.configService.options)
-                        .map(humanTaskMapping.mapResponse)
-                        .catch(this.handleResponseError)
+        return this.httpClient.get<ZgwnuBonitaHumanTaskDataInterface>(this.resourceUrl + '/' + humanTaskId)
+            .map(this.mapHumanTask)
+            .catch(this.responseMapService.catchBonitaError)
+    }
+
+    private mapHumanTask(body: ZgwnuBonitaHumanTaskDataInterface): ZgwnuBonitaHumanTask {
+        return new ZgwnuBonitaHumanTask(body)
     }
 
 }
