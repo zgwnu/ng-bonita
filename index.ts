@@ -20,7 +20,6 @@ export { ZgwnuBonitaCredentials } from './authentication/zgwnu-bonita-credential
 export { ZgwnuBonitaSearchParms } from './bpm/zgwnu-bonita-search-parms'
 
 // Make Bpm Process (Service) Classes available outside Module
-// Refactoring => HttpClientModule
 export { ZgwnuBonitaBpmProcessService } from './bpm/process/zgwnu-bonita-bpm-process.service'
 export { ZgwnuBonitaCreateCaseSuccessResponse } from './bpm/process/zgwnu-bonita-create-case-success-response'
 export { ZgwnuBonitaDeployProcessDefinitionSuccessResponse } from './bpm/process/zgwnu-bonita-deploy-process-definition-success-response'
@@ -28,6 +27,10 @@ export { ZgwnuBonitaProcessDefinition } from './bpm/process/zgwnu-bonita-process
 export { ZgwnuBonitaProcessUpdateInput } from './bpm/process/zgwnu-bonita-process-update-input'
 export { ZgwnuBonitaProcessUpdateSuccessResponse } from './bpm/process/zgwnu-bonita-process-update-success-response'
 
-// Make (Service) Classes available outside Module
+// Make Bpm Case (Service) Classes available outside Module
 export { ZgwnuBonitaBpmCaseService } from './bpm/case/zgwnu-bonita-bpm-case.service'
 export { ZgwnuBonitaCase } from './bpm/case/zgwnu-bonita-case'
+
+// Make Bpm Activity (Service) Classes available outside Module
+import { ZgwnuBonitaBpmActivityService } from './bpm/activity/zgwnu-bonita-bpm-activity.service'
+import { ZgwnuBonitaActivity } from './bpm/activity/zgwnu-bonita-activity'

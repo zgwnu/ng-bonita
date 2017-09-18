@@ -11,26 +11,25 @@ import { ZgwnuBonitaSessionService } from './rest-api/zgwnu-bonita-session.servi
 import { ZgwnuBonitaAuthenticationService } from './authentication/zgwnu-bonita-authentication.service'
 import { ZgwnuBonitaBpmProcessService } from './bpm/process/zgwnu-bonita-bpm-process.service'
 import { ZgwnuBonitaBpmCaseService } from './bpm/case/zgwnu-bonita-bpm-case.service'
+import { ZgwnuBonitaBpmActivityService } from './bpm/activity/zgwnu-bonita-bpm-activity.service'
 
 @NgModule({
   imports: [
     HttpClientModule,   
    ],
   providers: [
-    // Provide Generic Module Services
-    ZgwnuBonitaConfigService, 
-
-    // Provide HttpClient based Services
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ZgwnuBonitaClientInterceptorService,
       multi: true,
     },  
+    ZgwnuBonitaConfigService,  
     ZgwnuBonitaResponseMapService,  
     ZgwnuBonitaSessionService, 
     ZgwnuBonitaAuthenticationService,  
     ZgwnuBonitaBpmProcessService,  
     ZgwnuBonitaBpmCaseService,  
+    ZgwnuBonitaBpmActivityService,  
   ]
 })
 export class ZgwnuNgBonitaModule { }
