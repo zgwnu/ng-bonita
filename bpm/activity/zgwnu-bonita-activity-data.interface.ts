@@ -1,17 +1,18 @@
-import { ZgwnuBonitaDate } from '../../rest-api/zgwnu-bonita-date'
+// ZGWNU Ng Bonita Module Imports
 import { ZgwnuBonitaActivityDeployActor } from './zgwnu-bonita-activity-deploy-actor'
+import { ZgwnuBonitaActivityStateType } from './zgwnu-bonita-activity-state.type'
 
-export interface ZgwnuBonitaActivityInterface {
+export interface ZgwnuBonitaActivityDataInterface {
     id: string // "the activity id (long)",
     type: string // "the activity type (string),
     name: string // "the activity technical name (string)",
     displayName: string // "the human readable activity name (string)",
     description: string // "the activity description (string)",
     displayDescription: string // "the human readable activity description (string)",
-    state: string // "the current state of the activity (string, possible values: ready, completed, failed)",
-    reached_state_date: ZgwnuBonitaDate // "the date ('yyyy-MM-dd HH:mm:ss.SSS') when this activity reached the current state, for example '2014-10-17 16:05:42.626'",
-    last_update_date: ZgwnuBonitaDate // "the date ('yyyy-MM-dd HH:mm:ss.SSS') when this activity was last updated, for example '2014-10-17 16:05:42.626)",
-    dueDate: ZgwnuBonitaDate // "the date ('yyyy-MM-dd HH:mm:ss.SSS') when this activity is due, for example '2014-10-17 16:05:42.626'",
+    state: ZgwnuBonitaActivityStateType // "the current state of the activity (string, possible values: ready, completed, failed)",
+    reached_state_date: string // "the date ('yyyy-MM-dd HH:mm:ss.SSS') when this activity reached the current state, for example '2014-10-17 16:05:42.626'",
+    last_update_date: string // "the date ('yyyy-MM-dd HH:mm:ss.SSS') when this activity was last updated, for example '2014-10-17 16:05:42.626)",
+    dueDate: string // "the date ('yyyy-MM-dd HH:mm:ss.SSS') when this activity is due, for example '2014-10-17 16:05:42.626'",
     priority: string // "the priority (string) of the current task",
 
     processId: string // "the process definition id (long) of the case which define this task",
@@ -23,5 +24,5 @@ export interface ZgwnuBonitaActivityInterface {
     executedBySubstitute: string // "the id (long) of the user who did actually performed the activity in the case of has been done in the name of someone else. Value is 0 otherwise",
     actorId: string | ZgwnuBonitaActivityDeployActor // "the id (long) of the actor that can execute this task, null otherwise",
     assigned_id: string // "the user id (long) that this activity is assigned to, or 0 if it is unassigned",
-    assigned_date: ZgwnuBonitaDate // "the date ('yyyy-MM-dd HH:mm:ss.SSS') when the current activity was assigned, for example '2014-10-17 16:05:42.626'"
+    assigned_date: string // "the date ('yyyy-MM-dd HH:mm:ss.SSS') when the current activity was assigned, for example '2014-10-17 16:05:42.626'"
 }

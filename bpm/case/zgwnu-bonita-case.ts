@@ -1,15 +1,16 @@
 // ZGWNU Ng Bonita Module Imports
 import { ZgwnuBonitaCaseStateType } from './zgwnu-bonita-case-state.type'
 import { ZgwnuBonitaUtils } from '../../rest-api/zgwnu-bonita-utils'
+import { ZgwnuBonitaCaseDataInterface } from './zgwnu-bonita-case-data.interface'
 
 export class ZgwnuBonitaCase {
 
-    constructor(data?: any)
+    constructor(data?: ZgwnuBonitaCaseDataInterface)
     {
         if (data) {
             const utils = new ZgwnuBonitaUtils()
             this.id = data.id
-            this.end_date = utils.getDateValue(data.end_date)
+            if (data.end_date != '') this.end_date = utils.getDateValue(data.end_date)
             this.failedFlowNodes = data.failedFlowNodes
             this.start = utils.getDateValue(data.start)
             this.activeFlowNodes = data.activeFlowNodes

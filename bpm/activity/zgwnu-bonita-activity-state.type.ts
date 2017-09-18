@@ -1,0 +1,1 @@
+export declare type ZgwnuBonitaActivityStateType = 'ready' | 'completed' | 'failed'

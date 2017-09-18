@@ -1,13 +1,14 @@
 // ZGWNU Ng Bonita Module Imports
 import { ZgwnuBonitaCaseStateType } from './zgwnu-bonita-case-state.type'
 
+
 export interface ZgwnuBonitaCaseDataInterface {
     id: string // the identifier of the case
     end_date: string // the date set when the case is closed
-    failedFlowNodes: number // count of failed flow nodes if parameter n=failedFlowNodes is given
+    failedFlowNodes?: number // count of failed flow nodes if parameter n=failedFlowNodes is given
     startedBySubstitute: string // the identifier of the substitute user (as Process manager or Administrator) who started the process. It can be also the substitute user if d=startedBySubstitute is given.
     start: string // the starting date of the case
-    activeFlowNodes: number // count of active flow nodes if parameter n=activeFlowNodes is given
+    activeFlowNodes?: number // count of active flow nodes if parameter n=activeFlowNodes is given
     state: ZgwnuBonitaCaseStateType 
     rootCaseId: string // the identifier of the container of the case
     started_by: string // the identifier of the user who started the case

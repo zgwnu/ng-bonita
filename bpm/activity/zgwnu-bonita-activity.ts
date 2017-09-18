@@ -1,11 +1,15 @@
-import { ZgwnuBonitaDate } from '../../rest-api/zgwnu-bonita-date'
+// ZGWNU Ng Bonita Module Imports
+import { ZgwnuBonitaUtils } from '../../rest-api/zgwnu-bonita-utils'
 import { ZgwnuBonitaActivityDeployActor } from './zgwnu-bonita-activity-deploy-actor'
+import { ZgwnuBonitaActivityStateType } from './zgwnu-bonita-activity-state.type'
+import { ZgwnuBonitaActivityDataInterface } from './zgwnu-bonita-activity-data.interface'
 
 export class ZgwnuBonitaActivity {
 
-    constructor(data?: any) 
+    constructor(data?: ZgwnuBonitaActivityDataInterface) 
     {
         if (data) {
+            const utils = new ZgwnuBonitaUtils()
             this.id = data.id
             this.type = data.type
             this.name = data.name
@@ -13,9 +17,9 @@ export class ZgwnuBonitaActivity {
             this.description = data.description
             this.displayDescription = data.displayDescription
             this.state = data.state
-            this.reached_state_date = data.reached_state_date
-            this.last_update_date = data.last_update_date
-            this.dueDate = data.dueDate
+            this.reached_state_date = utils.getDateValue(data.reached_state_date)
+            this.last_update_date = utils.getDateValue(data.last_update_date)
+            if (data.dueDate != '') this.dueDate = utils.getDateValue(data.dueDate)
             this.priority = data.priority
 
             this.processId = data.processId
@@ -26,17 +30,18 @@ export class ZgwnuBonitaActivity {
             this.executedBy = data.executedBy
             this.executedBySubstitute = data.executedBySubstitute
             if (this.actorId instanceof ZgwnuBonitaActivityDeployActor) {
-                this.actorId.id = data.actorId.id
-                this.actorId.process_id = data.actorId.process_id
-                this.actorId.description = data.actorId.description
-                this.actorId.name = data.actorId.name
-                this.actorId.displayName = data.actorId.displayName
+                let actorIdObject: ZgwnuBonitaActivityDeployActor = (<ZgwnuBonitaActivityDeployActor>data.actorId)
+                this.actorId.id = actorIdObject.id
+                this.actorId.process_id = actorIdObject.process_id
+                this.actorId.description = actorIdObject.description
+                this.actorId.name = actorIdObject.name
+                this.actorId.displayName = actorIdObject.displayName
 
             } else {
                 this.actorId = data.actorId
             }
             this.assigned_id = data.assigned_id
-            if (data.assigned_date != '') this.assigned_date = data.assigned_date
+            if (data.assigned_date != '') this.assigned_date = utils.getDateValue(data.assigned_date)
         }
     }
 
@@ -46,10 +51,10 @@ export class ZgwnuBonitaActivity {
     displayName: string // "the human readable activity name (string)",
     description: string // "the activity description (string)",
     displayDescription: string // "the human readable activity description (string)",
-    state: string // "the current state of the activity (string, possible values: ready, completed, failed)",
-    reached_state_date: ZgwnuBonitaDate // "the date ('yyyy-MM-dd HH:mm:ss.SSS') when this activity reached the current state, for example '2014-10-17 16:05:42.626'",
-    last_update_date: ZgwnuBonitaDate // "the date ('yyyy-MM-dd HH:mm:ss.SSS') when this activity was last updated, for example '2014-10-17 16:05:42.626)",
-    dueDate: ZgwnuBonitaDate // "the date ('yyyy-MM-dd HH:mm:ss.SSS') when this activity is due, for example '2014-10-17 16:05:42.626'",
+    state: ZgwnuBonitaActivityStateType // "the current state of the activity (string, possible values: ready, completed, failed)",
+    reached_state_date: Date // "the date ('yyyy-MM-dd HH:mm:ss.SSS') when this activity reached the current state, for example '2014-10-17 16:05:42.626'",
+    last_update_date: Date // "the date ('yyyy-MM-dd HH:mm:ss.SSS') when this activity was last updated, for example '2014-10-17 16:05:42.626)",
+    dueDate: Date // "the date ('yyyy-MM-dd HH:mm:ss.SSS') when this activity is due, for example '2014-10-17 16:05:42.626'",
     priority: string // "the priority (string) of the current task",
 
     processId: string // "the process definition id (long) of the case which define this task",
@@ -61,5 +66,5 @@ export class ZgwnuBonitaActivity {
     executedBySubstitute: string // "the id (long) of the user who did actually performed the activity in the case of has been done in the name of someone else. Value is 0 otherwise",
     actorId: string | ZgwnuBonitaActivityDeployActor // "the id (long) of the actor that can execute this task, null otherwise",
     assigned_id: string // "the user id (long) that this activity is assigned to, or 0 if it is unassigned",
-    assigned_date: ZgwnuBonitaDate // "the date ('yyyy-MM-dd HH:mm:ss.SSS') when the current activity was assigned, for example '2014-10-17 16:05:42.626'"
+    assigned_date: Date // "the date ('yyyy-MM-dd HH:mm:ss.SSS') when the current activity was assigned, for example '2014-10-17 16:05:42.626'"
 }

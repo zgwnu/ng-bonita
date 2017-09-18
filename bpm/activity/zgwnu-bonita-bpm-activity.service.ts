@@ -18,7 +18,7 @@ import { ZgwnuBonitaConfigService } from '../../rest-api/zgwnu-bonita-config.ser
 import { ZgwnuBonitaResponseMapService } from '../../rest-api/zgwnu-bonita-response-map.service'
 import { ZgwnuBonitaResponse } from '../../rest-api/zgwnu-bonita-response'
 import { ZgwnuBonitaSearchParms } from '../zgwnu-bonita-search-parms'
-import { ZgwnuBonitaActivityInterface } from './zgwnu-bonita-activity.interface'
+import { ZgwnuBonitaActivityDataInterface } from './zgwnu-bonita-activity-data.interface'
 import { ZgwnuBonitaActivity } from './zgwnu-bonita-activity'
 
 @Injectable()
@@ -36,28 +36,30 @@ export class ZgwnuBonitaBpmActivityService {
     }
 
     searchActivities(searchParms: ZgwnuBonitaSearchParms): Observable<ZgwnuBonitaActivity[]> {
-        return this.httpClient.get<ZgwnuBonitaActivityInterface[]>(
+        return this.httpClient.get<ZgwnuBonitaActivityDataInterface[]>(
             this.resourceUrl + '?' + searchParms.getUrlEncondedParms())
             .map(this.mapActivities)
             .catch(this.responseMapService.catchBonitaError)
     }
 
-    private mapActivities(body: ZgwnuBonitaActivityInterface[]): ZgwnuBonitaActivity[] {
+    private mapActivities(body: ZgwnuBonitaActivityDataInterface[]): ZgwnuBonitaActivity[] {
+        console.log('mapActivities', body)
         let activities: ZgwnuBonitaActivity[] = []
         for (let data of body) {
             activities.push(new ZgwnuBonitaActivity(data))   
         }
+        console.log('mapActivities', activities)
         return activities
     }
 
 
     getActivity(activityId: string): Observable<ZgwnuBonitaActivity> {
-        return this.httpClient.get<ZgwnuBonitaActivityInterface>(this.resourceUrl + '/' + activityId)
+        return this.httpClient.get<ZgwnuBonitaActivityDataInterface>(this.resourceUrl + '/' + activityId)
             .map(this.mapActivity)
             .catch(this.responseMapService.catchBonitaError)
     }
 
-    private mapActivity(body: ZgwnuBonitaActivityInterface): ZgwnuBonitaActivity {
+    private mapActivity(body: ZgwnuBonitaActivityDataInterface): ZgwnuBonitaActivity {
         return new ZgwnuBonitaActivity(body)
     }
 
