@@ -32,5 +32,5 @@ export { ZgwnuBonitaBpmCaseService } from './bpm/case/zgwnu-bonita-bpm-case.serv
 export { ZgwnuBonitaCase } from './bpm/case/zgwnu-bonita-case'
 
 // Make Bpm Activity (Service) Classes available outside Module
-import { ZgwnuBonitaBpmActivityService } from './bpm/activity/zgwnu-bonita-bpm-activity.service'
-import { ZgwnuBonitaActivity } from './bpm/activity/zgwnu-bonita-activity'
+export { ZgwnuBonitaBpmActivityService } from './bpm/activity/zgwnu-bonita-bpm-activity.service'
+export { ZgwnuBonitaActivity } from './bpm/activity/zgwnu-bonita-activity'
