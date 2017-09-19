@@ -16,12 +16,12 @@ import 'rxjs/add/operator/catch'
 
 // ZGWNU Ng Bonita Module Imports
 import { ZgwnuBonitaConfigService } from '../../rest-api/zgwnu-bonita-config.service'
+import { ZgwnuBonitaResponse } from '../../rest-api/zgwnu-bonita-response'
 import { ZgwnuBonitaResponseMapService } from '../../rest-api/zgwnu-bonita-response-map.service'
 import { ZgwnuBonitaSearchParms } from '../zgwnu-bonita-search-parms'
 import { ZgwnuBonitaUserTaskDataInterface } from './zgwnu-bonita-user-task-data.interface'
 import { ZgwnuBonitaUserTask } from './zgwnu-bonita-user-task'
 import { ZgwnuBonitaUserTaskUpdateInput } from './zgwnu-bonita-user-task-update-input'
-import { ZgwnuBonitaUserTaskUpdateSuccessResponse } from './zgwnu-bonita-user-task-update-success-response'
 
 @Injectable()
 export class ZgwnuBonitaBpmUserTaskService {
@@ -54,7 +54,7 @@ export class ZgwnuBonitaBpmUserTaskService {
     }
 
 
-    assignUserTask(userTaskId: string, userId?: string): Observable<ZgwnuBonitaUserTaskUpdateSuccessResponse> {
+    assignUserTask(userTaskId: string, userId?: string): Observable<ZgwnuBonitaResponse> {
         let updateInput: ZgwnuBonitaUserTaskUpdateInput = new ZgwnuBonitaUserTaskUpdateInput()
 
         if (userId) {
@@ -74,16 +74,23 @@ export class ZgwnuBonitaBpmUserTaskService {
                 responseType: 'json'
             }
         )
-        .map(this.mapUpdateUserTaskSuccessResponse)
+        .map(this.responseMapService.mapBonitaResponse)
         .catch(this.responseMapService.catchBonitaError)
 
     }
-
-    private mapUpdateUserTaskSuccessResponse(response: HttpResponse<Object>): ZgwnuBonitaUserTaskUpdateSuccessResponse {
-        let successResponse: ZgwnuBonitaUserTaskUpdateSuccessResponse = new ZgwnuBonitaUserTaskUpdateSuccessResponse()
-        successResponse.status = response.status
-        successResponse.statusText = response.statusText
-        return successResponse
-    }    
+    
+    executeUserTask(userTaskId: string, contractValues: any): Observable<ZgwnuBonitaResponse> {
+        return this.httpClient.post(
+            this.resourceUrl + '/' + userTaskId + '/execution',
+            contractValues,
+            {
+                headers: this.configService.sendHeaders,
+                observe: 'response',
+                responseType: 'json'
+            }
+        )
+        .map(this.responseMapService.mapBonitaResponse)
+        .catch(this.responseMapService.catchBonitaError)
+    }
 
 }

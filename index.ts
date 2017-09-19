@@ -42,7 +42,6 @@ export { ZgwnuBonitaTask } from './bpm/task/zgwnu-bonita-task'
 // BPM Human Task Api Classes
 export { ZgwnuBonitaBpmUserTaskService } from './bpm/user-task/zgwnu-bonita-bpm-user-task.service'
 export { ZgwnuBonitaUserTask } from './bpm/user-task/zgwnu-bonita-user-task'
-export { ZgwnuBonitaUserTaskUpdateSuccessResponse } from './bpm/user-task/zgwnu-bonita-user-task-update-success-response'
 
 
 
