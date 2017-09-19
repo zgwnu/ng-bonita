@@ -15,6 +15,7 @@ import { ZgwnuBonitaBpmActivityService } from './bpm/activity/zgwnu-bonita-bpm-a
 import { ZgwnuBonitaBpmHumanTaskService } from './bpm/human-task/zgwnu-bonita-bpm-human-task.service'
 import { ZgwnuBonitaBpmTaskService } from './bpm/task/zgwnu-bonita-bpm-task.service'
 import { ZgwnuBonitaBpmUserTaskService } from './bpm/user-task/zgwnu-bonita-bpm-user-task.service'
+import { ZgwnuBonitaBpmDataService } from './bpm/data/zgwnu-bonita-bpm-data.service'
 
 @NgModule({
   imports: [
@@ -36,6 +37,7 @@ import { ZgwnuBonitaBpmUserTaskService } from './bpm/user-task/zgwnu-bonita-bpm-
     ZgwnuBonitaBpmHumanTaskService,  
     ZgwnuBonitaBpmTaskService,  
     ZgwnuBonitaBpmUserTaskService,  
+    ZgwnuBonitaBpmDataService,  
   ]
 })
 export class ZgwnuNgBonitaModule { }

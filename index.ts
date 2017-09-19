@@ -43,7 +43,9 @@ export { ZgwnuBonitaTask } from './bpm/task/zgwnu-bonita-task'
 export { ZgwnuBonitaBpmUserTaskService } from './bpm/user-task/zgwnu-bonita-bpm-user-task.service'
 export { ZgwnuBonitaUserTask } from './bpm/user-task/zgwnu-bonita-user-task'
 
-
+// BPM Data Api Classes
+export { ZgwnuBonitaBpmDataService } from './bpm/data/zgwnu-bonita-bpm-data.service'
+export { ZgwnuBonitaCaseVariable } from './bpm/data/zgwnu-bonita-case-variable'
 
 // BDM Api Classes
 export { ZgwnuBonitaBusinessDataContext } from './bdm/zgwnu-bonita-business-data-context'

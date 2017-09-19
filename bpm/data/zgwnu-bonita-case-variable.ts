@@ -1,12 +1,15 @@
+// ZGWNU Ng Bonita Module Imports
+import { ZgwnuCaseVariableDataInterface } from './zgwnu-bonita-case-variable-data.interface'
+
 export class ZgwnuBonitaCaseVariable {
 
-    constructor(caseVariableData: any)
+    constructor(data: ZgwnuCaseVariableDataInterface)
     {
-        this.description = caseVariableData.description
-        this.name = caseVariableData.name
-        this.value = caseVariableData.value
-        this.case_id = caseVariableData.case_id
-        this.type = caseVariableData.type        
+        this.description = data.description
+        this.name = data.name
+        this.value = data.value
+        this.case_id = data.case_id
+        this.type = data.type        
     }
 
     description: string

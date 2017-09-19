@@ -4,35 +4,35 @@
 // based on http://documentation.bonitasoft.com/?page=bpm-api#toc13
 //
 //
+
+// ANGULAR Imports
 import { Injectable } from '@angular/core'
-import { Http, Response } from '@angular/http'
+import { HttpClient } from '@angular/common/http'
 
+// RXJS Imports
 import { Observable } from 'rxjs/Observable'
-import 'rxjs/add/operator/catch'
 import 'rxjs/add/operator/map'
+import 'rxjs/add/operator/catch'
 
-import { ZgwnuBonitaRestApiService } from '../../rest-api/zgwnu-bonita-rest-api.service'
-import { ZgwnuBonitaDataMappingInterface } from '../../rest-api/zgwnu-bonita-data-mapping.interface'
+// ZGWNU Ng Bonita Module Imports
 import { ZgwnuBonitaConfigService } from '../../rest-api/zgwnu-bonita-config.service'
+import { ZgwnuBonitaResponseMapService } from '../../rest-api/zgwnu-bonita-response-map.service'
 import { ZgwnuBonitaSearchParms } from '../zgwnu-bonita-search-parms'
+import { ZgwnuCaseVariableDataInterface } from './zgwnu-bonita-case-variable-data.interface'
 import { ZgwnuBonitaCaseVariable } from './zgwnu-bonita-case-variable'
-import { ZgwnuBonitaCaseVariableMapping } from './zgwnu-bonita-case-variable-mapping'
-
 
 @Injectable()
-export class ZgwnuBonitaBpmDataService extends ZgwnuBonitaRestApiService {
-    private caseVariableResourcePath: string = '/bpm/caseVariable'
-    private caseVariableResourceUrl: string
+export class ZgwnuBonitaBpmDataService {
+    private readonly RESOURCE_PATH: string = '/bpm/caseVariable'
+    private resourceUrl: string
 
     constructor(
-        private configService: ZgwnuBonitaConfigService,
-        private http: Http
-    ) 
-    { 
-        super()
-        
-        // configure resource url
-        this.caseVariableResourceUrl = configService.bonitaUrls.apiUrl + this.caseVariableResourcePath
+        private httpClient: HttpClient,  
+        private configService: ZgwnuBonitaConfigService, 
+        private responseMapService: ZgwnuBonitaResponseMapService,  
+    )
+    {
+        this.resourceUrl = configService.bonitaUrls.apiUrl + this.RESOURCE_PATH
     }
 
     // CaseVariable
@@ -40,22 +40,31 @@ export class ZgwnuBonitaBpmDataService extends ZgwnuBonitaRestApiService {
     // based on http://documentation.bonitasoft.com/?page=bpm-api#toc15
     //
     //
-    getCaseVariable(caseId: string, variableName: string): Observable<ZgwnuBonitaCaseVariable> {
-        let caseVariableMapping: ZgwnuBonitaDataMappingInterface = new ZgwnuBonitaCaseVariableMapping()
-        return this.http.get(this.caseVariableResourceUrl + '/' + caseId + '/' + variableName, this.configService.options)
-                        .map(caseVariableMapping.mapResponse)
-                        .catch(this.handleResponseError)
-    }
-    
-    searchCaseVariables(searchParms: ZgwnuBonitaSearchParms): Observable<ZgwnuBonitaCaseVariable[]> {
-        let caseVariableMapping: ZgwnuBonitaDataMappingInterface = new ZgwnuBonitaCaseVariableMapping()
-        return this.http.get(this.buildSearchRequest(searchParms), this.configService.options)
-                        .map(caseVariableMapping.mapResponseArray)
-                        .catch(this.handleResponseError)
+    searchCaseVariables(searchParms: ZgwnuBonitaSearchParms): Observable<ZgwnuBonitaCaseVariable[]> {        
+        return this.httpClient.get<ZgwnuCaseVariableDataInterface[]>(
+            this.resourceUrl + '?' + searchParms.getUrlEncondedParms())
+            .map(this.mapCaseVariables)
+            .catch(this.responseMapService.catchBonitaError)
     }
 
-    private buildSearchRequest(searchParms: ZgwnuBonitaSearchParms): string {
-        return this.caseVariableResourceUrl + '?' + searchParms.getUrlEncondedParms()
+    private mapCaseVariables(body: ZgwnuCaseVariableDataInterface[]): ZgwnuBonitaCaseVariable[] {
+        let caseVariables: ZgwnuBonitaCaseVariable[] = []
+        for (let data of body) {
+            caseVariables.push(new ZgwnuBonitaCaseVariable(data))   
+        }
+        return caseVariables
+    }
+
+
+    getCaseVariable(caseId: string, variableName: string): Observable<ZgwnuBonitaCaseVariable> {
+        return this.httpClient.get<ZgwnuCaseVariableDataInterface>(
+            this.resourceUrl + '/' + caseId + '/' + variableName)
+            .map(this.mapCaseVariable)
+            .catch(this.responseMapService.catchBonitaError)
+    }
+
+    private mapCaseVariable(body: ZgwnuCaseVariableDataInterface): ZgwnuBonitaCaseVariable {
+        return new ZgwnuBonitaCaseVariable(body)
     }
 
 }
