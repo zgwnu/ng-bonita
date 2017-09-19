@@ -154,11 +154,11 @@ export class ZgwnuBonitaBpmProcessService {
                 responseType: 'json'
             }
         )
-        .map(this.mapUpdateProcessDefinitionUpdateSuccessResponse)
+        .map(this.mapUpdateProcessDefinitionSuccessResponse)
         .catch(this.responseMapService.catchBonitaError)
     }
 
-    private mapUpdateProcessDefinitionUpdateSuccessResponse(response: HttpResponse<Object>): ZgwnuBonitaProcessUpdateSuccessResponse {
+    private mapUpdateProcessDefinitionSuccessResponse(response: HttpResponse<Object>): ZgwnuBonitaProcessUpdateSuccessResponse {
         let successResponse: ZgwnuBonitaProcessUpdateSuccessResponse = new ZgwnuBonitaProcessUpdateSuccessResponse()
         successResponse.status = response.status
         successResponse.statusText = response.statusText

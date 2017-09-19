@@ -4,73 +4,86 @@
 // based on http://documentation.bonitasoft.com/?page=bpm-api#toc6
 //
 //
+
+// ANGULAR Imports
 import { Injectable } from '@angular/core'
-import { Http } from '@angular/http'
+import { HttpClient, HttpResponse } from '@angular/common/http'
 
+// RXJS Imports
 import { Observable } from 'rxjs/Observable'
-import 'rxjs/add/operator/catch'
 import 'rxjs/add/operator/map'
+import 'rxjs/add/operator/catch'
 
-import { ZgwnuBonitaRestApiService } from '../../rest-api/zgwnu-bonita-rest-api.service'
-import { ZgwnuBonitaDataMappingInterface } from '../../rest-api/zgwnu-bonita-data-mapping.interface'
+// ZGWNU Ng Bonita Module Imports
 import { ZgwnuBonitaConfigService } from '../../rest-api/zgwnu-bonita-config.service'
-import { ZgwnuBonitaBpmTaskUpdateInput } from '../task/zgwnu-bonita-bpm-task-update-input'
+import { ZgwnuBonitaResponseMapService } from '../../rest-api/zgwnu-bonita-response-map.service'
+import { ZgwnuBonitaSearchParms } from '../zgwnu-bonita-search-parms'
+import { ZgwnuBonitaUserTaskDataInterface } from './zgwnu-bonita-user-task-data.interface'
 import { ZgwnuBonitaUserTask } from './zgwnu-bonita-user-task'
-import { ZgwnuBonitaUserTaskMapping } from './zgwnu-bonita-user-task-mapping'
-import { ZgwnuBonitaResponse } from '../../rest-api/zgwnu-bonita-response'
+import { ZgwnuBonitaUserTaskUpdateInput } from './zgwnu-bonita-user-task-update-input'
+import { ZgwnuBonitaUserTaskUpdateSuccessResponse } from './zgwnu-bonita-user-task-update-success-response'
 
 @Injectable()
-export class ZgwnuBonitaBpmUserTaskService extends ZgwnuBonitaRestApiService {
-    private readonly USER_TASK_RESOURCE_PATH: string = '/bpm/userTask'
-    private userTaskResourceUrl: string
+export class ZgwnuBonitaBpmUserTaskService {
+    private readonly RESOURCE_PATH: string = '/bpm/userTask'
+    private resourceUrl: string
 
     constructor(
-        private configService: ZgwnuBonitaConfigService,
-        private http: Http
-    ) 
-    { 
-        super()
-
-        // configure resource urls
-        this.userTaskResourceUrl = configService.bonitaUrls.apiUrl + this.USER_TASK_RESOURCE_PATH
+        private httpClient: HttpClient,  
+        private configService: ZgwnuBonitaConfigService, 
+        private responseMapService: ZgwnuBonitaResponseMapService,  
+    )
+    {
+        this.resourceUrl = configService.bonitaUrls.apiUrl + this.RESOURCE_PATH
     }
 
     getUserTask(userTaskId: string): Observable<ZgwnuBonitaUserTask> {
-        let userTaskMapping: ZgwnuBonitaDataMappingInterface = new ZgwnuBonitaUserTaskMapping()
-        return this.http.get(this.userTaskResourceUrl + '/' + userTaskId, this.configService.options)
-                        .map(userTaskMapping.mapResponse)
-                        .catch(this.handleResponseError)
+        return this.httpClient.get<ZgwnuBonitaUserTaskDataInterface>(this.resourceUrl + '/' + userTaskId)
+            .map(this.mapUserTask)
+            .catch(this.responseMapService.catchBonitaError)
     }
+
+    private mapUserTask(body: ZgwnuBonitaUserTaskDataInterface): ZgwnuBonitaUserTask {
+        return new ZgwnuBonitaUserTask(body)
+    }
+
 
     getUserTaskContext(userTaskId: string): Observable<any> {
-        return this.http.get(this.userTaskResourceUrl + '/' + userTaskId + '/context', this.configService.options)
-                        .map(this.mapping.mapResponse)
-                        .catch(this.handleResponseError)
+        return this.httpClient.get(this.resourceUrl + '/' + userTaskId + '/context')
+            .catch(this.responseMapService.catchBonitaError)
     }
 
-    assignUserTask(userTaskId: string, userId?: string): Observable<ZgwnuBonitaResponse> {
-        let body: ZgwnuBonitaBpmTaskUpdateInput = new ZgwnuBonitaBpmTaskUpdateInput()
+
+    assignUserTask(userTaskId: string, userId?: string): Observable<ZgwnuBonitaUserTaskUpdateSuccessResponse> {
+        let updateInput: ZgwnuBonitaUserTaskUpdateInput = new ZgwnuBonitaUserTaskUpdateInput()
 
         if (userId) {
             // assign to specified user
-            body.assigned_id = userId
+            updateInput.assigned_id = userId
         } else {
             // assign to current logged user
-            body.assigned_id = this.configService.session.user_id
+            updateInput.assigned_id = this.configService.session.user_id
         }
 
-        let putUrl = this.userTaskResourceUrl + '/' + userTaskId
-        return this.http.put(putUrl, body, this.configService.sendOptions)
-                        .map(this.mapSuccessResponse)
-                        .catch(this.handleResponseError)
+        return this.httpClient.put(
+            this.resourceUrl + '/' + userTaskId,
+            updateInput,
+            {
+                headers: this.configService.sendHeaders,
+                observe: 'response',
+                responseType: 'json'
+            }
+        )
+        .map(this.mapUpdateUserTaskSuccessResponse)
+        .catch(this.responseMapService.catchBonitaError)
 
     }
 
-    executeUserTask(userTaskId: string, contractValues: any): Observable<ZgwnuBonitaResponse> {
-        let postUrl = this.userTaskResourceUrl + '/' + userTaskId + '/execution'
-        return this.http.post(postUrl, contractValues, this.configService.sendOptions)
-                        .map(this.mapSuccessResponse)
-                        .catch(this.handleResponseError)
-    }
+    private mapUpdateUserTaskSuccessResponse(response: HttpResponse<Object>): ZgwnuBonitaUserTaskUpdateSuccessResponse {
+        let successResponse: ZgwnuBonitaUserTaskUpdateSuccessResponse = new ZgwnuBonitaUserTaskUpdateSuccessResponse()
+        successResponse.status = response.status
+        successResponse.statusText = response.statusText
+        return successResponse
+    }    
 
 }
