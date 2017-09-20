@@ -12,7 +12,7 @@
 
 // ANGULAR Imports
 import { Injectable } from '@angular/core'
-import { HttpClient } from '@angular/common/http'
+import { HttpClient, HttpResponse } from '@angular/common/http'
 
 // RXJS Imports
 import { Observable } from 'rxjs/Observable'
@@ -58,30 +58,26 @@ export class ZgwnuBonitaFileUploadService {
     private servletUploadFile(servletUrl: string, file: File, fileId: string): Observable<ZgwnuBonitaFileUploadResponse> {
         let formData: FormData = new FormData()
         formData.append(fileId, file, file.name)
-        /*
-        let uploadHeaders: Headers = new Headers()
-        let uploadOptions: RequestOptions = new RequestOptions({ headers: uploadHeaders })
-        this.configService.appendSessionOptions(uploadOptions)
-        return this.http.post(servletUrl, formData, uploadOptions)
-                        .map(this.mapFileUploadResponse)
-                        .catch(this.handleResponseError)
-        */
         return this.httpClient.post(
             servletUrl,
             formData,
             {
                 headers: this.configService.sendHeaders,
-                observe: 'body',
-                responseType: 'json'
+                observe: 'response',
+                responseType: 'text' // tempFile response is text string only (not a json object)
             }
         )
         .map(this.mapFileUploadResponse)
         .catch(this.responseMapService.catchBonitaError)        
     }
 
-    private mapFileUploadResponse(body: any): ZgwnuBonitaFileUploadResponse {
+    private mapFileUploadResponse(response: HttpResponse<Object>): ZgwnuBonitaFileUploadResponse {
         let fileUploadResponse: ZgwnuBonitaFileUploadResponse = new ZgwnuBonitaFileUploadResponse()
-        fileUploadResponse.tempPath = body
+        fileUploadResponse.status = response.status
+        fileUploadResponse.statusText = response.statusText
+        if (response.body != null) {
+            fileUploadResponse.tempPath = (<string>response.body)
+        }
         return fileUploadResponse
     }
 
