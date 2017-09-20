@@ -9,26 +9,30 @@
 // (1) map uploadFile Success Response to BonitaContractInputFile
 //     including File Content-Type etc...
 //
+
+// ANGULAR Imports
 import { Injectable } from '@angular/core'
-import { Http, Response, Headers, RequestOptions } from '@angular/http'
+import { HttpClient, HttpResponse } from '@angular/common/http'
 
+// RXJS Imports
 import { Observable } from 'rxjs/Observable'
+import { map } from 'rxjs/operator/map'
 import 'rxjs/add/operator/catch'
-import 'rxjs/add/operator/map'
 
-import { ZgwnuBonitaRestApiService } from '../rest-api/zgwnu-bonita-rest-api.service'
+// ZGWNU Ng Bonita Module Imports
 import { ZgwnuBonitaConfigService } from '../rest-api/zgwnu-bonita-config.service'
+import { ZgwnuBonitaResponseMapService } from '../rest-api/zgwnu-bonita-response-map.service'
 import { ZgwnuBonitaFileUploadResponse } from './zgwnu-bonita-file-upload-response'
 
 @Injectable()
-export class ZgwnuBonitaFileUploadService extends ZgwnuBonitaRestApiService {
+export class ZgwnuBonitaFileUploadService {
 
     constructor(
-        private configService: ZgwnuBonitaConfigService,
-        private http: Http
+        private httpClient: HttpClient,  
+        private configService: ZgwnuBonitaConfigService, 
+        private responseMapService: ZgwnuBonitaResponseMapService,  
     ) 
     { 
-        super()
     }
 
     uploadFile(file: File, fileId: string): Observable<ZgwnuBonitaFileUploadResponse> {
@@ -54,19 +58,30 @@ export class ZgwnuBonitaFileUploadService extends ZgwnuBonitaRestApiService {
     private servletUploadFile(servletUrl: string, file: File, fileId: string): Observable<ZgwnuBonitaFileUploadResponse> {
         let formData: FormData = new FormData()
         formData.append(fileId, file, file.name)
+        /*
         let uploadHeaders: Headers = new Headers()
         let uploadOptions: RequestOptions = new RequestOptions({ headers: uploadHeaders })
         this.configService.appendSessionOptions(uploadOptions)
         return this.http.post(servletUrl, formData, uploadOptions)
                         .map(this.mapFileUploadResponse)
                         .catch(this.handleResponseError)
+        */
+        return this.httpClient.post(
+            servletUrl,
+            formData,
+            {
+                headers: this.configService.sendHeaders,
+                observe: 'body',
+                responseType: 'json'
+            }
+        )
+        .map(this.mapFileUploadResponse)
+        .catch(this.responseMapService.catchBonitaError)        
     }
 
-    private mapFileUploadResponse(res: any) {
+    private mapFileUploadResponse(body: any): ZgwnuBonitaFileUploadResponse {
         let fileUploadResponse: ZgwnuBonitaFileUploadResponse = new ZgwnuBonitaFileUploadResponse()
-        fileUploadResponse.status = res.status
-        fileUploadResponse.statusText = res.statusText
-        fileUploadResponse.tempPath = res._body
+        fileUploadResponse.tempPath = body
         return fileUploadResponse
     }
 

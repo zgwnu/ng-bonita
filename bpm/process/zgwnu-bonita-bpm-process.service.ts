@@ -7,7 +7,7 @@
 
 // ANGULAR Imports
 import { Injectable } from '@angular/core'
-import { HttpHeaders, HttpClient, HttpResponse } from '@angular/common/http'
+import { HttpClient, HttpResponse } from '@angular/common/http'
 
 // RXJS Imports
 import { Observable } from 'rxjs/Observable'
