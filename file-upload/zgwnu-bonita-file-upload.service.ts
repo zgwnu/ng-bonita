@@ -12,7 +12,7 @@
 
 // ANGULAR Imports
 import { Injectable } from '@angular/core'
-import { HttpClient, HttpResponse } from '@angular/common/http'
+import { HttpClient } from '@angular/common/http'
 
 // RXJS Imports
 import { Observable } from 'rxjs/Observable'
