@@ -7,6 +7,8 @@ export class ZgwnuBonitaFileUploadProgressService {
     total: number
 
     get percentDone(): number {
-        return Math.round(100 * this.loaded / this.total)
+        let percentDoneValue: number = 0
+        if ((this.loaded) && (this.total)) percentDoneValue = Math.round(100 * this.loaded / this.total)
+        return percentDoneValue
     }
 }

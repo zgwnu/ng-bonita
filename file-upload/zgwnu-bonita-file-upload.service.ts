@@ -38,55 +38,26 @@ export class ZgwnuBonitaFileUploadService {
     { 
     }
 
-    uploadFile(file: File, fileId: string): Observable<ZgwnuBonitaContractInputFile> {
-        return this.servletUploadFile(this.configService.bonitaUrls.fileUploadUrl, file, fileId)
-    }
-
-    uploadProcess(file: File, fileId: string): Observable<ZgwnuBonitaContractInputFile> {
-        return this.servletUploadFile(this.configService.bonitaUrls.processUploadUrl, file, fileId)
-    }
-
-    uploadOrganization(file: File, fileId: string): Observable<ZgwnuBonitaContractInputFile> {
-        return this.servletUploadFile(this.configService.bonitaUrls.organizationUploadUrl, file, fileId)
-    }
-
-    uploadActors(file: File, fileId: string): Observable<ZgwnuBonitaContractInputFile> {
-        return this.servletUploadFile(this.configService.bonitaUrls.actorsUploadUrl, file, fileId)
-    }
-
-    uploadImage(file: File, fileId: string): Observable<ZgwnuBonitaContractInputFile> {
-        return this.servletUploadFile(this.configService.bonitaUrls.imageUploadUrl, file, fileId)
-    }
-
-    private servletUploadFile(servletUrl: string, file: File, fileId: string): Observable<ZgwnuBonitaContractInputFile> {
-        let formData: FormData = new FormData()
-        formData.append(fileId, file, file.name)
-        return this.httpClient.post(
-            servletUrl,
-            formData,
-            {
-                headers: this.configService.sendHeaders,
-                observe: 'body',
-                responseType: 'text' // body with tempFile is a text string
-            }
-        )
-        .map(body => this.mapContractInputFile(body, file))
-        .catch(this.responseMapService.catchBonitaError)        
-    }
-
-    private mapContractInputFile(body: string, file: File): ZgwnuBonitaContractInputFile {
-        let inputFile: ZgwnuBonitaContractInputFile = new ZgwnuBonitaContractInputFile()
-        if (body != null) {
-            inputFile.tempPath = body
-        }
-        inputFile.contentType = file.type
-        inputFile.fileName = file.name
-        return inputFile
-    }
-
     uploadFileRequest(file: File, fileId: string): Observable<ZgwnuBonitaContractInputFile> {
         return this.servletUploadFileRequest(this.configService.bonitaUrls.fileUploadUrl, file, fileId)
     }
+
+    uploadProcessRequest(file: File, fileId: string): Observable<ZgwnuBonitaContractInputFile> {
+        return this.servletUploadFileRequest(this.configService.bonitaUrls.processUploadUrl, file, fileId)
+    }
+
+    uploadOrganizationRequest(file: File, fileId: string): Observable<ZgwnuBonitaContractInputFile> {
+        return this.servletUploadFileRequest(this.configService.bonitaUrls.organizationUploadUrl, file, fileId)
+    }
+
+    uploadActorsRequest(file: File, fileId: string): Observable<ZgwnuBonitaContractInputFile> {
+        return this.servletUploadFileRequest(this.configService.bonitaUrls.actorsUploadUrl, file, fileId)
+    }
+
+    uploadImageRequest(file: File, fileId: string): Observable<ZgwnuBonitaContractInputFile> {
+        return this.servletUploadFileRequest(this.configService.bonitaUrls.imageUploadUrl, file, fileId)
+    }
+
 
     private servletUploadFileRequest(servletUrl: string, file: File, fileId: string): Observable<ZgwnuBonitaContractInputFile> {
         let formData: FormData = new FormData()
@@ -102,13 +73,16 @@ export class ZgwnuBonitaFileUploadService {
             }
         )
         return this.httpClient.request(servletRequest)
-            .map(event => this.mapServletRequest(event, this.progressService))
+            .map(event => this.mapServletRequest(event, file, this.progressService))
             .catch(this.responseMapService.catchBonitaError)
     }
 
-    private mapServletRequest(event: HttpEvent<Object>, 
+    private mapServletRequest(event: HttpEvent<Object>, file: File, 
         progressService: ZgwnuBonitaFileUploadProgressService): ZgwnuBonitaContractInputFile {
         let inputFile: ZgwnuBonitaContractInputFile = new ZgwnuBonitaContractInputFile()
+        inputFile.contentType = file.type
+        inputFile.fileName = file.name
+
         if (event.type === HttpEventType.UploadProgress) {
             progressService.loaded = event.loaded
             progressService.total = event.total
