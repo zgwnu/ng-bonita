@@ -54,6 +54,7 @@ export { ZgwnuBonitaDocumentCreateInput } from './bpm/document/zgwnu-bonita-docu
 export { ZgwnuBonitaDocumentUpdateInput } from './bpm/document/zgwnu-bonita-document-update-input'
 
 // File Upload Api Classes
+export { ZgwnuBonitaFileUploadProgressService } from './file-upload/zgwnu-bonita-file-upload-progress.service'
 export { ZgwnuBonitaFileUploadService } from './file-upload/zgwnu-bonita-file-upload.service'
 export { ZgwnuBonitaContractInputFile } from './file-upload/zgwnu-bonita-contract-input-file'
 

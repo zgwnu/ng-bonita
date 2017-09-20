@@ -23,6 +23,7 @@ import 'rxjs/add/operator/catch'
 // ZGWNU Ng Bonita Module Imports
 import { ZgwnuBonitaConfigService } from '../rest-api/zgwnu-bonita-config.service'
 import { ZgwnuBonitaResponseMapService } from '../rest-api/zgwnu-bonita-response-map.service'
+import { ZgwnuBonitaFileUploadProgressService } from './zgwnu-bonita-file-upload-progress.service'
 import { ZgwnuBonitaContractInputFile } from './zgwnu-bonita-contract-input-file'
 
 @Injectable()
@@ -32,6 +33,7 @@ export class ZgwnuBonitaFileUploadService {
         private httpClient: HttpClient,  
         private configService: ZgwnuBonitaConfigService, 
         private responseMapService: ZgwnuBonitaResponseMapService,  
+        private progressService: ZgwnuBonitaFileUploadProgressService,  
     ) 
     { 
     }
@@ -96,20 +98,21 @@ export class ZgwnuBonitaFileUploadService {
             {
                 headers: this.configService.sendHeaders,
                 reportProgress: true,
-                responseType: 'text'
+                responseType: 'text' // body with tempFile is a text string
             }
         )
         return this.httpClient.request(servletRequest)
-            .map(this.mapServletRequest)
+            .map(event => this.mapServletRequest(event, this.progressService))
             .catch(this.responseMapService.catchBonitaError)
     }
 
-    private mapServletRequest(event: HttpEvent<Object>): ZgwnuBonitaContractInputFile {
+    private mapServletRequest(event: HttpEvent<Object>, 
+        progressService: ZgwnuBonitaFileUploadProgressService): ZgwnuBonitaContractInputFile {
         let inputFile: ZgwnuBonitaContractInputFile = new ZgwnuBonitaContractInputFile()
         if (event.type === HttpEventType.UploadProgress) {
-            // This is an upload progress event. Compute and show the % done:
-            const percentDone = Math.round(100 * event.loaded / event.total);
-            console.log(`File is ${percentDone}% uploaded.`)
+            progressService.loaded = event.loaded
+            progressService.total = event.total
+            console.log(`File is ${progressService.percentDone}% uploaded.`)
         } else if (event instanceof HttpResponse) {
             if (event.body != null) {
                 inputFile.tempPath = <string>event.body
