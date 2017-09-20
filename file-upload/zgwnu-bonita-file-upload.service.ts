@@ -22,7 +22,7 @@ import 'rxjs/add/operator/catch'
 // ZGWNU Ng Bonita Module Imports
 import { ZgwnuBonitaConfigService } from '../rest-api/zgwnu-bonita-config.service'
 import { ZgwnuBonitaResponseMapService } from '../rest-api/zgwnu-bonita-response-map.service'
-import { ZgwnuBonitaFileUploadResponse } from './zgwnu-bonita-file-upload-response'
+import { ZgwnuBonitaContractInputFile } from './zgwnu-bonita-contract-input-file'
 
 @Injectable()
 export class ZgwnuBonitaFileUploadService {
@@ -35,27 +35,27 @@ export class ZgwnuBonitaFileUploadService {
     { 
     }
 
-    uploadFile(file: File, fileId: string): Observable<ZgwnuBonitaFileUploadResponse> {
+    uploadFile(file: File, fileId: string): Observable<ZgwnuBonitaContractInputFile> {
         return this.servletUploadFile(this.configService.bonitaUrls.fileUploadUrl, file, fileId)
     }
 
-    uploadProcess(file: File, fileId: string): Observable<ZgwnuBonitaFileUploadResponse> {
+    uploadProcess(file: File, fileId: string): Observable<ZgwnuBonitaContractInputFile> {
         return this.servletUploadFile(this.configService.bonitaUrls.processUploadUrl, file, fileId)
     }
 
-    uploadOrganization(file: File, fileId: string): Observable<ZgwnuBonitaFileUploadResponse> {
+    uploadOrganization(file: File, fileId: string): Observable<ZgwnuBonitaContractInputFile> {
         return this.servletUploadFile(this.configService.bonitaUrls.organizationUploadUrl, file, fileId)
     }
 
-    uploadActors(file: File, fileId: string): Observable<ZgwnuBonitaFileUploadResponse> {
+    uploadActors(file: File, fileId: string): Observable<ZgwnuBonitaContractInputFile> {
         return this.servletUploadFile(this.configService.bonitaUrls.actorsUploadUrl, file, fileId)
     }
 
-    uploadImage(file: File, fileId: string): Observable<ZgwnuBonitaFileUploadResponse> {
+    uploadImage(file: File, fileId: string): Observable<ZgwnuBonitaContractInputFile> {
         return this.servletUploadFile(this.configService.bonitaUrls.imageUploadUrl, file, fileId)
     }
 
-    private servletUploadFile(servletUrl: string, file: File, fileId: string): Observable<ZgwnuBonitaFileUploadResponse> {
+    private servletUploadFile(servletUrl: string, file: File, fileId: string): Observable<ZgwnuBonitaContractInputFile> {
         let formData: FormData = new FormData()
         formData.append(fileId, file, file.name)
         return this.httpClient.post(
@@ -63,22 +63,22 @@ export class ZgwnuBonitaFileUploadService {
             formData,
             {
                 headers: this.configService.sendHeaders,
-                observe: 'response',
-                responseType: 'text' // tempFile response is text string only (not a json object)
+                observe: 'body',
+                responseType: 'text' // body with tempFile is a text string
             }
         )
-        .map(this.mapFileUploadResponse)
+        .map(body => this.mapContractInputFile(body, file))
         .catch(this.responseMapService.catchBonitaError)        
     }
 
-    private mapFileUploadResponse(response: HttpResponse<Object>): ZgwnuBonitaFileUploadResponse {
-        let fileUploadResponse: ZgwnuBonitaFileUploadResponse = new ZgwnuBonitaFileUploadResponse()
-        fileUploadResponse.status = response.status
-        fileUploadResponse.statusText = response.statusText
-        if (response.body != null) {
-            fileUploadResponse.tempPath = (<string>response.body)
+    private mapContractInputFile(body: string, file: File): ZgwnuBonitaContractInputFile {
+        let inputFile: ZgwnuBonitaContractInputFile = new ZgwnuBonitaContractInputFile()
+        if (body != null) {
+            inputFile.tempPath = body
         }
-        return fileUploadResponse
+        inputFile.contentType = file.type
+        inputFile.fileName = file.name
+        return inputFile
     }
 
 }

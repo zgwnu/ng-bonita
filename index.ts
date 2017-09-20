@@ -55,7 +55,6 @@ export { ZgwnuBonitaDocumentUpdateInput } from './bpm/document/zgwnu-bonita-docu
 
 // File Upload Api Classes
 export { ZgwnuBonitaFileUploadService } from './file-upload/zgwnu-bonita-file-upload.service'
-export { ZgwnuBonitaFileUploadResponse } from './file-upload/zgwnu-bonita-file-upload-response'
 export { ZgwnuBonitaContractInputFile } from './file-upload/zgwnu-bonita-contract-input-file'
 
 // BDM Api Classes
