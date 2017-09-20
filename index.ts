@@ -49,6 +49,7 @@ export { ZgwnuBonitaCaseVariable } from './bpm/data/zgwnu-bonita-case-variable'
 
 // BPM Document Api Classes
 export { ZgwnuBonitaBpmDocumentService } from './bpm/document/zgwnu-bonita-bpm-document.service'
+export { ZgwnuBonitaDocument } from './bpm/document/zgwnu-bonita-document'
 export { ZgwnuBonitaDocumentCreateInput } from './bpm/document/zgwnu-bonita-document-create-input'
 export { ZgwnuBonitaDocumentUpdateInput } from './bpm/document/zgwnu-bonita-document-update-input'
 

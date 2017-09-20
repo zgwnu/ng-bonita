@@ -1,7 +1,7 @@
 // ZaakgerichtWerken.nu Bonita Rest Api BPM Case Document Service
 // --------------------------------------------------------------------------
 //
-// based on http://documentation.bonitasoft.com/?page=bpm-api#toc17
+// based on https://documentation.bonitasoft.com/?page=bpm-api#toc16
 //
 //
 
