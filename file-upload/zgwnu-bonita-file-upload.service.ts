@@ -12,10 +12,11 @@
 
 // ANGULAR Imports
 import { Injectable } from '@angular/core'
-import { HttpClient, HttpResponse } from '@angular/common/http'
+import { HttpClient, HttpResponse, HttpRequest } from '@angular/common/http'
 
 // RXJS Imports
 import { Observable } from 'rxjs/Observable'
+import 'rxjs/add/operator/do'
 import { map } from 'rxjs/operator/map'
 import 'rxjs/add/operator/catch'
 
@@ -79,6 +80,25 @@ export class ZgwnuBonitaFileUploadService {
         inputFile.contentType = file.type
         inputFile.fileName = file.name
         return inputFile
+    }
+
+    uploadFileRequest(file: File, fileId: string): HttpRequest<Object> {
+        return this.servletUploadFileRequest(this.configService.bonitaUrls.fileUploadUrl, file, fileId)
+    }
+
+    private servletUploadFileRequest(servletUrl: string, file: File, fileId: string): HttpRequest<Object> {
+        let formData: FormData = new FormData()
+        formData.append(fileId, file, file.name)
+        return new HttpRequest(
+            'POST',
+            servletUrl,
+            formData,
+            {
+                headers: this.configService.sendHeaders,
+                reportProgress: true,
+                responseType: 'json'
+            }
+        )
     }
 
 }

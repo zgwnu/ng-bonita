@@ -18,7 +18,7 @@ import 'rxjs/add/operator/catch'
 import { ZgwnuBonitaConfigService } from '../../rest-api/zgwnu-bonita-config.service'
 import { ZgwnuBonitaResponseMapService } from '../../rest-api/zgwnu-bonita-response-map.service'
 import { ZgwnuBonitaResponse } from '../../rest-api/zgwnu-bonita-response'
-import { ZgwnuBonitaFileUploadResponse } from '../../file-upload/zgwnu-bonita-file-upload-response'
+import { ZgwnuBonitaContractInputFile } from '../../file-upload/zgwnu-bonita-contract-input-file'
 import { ZgwnuBonitaSearchParms } from '../zgwnu-bonita-search-parms'
 import { ZgwnuBonitaProcessDefinitionDataInterface } from './zgwnu-bonita-process-definition-data.interface'
 import { ZgwnuBonitaProcessDefinition } from './zgwnu-bonita-process-definition'
@@ -107,10 +107,10 @@ export class ZgwnuBonitaBpmProcessService {
     //
     // Post URL template: ../API/bpm/process
     //
-    deployProcessDefinition(processUploadResponse: ZgwnuBonitaFileUploadResponse): Observable<ZgwnuBonitaDeployProcessDefinitionSuccessResponse> {
+    deployProcessDefinition(inputFile: ZgwnuBonitaContractInputFile): Observable<ZgwnuBonitaDeployProcessDefinitionSuccessResponse> {
         return this.httpClient.post(
             this.resourceUrl,
-            { "fileupload": processUploadResponse.tempPath },
+            { "fileupload": inputFile.tempPath },
             {
                 headers: this.configService.sendHeaders,
                 observe: 'response',
