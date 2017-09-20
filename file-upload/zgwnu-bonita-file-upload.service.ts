@@ -12,7 +12,7 @@
 
 // ANGULAR Imports
 import { Injectable } from '@angular/core'
-import { HttpClient, HttpResponse, HttpRequest } from '@angular/common/http'
+import { HttpClient, HttpResponse, HttpRequest, HttpEvent, HttpEventType } from '@angular/common/http'
 
 // RXJS Imports
 import { Observable } from 'rxjs/Observable'
@@ -82,23 +82,40 @@ export class ZgwnuBonitaFileUploadService {
         return inputFile
     }
 
-    uploadFileRequest(file: File, fileId: string): HttpRequest<Object> {
+    uploadFileRequest(file: File, fileId: string): Observable<ZgwnuBonitaContractInputFile> {
         return this.servletUploadFileRequest(this.configService.bonitaUrls.fileUploadUrl, file, fileId)
     }
 
-    private servletUploadFileRequest(servletUrl: string, file: File, fileId: string): HttpRequest<Object> {
+    private servletUploadFileRequest(servletUrl: string, file: File, fileId: string): Observable<ZgwnuBonitaContractInputFile> {
         let formData: FormData = new FormData()
         formData.append(fileId, file, file.name)
-        return new HttpRequest(
+        const servletRequest = new HttpRequest(
             'POST',
             servletUrl,
             formData,
             {
                 headers: this.configService.sendHeaders,
                 reportProgress: true,
-                responseType: 'json'
+                responseType: 'text'
             }
         )
+        return this.httpClient.request(servletRequest)
+            .map(this.mapServletRequest)
+            .catch(this.responseMapService.catchBonitaError)
+    }
+
+    private mapServletRequest(event: HttpEvent<Object>): ZgwnuBonitaContractInputFile {
+        let inputFile: ZgwnuBonitaContractInputFile = new ZgwnuBonitaContractInputFile()
+        if (event.type === HttpEventType.UploadProgress) {
+            // This is an upload progress event. Compute and show the % done:
+            const percentDone = Math.round(100 * event.loaded / event.total);
+            console.log(`File is ${percentDone}% uploaded.`)
+        } else if (event instanceof HttpResponse) {
+            if (event.body != null) {
+                inputFile.tempPath = <string>event.body
+            }
+        }
+        return inputFile
     }
 
 }
