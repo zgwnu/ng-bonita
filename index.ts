@@ -53,5 +53,10 @@ export { ZgwnuBonitaDocument } from './bpm/document/zgwnu-bonita-document'
 export { ZgwnuBonitaDocumentCreateInput } from './bpm/document/zgwnu-bonita-document-create-input'
 export { ZgwnuBonitaDocumentUpdateInput } from './bpm/document/zgwnu-bonita-document-update-input'
 
+// File Upload Api Classes
+export { ZgwnuBonitaFileUploadService } from './file-upload/zgwnu-bonita-file-upload.service'
+export { ZgwnuBonitaFileUploadResponse } from './file-upload/zgwnu-bonita-file-upload-response'
+export { ZgwnuBonitaContractInputFile } from './file-upload/zgwnu-bonita-contract-input-file'
+
 // BDM Api Classes
 export { ZgwnuBonitaBusinessDataContext } from './bdm/zgwnu-bonita-business-data-context'
