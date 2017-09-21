@@ -91,9 +91,4 @@ export class ZgwnuBonitaBpmDocumentService {
         .catch(this.responseMapService.catchBonitaError)
     }
 
-    private buildSearchRequest(searchParms: ZgwnuBonitaSearchParms): string {
-        return this.resourceUrl + '?' + searchParms.getUrlEncondedParms()
-    }
-
-
 }
