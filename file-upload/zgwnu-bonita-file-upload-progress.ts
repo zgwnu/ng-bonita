@@ -1,8 +1,7 @@
-// ANGULAR Imports
-import { Injectable } from '@angular/core'
+// ZGWNU Ng Bonita Module Imports
+import { ZgwnuBonitaProgressInterface } from '../rest-api/zgwnu-bonita-progress.interface'
 
-@Injectable()
-export class ZgwnuBonitaFileUploadProgressService {
+export class ZgwnuBonitaFileUploadProgress implements ZgwnuBonitaProgressInterface {
     loaded: number
     total: number
 

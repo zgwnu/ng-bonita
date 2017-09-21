@@ -23,7 +23,7 @@ import 'rxjs/add/operator/catch'
 // ZGWNU Ng Bonita Module Imports
 import { ZgwnuBonitaConfigService } from '../rest-api/zgwnu-bonita-config.service'
 import { ZgwnuBonitaResponseMapService } from '../rest-api/zgwnu-bonita-response-map.service'
-import { ZgwnuBonitaFileUploadProgressService } from './zgwnu-bonita-file-upload-progress.service'
+import { ZgwnuBonitaProgressInterface } from '../rest-api/zgwnu-bonita-progress.interface'
 import { ZgwnuBonitaContractInputFile } from './zgwnu-bonita-contract-input-file'
 
 @Injectable()
@@ -33,33 +33,38 @@ export class ZgwnuBonitaFileUploadService {
         private httpClient: HttpClient,  
         private configService: ZgwnuBonitaConfigService, 
         private responseMapService: ZgwnuBonitaResponseMapService,  
-        private progressService: ZgwnuBonitaFileUploadProgressService,  
     ) 
     { 
     }
 
-    uploadFileRequest(file: File, fileId: string): Observable<ZgwnuBonitaContractInputFile> {
-        return this.servletUploadFileRequest(this.configService.bonitaUrls.fileUploadUrl, file, fileId)
+    uploadFileRequest(file: File, fileId: string, 
+        progress: ZgwnuBonitaProgressInterface): Observable<ZgwnuBonitaContractInputFile> {
+        return this.servletUploadFileRequest(this.configService.bonitaUrls.fileUploadUrl, file, fileId, progress)
     }
 
-    uploadProcessRequest(file: File, fileId: string): Observable<ZgwnuBonitaContractInputFile> {
-        return this.servletUploadFileRequest(this.configService.bonitaUrls.processUploadUrl, file, fileId)
+    uploadProcessRequest(file: File, fileId: string, 
+        progress: ZgwnuBonitaProgressInterface): Observable<ZgwnuBonitaContractInputFile> {
+        return this.servletUploadFileRequest(this.configService.bonitaUrls.processUploadUrl, file, fileId, progress)
     }
 
-    uploadOrganizationRequest(file: File, fileId: string): Observable<ZgwnuBonitaContractInputFile> {
-        return this.servletUploadFileRequest(this.configService.bonitaUrls.organizationUploadUrl, file, fileId)
+    uploadOrganizationRequest(file: File, fileId: string, 
+        progress: ZgwnuBonitaProgressInterface): Observable<ZgwnuBonitaContractInputFile> {
+        return this.servletUploadFileRequest(this.configService.bonitaUrls.organizationUploadUrl, file, fileId, progress)
     }
 
-    uploadActorsRequest(file: File, fileId: string): Observable<ZgwnuBonitaContractInputFile> {
-        return this.servletUploadFileRequest(this.configService.bonitaUrls.actorsUploadUrl, file, fileId)
+    uploadActorsRequest(file: File, fileId: string, 
+        progress: ZgwnuBonitaProgressInterface): Observable<ZgwnuBonitaContractInputFile> {
+        return this.servletUploadFileRequest(this.configService.bonitaUrls.actorsUploadUrl, file, fileId, progress)
     }
 
-    uploadImageRequest(file: File, fileId: string): Observable<ZgwnuBonitaContractInputFile> {
-        return this.servletUploadFileRequest(this.configService.bonitaUrls.imageUploadUrl, file, fileId)
+    uploadImageRequest(file: File, fileId: string, 
+        progress: ZgwnuBonitaProgressInterface): Observable<ZgwnuBonitaContractInputFile> {
+        return this.servletUploadFileRequest(this.configService.bonitaUrls.imageUploadUrl, file, fileId, progress)
     }
 
 
-    private servletUploadFileRequest(servletUrl: string, file: File, fileId: string): Observable<ZgwnuBonitaContractInputFile> {
+    private servletUploadFileRequest(servletUrl: string, file: File, fileId: string, 
+        progress: ZgwnuBonitaProgressInterface): Observable<ZgwnuBonitaContractInputFile> {
         let formData: FormData = new FormData()
         formData.append(fileId, file, file.name)
         const servletRequest = new HttpRequest(
@@ -73,20 +78,20 @@ export class ZgwnuBonitaFileUploadService {
             }
         )
         return this.httpClient.request(servletRequest)
-            .map(event => this.mapServletRequest(event, file, this.progressService))
+            .map(event => this.mapServletRequest(event, file, progress))
             .catch(this.responseMapService.catchBonitaError)
     }
 
     private mapServletRequest(event: HttpEvent<Object>, file: File, 
-        progressService: ZgwnuBonitaFileUploadProgressService): ZgwnuBonitaContractInputFile {
+        progress: ZgwnuBonitaProgressInterface): ZgwnuBonitaContractInputFile {
         let inputFile: ZgwnuBonitaContractInputFile = new ZgwnuBonitaContractInputFile()
         inputFile.contentType = file.type
         inputFile.fileName = file.name
 
         if (event.type === HttpEventType.UploadProgress) {
-            progressService.loaded = event.loaded
-            progressService.total = event.total
-            console.log(`File is ${progressService.percentDone}% uploaded.`)
+            progress.loaded = event.loaded
+            progress.total = event.total
+            console.log(`File is ${progress.percentDone}% uploaded.`)
         } else if (event instanceof HttpResponse) {
             if (event.body != null) {
                 inputFile.tempPath = <string>event.body

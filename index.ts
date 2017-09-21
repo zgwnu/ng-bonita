@@ -22,6 +22,7 @@ export { ZgwnuBonitaDeployProcessDefinitionSuccessResponse } from './bpm/process
 export { ZgwnuBonitaProcessDefinition } from './bpm/process/zgwnu-bonita-process-definition'
 export { ZgwnuBonitaProcessUpdateInput } from './bpm/process/zgwnu-bonita-process-update-input'
 export { ZgwnuBonitaProcessUpdateSuccessResponse } from './bpm/process/zgwnu-bonita-process-update-success-response'
+export { ZgwnuBonitaProgressInterface } from './rest-api/zgwnu-bonita-progress.interface'
 
 // BPM Case Api Classes
 export { ZgwnuBonitaBpmCaseService } from './bpm/case/zgwnu-bonita-bpm-case.service'
@@ -54,9 +55,9 @@ export { ZgwnuBonitaDocumentCreateInput } from './bpm/document/zgwnu-bonita-docu
 export { ZgwnuBonitaDocumentUpdateInput } from './bpm/document/zgwnu-bonita-document-update-input'
 
 // File Upload Api Classes
-export { ZgwnuBonitaFileUploadProgressService } from './file-upload/zgwnu-bonita-file-upload-progress.service'
 export { ZgwnuBonitaFileUploadService } from './file-upload/zgwnu-bonita-file-upload.service'
 export { ZgwnuBonitaContractInputFile } from './file-upload/zgwnu-bonita-contract-input-file'
+export { ZgwnuBonitaFileUploadProgress } from './file-upload/zgwnu-bonita-file-upload-progress'
 
 // BDM Api Classes
 export { ZgwnuBonitaBusinessDataContext } from './bdm/zgwnu-bonita-business-data-context'
