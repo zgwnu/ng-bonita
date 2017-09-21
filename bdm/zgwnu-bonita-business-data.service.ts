@@ -71,7 +71,7 @@ export class ZgwnuBonitaBusinessDataService {
     //                       &p=0&c=10&f=param=value
     //
     queryBusinessData<T>(businessDataObject: ZgwnuBonitaBusinessDataObject, queryParms: ZgwnuBonitaBusinessDataQueryParms): Observable<ZgwnuBonitaBusinessDataObject[]> {
-        return this.httpClient.get<T>(
+        return this.httpClient.get<T[]>(
             this.businessDataResourceUrl + '/' + 
             this.configService.businessDataModelPackage + '.' + businessDataObject.businessDataType + 
             '?' + queryParms.getUrlEncondedParms())
