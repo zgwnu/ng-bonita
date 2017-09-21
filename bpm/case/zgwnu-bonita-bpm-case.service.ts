@@ -44,7 +44,6 @@ export class ZgwnuBonitaBpmCaseService {
     }
 
     private mapCases(body: ZgwnuBonitaCaseDataInterface[]): ZgwnuBonitaCase[] {
-        console.log('mapCases.body', body)
         let cases: ZgwnuBonitaCase[] = []
         for (let data of body) {
             cases.push(new ZgwnuBonitaCase(data))   
