@@ -48,7 +48,7 @@ export class ZgwnuBonitaBusinessDataService {
     //
     // Request URL template: ../API/bdm/businessData/:businessDataType/:persistenceId
     //
-    getBusinessDataObject<T>(businessDataObject: ZgwnuBonitaBusinessDataObjectInterface, 
+    getBusinessData<T>(businessDataObject: ZgwnuBonitaBusinessDataObjectInterface, 
         persistenceId: number): Observable<void> {
         return this.httpClient.get<T>(
             this.businessDataResourceUrl + '/' + 
@@ -57,11 +57,6 @@ export class ZgwnuBonitaBusinessDataService {
             .map(body => businessDataObject.parseDataItem(<any>body))
             .catch(this.responseMapService.catchBonitaError)
     }
-
-    private mapBusinessDataItem(body: any, businessDataObject: ZgwnuBonitaBusinessDataObjectInterface): boolean {
-        businessDataObject.parseDataItem(body)
-        return true
-    }        
 
 
     // Bonita Rest Api Business Data Query
@@ -72,19 +67,14 @@ export class ZgwnuBonitaBusinessDataService {
     // Request URL template: ../API/bdm/businessData/_businessDataType_?q=_queryName_
     //                       &p=0&c=10&f=param=value
     //
-    queryBusinessDataObjects<T>(businessDataObjectList: ZgwnuBonitaBusinessDataObjectListInterface, 
-        queryParms: ZgwnuBonitaBusinessDataQueryParms): Observable<ZgwnuBonitaBusinessDataObjectListInterface> {
+    queryBusinessData<T>(businessDataObjectList: ZgwnuBonitaBusinessDataObjectListInterface, 
+        queryParms: ZgwnuBonitaBusinessDataQueryParms): Observable<void> {
         return this.httpClient.get<T[]>(
             this.businessDataResourceUrl + '/' + 
             this.configService.businessDataModelPackage + '.' + businessDataObjectList.businessDataType + 
             '?' + queryParms.getUrlEncondedParms())
-            .map(body => this.mapBusinessDataItems(body, businessDataObjectList))
+            .map(body => businessDataObjectList.parseDataItems(<any[]>body))
             .catch(this.responseMapService.catchBonitaError)
     }
-
-    private mapBusinessDataItems(body: any[], businessDataObjectList: ZgwnuBonitaBusinessDataObjectListInterface): ZgwnuBonitaBusinessDataObjectListInterface {
-        businessDataObjectList.parseDataItems(body)
-        return businessDataObjectList
-    }        
 
 }
