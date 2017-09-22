@@ -58,7 +58,7 @@ export class ZgwnuBonitaBusinessDataService {
             .catch(this.responseMapService.catchBonitaError)
     }
 
-    mapBusinessDataItem(body: any, businessDataObject: ZgwnuBonitaBusinessDataObjectInterface): ZgwnuBonitaBusinessDataObjectInterface {
+    private mapBusinessDataItem(body: any, businessDataObject: ZgwnuBonitaBusinessDataObjectInterface): ZgwnuBonitaBusinessDataObjectInterface {
         businessDataObject.parseDataItem(body)
         return businessDataObject
     }        
@@ -82,7 +82,7 @@ export class ZgwnuBonitaBusinessDataService {
             .catch(this.responseMapService.catchBonitaError)
     }
 
-    mapBusinessDataItems(body: any[], businessDataObjectList: ZgwnuBonitaBusinessDataObjectListInterface): ZgwnuBonitaBusinessDataObjectListInterface {
+    private mapBusinessDataItems(body: any[], businessDataObjectList: ZgwnuBonitaBusinessDataObjectListInterface): ZgwnuBonitaBusinessDataObjectListInterface {
         businessDataObjectList.parseDataItems(body)
         return businessDataObjectList
     }        

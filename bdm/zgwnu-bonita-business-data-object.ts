@@ -3,7 +3,6 @@ import { ZgwnuBonitaBusinessDataInterface } from './zgwnu-bonita-business-data.i
 import { ZgwnuBonitaBusinessDataObjectInterface } from './zgwnu-bonita-business-data-object.interface'
 
 export abstract class ZgwnuBonitaBusinessDataObject implements ZgwnuBonitaBusinessDataObjectInterface {
-
   constructor(public businessDataType: string){}
 
   parseDataItem(data: ZgwnuBonitaBusinessDataInterface)
