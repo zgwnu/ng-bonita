@@ -1,14 +1,12 @@
 // ZGWNU Ng Bonita Module Imports
 import { ZgwnuBonitaBusinessDataInterface } from './zgwnu-bonita-business-data.interface'
+import { ZgwnuBonitaBusinessDataObjectInterface } from './zgwnu-bonita-business-data-object.interface'
 
-export abstract class ZgwnuBonitaBusinessDataObject implements ZgwnuBonitaBusinessDataInterface {
-  businessDataType: string
+export class ZgwnuBonitaBusinessDataObject implements ZgwnuBonitaBusinessDataObjectInterface {
 
-  constructor(businessDataType: string) {
-    this.businessDataType = businessDataType
-  }
+  constructor(public businessDataType: string){}
 
-  parseData(data: any)
+  parseDataItem(data: ZgwnuBonitaBusinessDataInterface)
   {
     if (data.persistenceId) this.persistenceId = data.persistenceId
     if (data.persistenceId_string) this.persistenceId_string = data.persistenceId_string

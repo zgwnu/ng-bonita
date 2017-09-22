@@ -16,11 +16,12 @@ import 'rxjs/add/operator/catch'
 // ZGWNU Ng Bonita Module Imports
 import { ZgwnuBonitaConfigService } from '../rest-api/zgwnu-bonita-config.service'
 import { ZgwnuBonitaResponseMapService } from '../rest-api/zgwnu-bonita-response-map.service'
-import { ZgwnuBonitaBusinessDataObject } from './zgwnu-bonita-business-data-object'
 import { ZgwnuBonitaBusinessDataQueryParms } from './zgwnu-bonita-business-data-query-parms'
 import { ZgwnuBonitaBusinessDataContext } from './zgwnu-bonita-business-data-context'
 import { ZgwnuSingleBusinessDataRefence } from './zgwnu-single-business-data-reference'
 import { ZgwnuMultipleBusinessDataRefence } from './zgwnu-multiple-business-data-reference'
+import { ZgwnuBonitaBusinessDataObjectInterface } from './zgwnu-bonita-business-data-object.interface'
+import { ZgwnuBonitaBusinessDataObjectListInterface } from './zgwnu-bonita-business-data-object-list.interface'
 
 @Injectable()
 export class ZgwnuBonitaBusinessDataService {
@@ -47,17 +48,18 @@ export class ZgwnuBonitaBusinessDataService {
     //
     // Request URL template: ../API/bdm/businessData/:businessDataType/:persistenceId
     //
-    getBusinessData<T>(businessDataObject: ZgwnuBonitaBusinessDataObject, persistenceId: number): Observable<ZgwnuBonitaBusinessDataObject> {
+    getBusinessDataObject<T>(businessDataObject: ZgwnuBonitaBusinessDataObjectInterface, 
+        persistenceId: number): Observable<ZgwnuBonitaBusinessDataObjectInterface> {
         return this.httpClient.get<T>(
             this.businessDataResourceUrl + '/' + 
             this.configService.businessDataModelPackage + '.' + businessDataObject.businessDataType + 
                 '/' + persistenceId.toString())
-            .map(body => this.mapBusinessDataItem<T>(body, businessDataObject))
+            .map(body => this.mapBusinessDataItem(body, businessDataObject))
             .catch(this.responseMapService.catchBonitaError)
     }
 
-    mapBusinessDataItem<T>(body: T, businessDataObject: ZgwnuBonitaBusinessDataObject): ZgwnuBonitaBusinessDataObject {
-        businessDataObject.parseData(body)
+    mapBusinessDataItem(body: any, businessDataObject: ZgwnuBonitaBusinessDataObjectInterface): ZgwnuBonitaBusinessDataObjectInterface {
+        businessDataObject.parseDataItem(body)
         return businessDataObject
     }        
 
@@ -70,22 +72,19 @@ export class ZgwnuBonitaBusinessDataService {
     // Request URL template: ../API/bdm/businessData/_businessDataType_?q=_queryName_
     //                       &p=0&c=10&f=param=value
     //
-    queryBusinessData<T>(businessDataObject: ZgwnuBonitaBusinessDataObject, queryParms: ZgwnuBonitaBusinessDataQueryParms): Observable<ZgwnuBonitaBusinessDataObject[]> {
+    queryBusinessDataObjectList<T>(businessDataObjectList: ZgwnuBonitaBusinessDataObjectListInterface, 
+        queryParms: ZgwnuBonitaBusinessDataQueryParms): Observable<ZgwnuBonitaBusinessDataObjectListInterface> {
         return this.httpClient.get<T[]>(
             this.businessDataResourceUrl + '/' + 
-            this.configService.businessDataModelPackage + '.' + businessDataObject.businessDataType + 
+            this.configService.businessDataModelPackage + '.' + businessDataObjectList.businessDataType + 
             '?' + queryParms.getUrlEncondedParms())
-            .map(body => this.mapBusinessDataItems<T>(body, businessDataObject))
+            .map(body => this.mapBusinessDataItems(body, businessDataObjectList))
             .catch(this.responseMapService.catchBonitaError)
     }
 
-    mapBusinessDataItems<T>(body: T[], businessDataObject: ZgwnuBonitaBusinessDataObject): ZgwnuBonitaBusinessDataObject[] {
-        let dataItems: ZgwnuBonitaBusinessDataObject[] = []
-        for (let data of body) {
-            businessDataObject.parseData(data)
-            dataItems.push(businessDataObject)
-        }
-        return dataItems
+    mapBusinessDataItems(body: any[], businessDataObjectList: ZgwnuBonitaBusinessDataObjectListInterface): ZgwnuBonitaBusinessDataObjectListInterface {
+        businessDataObjectList.parseDataItems(body)
+        return businessDataObjectList
     }        
 
 }
