@@ -49,18 +49,18 @@ export class ZgwnuBonitaBusinessDataService {
     // Request URL template: ../API/bdm/businessData/:businessDataType/:persistenceId
     //
     getBusinessDataObject<T>(businessDataObject: ZgwnuBonitaBusinessDataObjectInterface, 
-        persistenceId: number): Observable<ZgwnuBonitaBusinessDataObjectInterface> {
+        persistenceId: number): Observable<void> {
         return this.httpClient.get<T>(
             this.businessDataResourceUrl + '/' + 
             this.configService.businessDataModelPackage + '.' + businessDataObject.businessDataType + 
                 '/' + persistenceId.toString())
-            .map(body => this.mapBusinessDataItem(body, businessDataObject))
+            .map(body => businessDataObject.parseDataItem(<any>body))
             .catch(this.responseMapService.catchBonitaError)
     }
 
-    private mapBusinessDataItem(body: any, businessDataObject: ZgwnuBonitaBusinessDataObjectInterface): ZgwnuBonitaBusinessDataObjectInterface {
+    private mapBusinessDataItem(body: any, businessDataObject: ZgwnuBonitaBusinessDataObjectInterface): boolean {
         businessDataObject.parseDataItem(body)
-        return businessDataObject
+        return true
     }        
 
 
@@ -72,7 +72,7 @@ export class ZgwnuBonitaBusinessDataService {
     // Request URL template: ../API/bdm/businessData/_businessDataType_?q=_queryName_
     //                       &p=0&c=10&f=param=value
     //
-    queryBusinessDataObjectList<T>(businessDataObjectList: ZgwnuBonitaBusinessDataObjectListInterface, 
+    queryBusinessDataObjects<T>(businessDataObjectList: ZgwnuBonitaBusinessDataObjectListInterface, 
         queryParms: ZgwnuBonitaBusinessDataQueryParms): Observable<ZgwnuBonitaBusinessDataObjectListInterface> {
         return this.httpClient.get<T[]>(
             this.businessDataResourceUrl + '/' + 
