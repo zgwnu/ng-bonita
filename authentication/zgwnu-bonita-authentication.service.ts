@@ -45,7 +45,7 @@ export class ZgwnuBonitaAuthenticationService {
             { 
                 headers: loginHeaders,
                 observe: 'response',
-                responseType: 'json'
+                responseType: 'text'
             }
         )
         .map(this.responseMapService.mapBonitaResponse)
