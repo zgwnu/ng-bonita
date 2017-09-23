@@ -1,5 +1,5 @@
 export interface ZgwnuBonitaProgressInterface {
-    loaded: number
-    total: number
+    loaded?: number
+    total?: number
     percentDone: number
 }

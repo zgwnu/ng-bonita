@@ -11,9 +11,9 @@ export class ZgwnuBonitaCase {
             const utils = new ZgwnuBonitaUtils()
             this.id = data.id
             if (data.end_date != '') this.end_date = utils.getDateValue(data.end_date)
-            this.failedFlowNodes = data.failedFlowNodes
+            if (data.failedFlowNodes) this.failedFlowNodes = data.failedFlowNodes
             this.start = utils.getDateValue(data.start)
-            this.activeFlowNodes = data.activeFlowNodes
+            if (data.activeFlowNodes) this.activeFlowNodes = data.activeFlowNodes
             this.state = data.state
             this.rootCaseId = data.rootCaseId
             this.started_by = data.started_by
@@ -34,10 +34,10 @@ export class ZgwnuBonitaCase {
 
     id: string // the identifier of the case
     end_date: Date // the date set when the case is closed
-    failedFlowNodes: number // count of failed flow nodes if parameter n=failedFlowNodes is given
+    failedFlowNodes?: number // count of failed flow nodes if parameter n=failedFlowNodes is given
     startedBySubstitute: string // the identifier of the substitute user (as Process manager or Administrator) who started the process. It can be also the substitute user if d=startedBySubstitute is given.
     start: Date // the starting date of the case
-    activeFlowNodes: number // count of active flow nodes if parameter n=activeFlowNodes is given
+    activeFlowNodes?: number // count of active flow nodes if parameter n=activeFlowNodes is given
     state: ZgwnuBonitaCaseStateType
     rootCaseId: string // the identifier of the container of the case
     started_by: string // the identifier of the user who started the case

@@ -91,9 +91,11 @@ export class ZgwnuBonitaFileUploadService {
         inputFile.fileName = file.name
 
         if (event.type === HttpEventType.UploadProgress) {
-            progress.loaded = event.loaded
-            progress.total = event.total
-            console.log(`File is ${progress.percentDone}% uploaded.`)
+            if (progress) {
+                progress.loaded = event.loaded
+                progress.total = event.total
+                console.log(`File is ${progress.percentDone}% uploaded.`)
+            }
         } else if (event instanceof HttpResponse) {
             if (event.body != null) {
                 inputFile.tempPath = <string>event.body
