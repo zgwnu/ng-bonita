@@ -13,9 +13,9 @@ export abstract class ZgwnuBonitaBusinessDataObject implements ZgwnuBonitaBusine
     if (data.persistenceVersion_string) this.persistenceVersion_string = data.persistenceVersion_string
   }
 
-  persistenceId: number;
-  persistenceId_string: string;
-  persistenceVersion: number;
-  persistenceVersion_string: string;
+  persistenceId: number
+  persistenceId_string: string
+  persistenceVersion: number
+  persistenceVersion_string: string
   // other fields can be defined in child instances
 }

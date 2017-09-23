@@ -14,7 +14,7 @@ export class ZgwnuBonitaProcessDefinition {
       this.id = data.id
       this.icon = data.icon
       this.displayDescription = data.displayDescription
-      this.deploymentDate = data.deploymentDate
+      this.deploymentDate = utils.getDateValue(data.deploymentDate)
       this.description = data.description
       this.activationState = data.activationState
       this.name = data.name
