@@ -16,6 +16,7 @@ import 'rxjs/add/operator/catch'
 // ZGWNU Ng Bonita Module Imports
 import { ZgwnuBonitaConfigService } from '../rest-api/zgwnu-bonita-config.service'
 import { ZgwnuBonitaResponseMapService } from '../rest-api/zgwnu-bonita-response-map.service'
+import { ZgwnuBonitaDataObjectMapService } from './zgwnu-bonita-data-object-map.service'
 import { ZgwnuBonitaBusinessDataQueryParms } from './zgwnu-bonita-business-data-query-parms'
 import { ZgwnuBonitaBusinessDataContext } from './zgwnu-bonita-business-data-context'
 import { ZgwnuSingleBusinessDataRefence } from './zgwnu-single-business-data-reference'
@@ -35,6 +36,7 @@ export class ZgwnuBonitaBusinessDataService {
         private httpClient: HttpClient,  
         private configService: ZgwnuBonitaConfigService, 
         private responseMapService: ZgwnuBonitaResponseMapService,  
+        private dataObjectMapService: ZgwnuBonitaDataObjectMapService,  
     )
     {
         this.businessDataResourceUrl = configService.bonitaUrls.apiUrl + this.BUSSINESS_DATA_RESOURCE_PATH
@@ -54,29 +56,9 @@ export class ZgwnuBonitaBusinessDataService {
             this.businessDataResourceUrl + '/' + 
             this.configService.businessDataModelPackage + '.' + businessDataType + 
                 '/' + persistenceId.toString())
-            .map(body => this.mapBusinessDataObject<T>(body, businessDataObject))
+            .map(body => this.dataObjectMapService.mapObject<T>(body, businessDataObject))
             .catch(this.responseMapService.catchBonitaError)
     }
-
-    private mapBusinessDataObject<T extends ZgwnuBonitaBusinessDataObjectInterface>(dataObject: Object, businessDataObject: T): void {
-        for (let dataObjectKey in dataObject) {
-            console.log('dataObjectKey', dataObjectKey)
-            let dataObjectType: string = typeof dataObjectKey
-            console.log('dataObjectType', dataObjectType)
-            switch(dataObjectType) {
-              // direct mapping object to object
-              case 'string' || 'number' || 'boolean': 
-                businessDataObject[dataObjectKey] = dataObject[dataObjectKey]
-                break
-              // indirect mapping of custom objects
-              case 'object': 
-                businessDataObject[dataObjectKey] = Object.create(dataObject[dataObjectKey])
-                break
-              default:
-                console.log('dataProperty not mapped = ', dataObject[dataObjectKey])
-              }
-            }
-    }  
 
     // Bonita Rest Api Business Data Query
     // --------------------------------------------------------------------------

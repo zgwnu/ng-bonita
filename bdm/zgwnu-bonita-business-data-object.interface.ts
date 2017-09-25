@@ -4,5 +4,6 @@ export interface ZgwnuBonitaBusinessDataObjectInterface {
     persistenceId_string?: string
     persistenceVersion?: number
     persistenceVersion_string?: string
-    // other fields can be defined in child instances  
+    // other fields can be defined in child instances
+    mapObject(objectKey: string, objectValue: Object): void
 }

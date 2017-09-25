@@ -6,4 +6,8 @@ export abstract class ZgwnuBonitaBusinessDataObject implements ZgwnuBonitaBusine
   persistenceId_string?: string
   persistenceVersion?: number
   persistenceVersion_string?: string
+
+  mapObject(objectKey: string, objectValue: Object) {
+    console.log(objectKey, objectValue)
+  }
 }
