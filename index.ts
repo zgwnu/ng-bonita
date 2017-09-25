@@ -62,7 +62,6 @@ export { ZgwnuBonitaFileUploadProgress } from './file-upload/zgwnu-bonita-file-u
 // BDM Api Classes
 export { ZgwnuBonitaBusinessDataService } from './bdm/zgwnu-bonita-business-data.service'
 export { ZgwnuBonitaBusinessDataQueryParms } from './bdm/zgwnu-bonita-business-data-query-parms'
-export { ZgwnuBonitaBusinessDataInterface } from './bdm/zgwnu-bonita-business-data.interface'
 export { ZgwnuBonitaBusinessDataObjectInterface } from './bdm/zgwnu-bonita-business-data-object.interface'
 export { ZgwnuBonitaBusinessDataObject } from './bdm/zgwnu-bonita-business-data-object'
 export { ZgwnuBonitaBusinessDataObjectListInterface } from './bdm/zgwnu-bonita-business-data-object-list.interface'

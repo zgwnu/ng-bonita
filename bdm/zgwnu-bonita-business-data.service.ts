@@ -48,49 +48,35 @@ export class ZgwnuBonitaBusinessDataService {
     //
     // Request URL template: ../API/bdm/businessData/:businessDataType/:persistenceId
     //
-    getBusinessData<T>(businessDataObject: ZgwnuBonitaBusinessDataObjectInterface, 
-        persistenceId: number): Observable<void> {
-        return this.httpClient.get<T>(
-            this.businessDataResourceUrl + '/' + 
-            this.configService.businessDataModelPackage + '.' + businessDataObject.businessDataType + 
-                '/' + persistenceId.toString())
-            .map(body => businessDataObject.parseDataItem(<any>body))
-            .catch(this.responseMapService.catchBonitaError)
-    }
-
-    getBusinessDataTest<T extends ZgwnuBonitaBusinessDataObjectInterface>(businessDataType: string,
-        persistenceId: number): Observable<T> {
+    getBusinessData<T extends ZgwnuBonitaBusinessDataObjectInterface>(businessDataObject: T, 
+        businessDataType: string, persistenceId: number): Observable<void> {
         return this.httpClient.get(
             this.businessDataResourceUrl + '/' + 
             this.configService.businessDataModelPackage + '.' + businessDataType + 
-            '/' + persistenceId.toString())
-            .map(body => this.mapBusinessDataObject<T>(body))
+                '/' + persistenceId.toString())
+            .map(body => this.mapBusinessDataObject<T>(body, businessDataObject))
             .catch(this.responseMapService.catchBonitaError)
     }
 
-    private mapBusinessDataObject<T>(body: Object): T {
-        let objectT: T
-        let bodyKeys: string[] = Object.keys(body)
-        let bodyKeyIndex: number = 0
-
-        for (let keyT in objectT) {
-            let typeOfKeyT = typeof objectT[keyT]
-            console.log('typeOfKeyT', typeOfKeyT)
-            let bodyKey: string = bodyKeys[bodyKeyIndex]
-            console.log('bodyKey', bodyKey)
-
-            switch (typeOfKeyT) {
-                // basic object types
-                case 'number' || 'string' || 'boolean': 
-                    objectT[keyT] = body[bodyKey]
-                default:
-                    console.log('objectT[keyT]', objectT[keyT])
+    private mapBusinessDataObject<T extends ZgwnuBonitaBusinessDataObjectInterface>(dataObject: Object, businessDataObject: T): void {
+        for (let dataObjectKey in dataObject) {
+            console.log('dataObjectKey', dataObjectKey)
+            let dataObjectType: string = typeof dataObjectKey
+            console.log('dataObjectType', dataObjectType)
+            switch(dataObjectType) {
+              // direct mapping object to object
+              case 'string' || 'number' || 'boolean': 
+                businessDataObject[dataObjectKey] = dataObject[dataObjectKey]
+                break
+              // indirect mapping of custom objects
+              case 'object': 
+                businessDataObject[dataObjectKey] = Object.create(dataObject[dataObjectKey])
+                break
+              default:
+                console.log('dataProperty not mapped = ', dataObject[dataObjectKey])
+              }
             }
-
-            
-        }
-        return objectT
-    }
+    }  
 
     // Bonita Rest Api Business Data Query
     // --------------------------------------------------------------------------
@@ -100,14 +86,20 @@ export class ZgwnuBonitaBusinessDataService {
     // Request URL template: ../API/bdm/businessData/_businessDataType_?q=_queryName_
     //                       &p=0&c=10&f=param=value
     //
-    queryBusinessData<T>(businessDataObjectList: ZgwnuBonitaBusinessDataObjectListInterface, 
-        queryParms: ZgwnuBonitaBusinessDataQueryParms): Observable<void> {
-        return this.httpClient.get<T[]>(
+    queryBusinessData<T extends ZgwnuBonitaBusinessDataObjectListInterface>(businessDataObjectList: T, 
+        businessDataType: string, queryParms: ZgwnuBonitaBusinessDataQueryParms): Observable<void> {
+        return this.httpClient.get<Object[]>(
             this.businessDataResourceUrl + '/' + 
-            this.configService.businessDataModelPackage + '.' + businessDataObjectList.businessDataType + 
+            this.configService.businessDataModelPackage + '.' + businessDataType + 
             '?' + queryParms.getUrlEncondedParms())
-            .map(body => businessDataObjectList.parseDataItems(<any[]>body))
+            .map(body => this.mapBusinessDataObjectList<T>(body, businessDataObjectList))
             .catch(this.responseMapService.catchBonitaError)
+    }
+
+    private mapBusinessDataObjectList<T extends ZgwnuBonitaBusinessDataObjectListInterface>(dataObjectList: Object[], businessDataObjectList: T): void {
+        for (let dataObject of dataObjectList) {
+            console.log(dataObject)
+        }
     }
 
 }

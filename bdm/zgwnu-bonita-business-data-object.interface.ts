@@ -1,7 +1,8 @@
-// ZGWNU Ng Bonita Module Imports
-import { ZgwnuBonitaBusinessDataInterface } from './zgwnu-bonita-business-data.interface'
-
-export interface ZgwnuBonitaBusinessDataObjectInterface extends ZgwnuBonitaBusinessDataInterface {
-    businessDataType: string
-    parseDataItem(dataItem: ZgwnuBonitaBusinessDataInterface): void
+export interface ZgwnuBonitaBusinessDataObjectInterface {
+    // every existing Bonita Business Data Object has persistence attributes
+    persistenceId?: number
+    persistenceId_string?: string
+    persistenceVersion?: number
+    persistenceVersion_string?: string
+    // other fields can be defined in child instances  
 }

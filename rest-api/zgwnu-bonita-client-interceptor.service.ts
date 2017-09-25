@@ -11,7 +11,7 @@ export class ZgwnuBonitaClientInterceptorService implements HttpInterceptor {
     return next
     .handle(req)
     .do(event => {
-        console.log('ZgwnuBonitaClientInterceptorService.event = ', event)
+        //console.log('ZgwnuBonitaClientInterceptorService.event = ', event)
     })
 }
 }
