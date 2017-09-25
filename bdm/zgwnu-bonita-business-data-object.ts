@@ -8,6 +8,7 @@ export abstract class ZgwnuBonitaBusinessDataObject implements ZgwnuBonitaBusine
   persistenceVersion_string?: string
 
   mapObject(objectKey: string, objectValue: Object) {
-    console.log(objectKey, objectValue)
+    // switch default => map Date Object
+    this[objectKey] = new Date(<string>objectValue)    
   }
 }
