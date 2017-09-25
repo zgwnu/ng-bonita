@@ -58,6 +58,39 @@ export class ZgwnuBonitaBusinessDataService {
             .catch(this.responseMapService.catchBonitaError)
     }
 
+    getBusinessDataTest<T extends ZgwnuBonitaBusinessDataObjectInterface>(businessDataType: string,
+        persistenceId: number): Observable<T> {
+        return this.httpClient.get(
+            this.businessDataResourceUrl + '/' + 
+            this.configService.businessDataModelPackage + '.' + businessDataType + 
+            '/' + persistenceId.toString())
+            .map(body => this.mapBusinessDataObject<T>(body))
+            .catch(this.responseMapService.catchBonitaError)
+    }
+
+    private mapBusinessDataObject<T>(body: Object): T {
+        let objectT: T
+        let bodyKeys: string[] = Object.keys(body)
+        let bodyKeyIndex: number = 0
+
+        for (let keyT in objectT) {
+            let typeOfKeyT = typeof objectT[keyT]
+            console.log('typeOfKeyT', typeOfKeyT)
+            let bodyKey: string = bodyKeys[bodyKeyIndex]
+            console.log('bodyKey', bodyKey)
+
+            switch (typeOfKeyT) {
+                // basic object types
+                case 'number' || 'string' || 'boolean': 
+                    objectT[keyT] = body[bodyKey]
+                default:
+                    console.log('objectT[keyT]', objectT[keyT])
+            }
+
+            
+        }
+        return objectT
+    }
 
     // Bonita Rest Api Business Data Query
     // --------------------------------------------------------------------------
