@@ -49,28 +49,19 @@ export class ZgwnuBonitaBusinessDataService {
     //
     // Request URL template: ../API/bdm/businessData/:businessDataType/:persistenceId
     //
-    getBusinessData<T extends ZgwnuBonitaBusinessDataObjectInterface>(businessDataObject: T, 
-        businessDataType: string, persistenceId: number): Observable<void> {
-        return this.httpClient.get(
-            this.businessDataResourceUrl + '/' + 
-            this.configService.businessDataModelPackage + '.' + businessDataType + 
-                '/' + persistenceId.toString())
-            .map(body => ZgwnuBonitaMapBusinessObject<T>(body, businessDataObject))
-            .catch(this.responseMapService.catchBonitaError)
-    }
-
-    getBusinessData2<T extends ZgwnuBonitaBusinessDataObjectInterface>(businessDataType: string, 
+    getBusinessDataObject<T extends ZgwnuBonitaBusinessDataObjectInterface>(businessDataType: string, 
         persistenceId: number): Observable<T> {
         return this.httpClient.get(
             this.businessDataResourceUrl + '/' + 
             this.configService.businessDataModelPackage + '.' + businessDataType + 
                 '/' + persistenceId.toString())
-            .map(body => this.mapBusinessDataObject2<T>(body))
+            .map(body => this.mapBusinessDataObject<T>(body))
             .catch(this.responseMapService.catchBonitaError)
     }
 
-    private mapBusinessDataObject2<T extends ZgwnuBonitaBusinessDataObjectInterface>(dataObject: Object): T {
+    private mapBusinessDataObject<T extends ZgwnuBonitaBusinessDataObjectInterface>(dataObject: Object): T {
         let businessDataObject: T = <T>{}
+
         for (let dataObjectKey in dataObject) {
             switch(typeof dataObject[dataObjectKey]) {
               // direct mapping object to object
@@ -83,15 +74,15 @@ export class ZgwnuBonitaBusinessDataService {
               case 'boolean': 
                 businessDataObject[dataObjectKey] = dataObject[dataObjectKey]
                 break
-              // indirect mapping of custom objects (that need a specific constructor)
+              // mapping of custom objects (composed)
               case 'object': 
-                //businessDataObject.mapObject(dataObjectKey, dataObject[dataObjectKey])
-                businessDataObject[dataObjectKey] = this.mapBusinessDataObject2<T>(dataObject[dataObjectKey])
+                businessDataObject[dataObjectKey] = this.mapBusinessDataObject<T>(dataObject[dataObjectKey])
                 break
               default:
                 console.log('dataProperty not mapped = ', dataObject[dataObjectKey])
               }
         }
+
         return businessDataObject
     }
 
@@ -103,20 +94,24 @@ export class ZgwnuBonitaBusinessDataService {
     // Request URL template: ../API/bdm/businessData/_businessDataType_?q=_queryName_
     //                       &p=0&c=10&f=param=value
     //
-    queryBusinessData<T extends ZgwnuBonitaBusinessDataObjectListInterface>(businessDataObjectList: T, 
-        businessDataType: string, queryParms: ZgwnuBonitaBusinessDataQueryParms): Observable<void> {
+    queryBusinessData<T extends ZgwnuBonitaBusinessDataObjectInterface>( businessDataType: string, 
+        queryParms: ZgwnuBonitaBusinessDataQueryParms): Observable<T[]> {
         return this.httpClient.get<Object[]>(
             this.businessDataResourceUrl + '/' + 
             this.configService.businessDataModelPackage + '.' + businessDataType + 
             '?' + queryParms.getUrlEncondedParms())
-            .map(body => this.mapBusinessDataObjectList<T>(body, businessDataObjectList))
+            .map(body => this.mapBusinessDataObjectArray<T>(body))
             .catch(this.responseMapService.catchBonitaError)
     }
 
-    private mapBusinessDataObjectList<T extends ZgwnuBonitaBusinessDataObjectListInterface>(dataObjectList: Object[], businessDataObjectList: T): void {
+    private mapBusinessDataObjectArray<T extends ZgwnuBonitaBusinessDataObjectInterface>(dataObjectList: Object[]): T[] {
+        let businessDataObjectArray: T[] = []
+
         for (let dataObject of dataObjectList) {
-            console.log(dataObject)
+            businessDataObjectArray.push(this.mapBusinessDataObject(dataObject))
         }
+
+        return businessDataObjectArray
     }
 
 }
