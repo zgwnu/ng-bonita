@@ -21,6 +21,7 @@ import { ZgwnuBonitaBusinessDataContext } from './zgwnu-bonita-business-data-con
 import { ZgwnuSingleBusinessDataRefence } from './zgwnu-single-business-data-reference'
 import { ZgwnuMultipleBusinessDataRefence } from './zgwnu-multiple-business-data-reference'
 import { ZgwnuBonitaBusinessDataObjectInterface } from './zgwnu-bonita-business-data-object.interface'
+import { ZgwnuBonitaIsDateTypeInterface } from './zgwnu-bonita-is-date-type.interface'
 
 @Injectable()
 export class ZgwnuBonitaBusinessDataService {
@@ -48,43 +49,40 @@ export class ZgwnuBonitaBusinessDataService {
     // Request URL template: ../API/bdm/businessData/:businessDataType/:persistenceId
     //
     getBusinessDataObject<T extends ZgwnuBonitaBusinessDataObjectInterface>(businessDataType: string, 
-        persistenceId: number): Observable<T> {
+        isDateType: ZgwnuBonitaIsDateTypeInterface, persistenceId: number): Observable<T> {
         return this.httpClient.get(
             this.businessDataResourceUrl + '/' + 
             this.configService.businessDataModelPackage + '.' + businessDataType + 
                 '/' + persistenceId.toString())
-            .map(body => this.mapBusinessDataObject<T>(body))
+            .map(body => this.mapBusinessDataObject<T>(body, isDateType))
             .catch(this.responseMapService.catchBonitaError)
     }
 
-    private mapBusinessDataObject<T extends ZgwnuBonitaBusinessDataObjectInterface>(dataObject: Object): T {
-        //let businessDataObject: T = <T>{}
+    private mapBusinessDataObject<T extends ZgwnuBonitaBusinessDataObjectInterface>(dataObject: Object,
+        isDateType: ZgwnuBonitaIsDateTypeInterface): T {
         let businessDataObject: Object = {}
 
         for (let dataObjectKey in dataObject) {
-            switch(typeof dataObject[dataObjectKey]) {
-              // direct mapping object to object
-              case 'string': 
-                businessDataObject[dataObjectKey] = dataObject[dataObjectKey]
-                break
-              case 'number': 
-                businessDataObject[dataObjectKey] = dataObject[dataObjectKey]
-                break
-              case 'boolean': 
-                businessDataObject[dataObjectKey] = dataObject[dataObjectKey]
-                break
-              // mapping of custom objects (composed)
-              case 'object': 
-                if (businessDataObject[dataObjectKey] instanceof Date) {
-                    console.log('Date', dataObject[dataObjectKey]) 
-                } else {
-                    console.log('NODate', dataObject[dataObjectKey]) 
+            if (isDateType(dataObjectKey)) {
+                businessDataObject[dataObjectKey] = new Date(dataObject[dataObjectKey])
+            } else {
+                switch(typeof dataObject[dataObjectKey]) {
+                case 'string': 
+                    businessDataObject[dataObjectKey] = dataObject[dataObjectKey]
+                    break
+                case 'number': 
+                    businessDataObject[dataObjectKey] = dataObject[dataObjectKey]
+                    break
+                case 'boolean': 
+                    businessDataObject[dataObjectKey] = dataObject[dataObjectKey]
+                    break
+                case 'object': 
+                        businessDataObject[dataObjectKey] = this.mapBusinessDataObject<Object>(dataObject[dataObjectKey], isDateType)
+                    break
+                default:
+                    console.log('dataProperty not mapped = ', dataObject[dataObjectKey])
                 }
-                businessDataObject[dataObjectKey] = this.mapBusinessDataObject<Object>(dataObject[dataObjectKey])
-                break
-              default:
-                console.log('dataProperty not mapped = ', dataObject[dataObjectKey])
-              }
+            }
         }
 
         return <T>businessDataObject
