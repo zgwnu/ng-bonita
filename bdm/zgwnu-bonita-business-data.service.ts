@@ -16,13 +16,11 @@ import 'rxjs/add/operator/catch'
 // ZGWNU Ng Bonita Module Imports
 import { ZgwnuBonitaConfigService } from '../rest-api/zgwnu-bonita-config.service'
 import { ZgwnuBonitaResponseMapService } from '../rest-api/zgwnu-bonita-response-map.service'
-import { ZgwnuBonitaMapBusinessObject } from './zgwnu-bonita-business-data-mapping'
 import { ZgwnuBonitaBusinessDataQueryParms } from './zgwnu-bonita-business-data-query-parms'
 import { ZgwnuBonitaBusinessDataContext } from './zgwnu-bonita-business-data-context'
 import { ZgwnuSingleBusinessDataRefence } from './zgwnu-single-business-data-reference'
 import { ZgwnuMultipleBusinessDataRefence } from './zgwnu-multiple-business-data-reference'
 import { ZgwnuBonitaBusinessDataObjectInterface } from './zgwnu-bonita-business-data-object.interface'
-import { ZgwnuBonitaBusinessDataObjectListInterface } from './zgwnu-bonita-business-data-object-list.interface'
 
 @Injectable()
 export class ZgwnuBonitaBusinessDataService {
@@ -60,8 +58,8 @@ export class ZgwnuBonitaBusinessDataService {
     }
 
     private mapBusinessDataObject<T extends ZgwnuBonitaBusinessDataObjectInterface>(dataObject: Object): T {
-        console.log('dataObject typeof', typeof dataObject)
-        let businessDataObject: T = <T>{}
+        //let businessDataObject: T = <T>{}
+        let businessDataObject: Object = {}
 
         for (let dataObjectKey in dataObject) {
             switch(typeof dataObject[dataObjectKey]) {
@@ -82,15 +80,14 @@ export class ZgwnuBonitaBusinessDataService {
                 } else {
                     console.log('NODate', dataObject[dataObjectKey]) 
                 }
-                businessDataObject[dataObjectKey] = this.mapBusinessDataObject<T>(dataObject[dataObjectKey])
+                businessDataObject[dataObjectKey] = this.mapBusinessDataObject<Object>(dataObject[dataObjectKey])
                 break
               default:
                 console.log('dataProperty not mapped = ', dataObject[dataObjectKey])
               }
-              console.log('typeof businessDataObject[' + dataObjectKey + ']', typeof businessDataObject[dataObjectKey])
         }
 
-        return businessDataObject
+        return <T>businessDataObject
     }
 
     // Bonita Rest Api Business Data Query
