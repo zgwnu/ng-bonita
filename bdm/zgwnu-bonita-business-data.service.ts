@@ -60,6 +60,7 @@ export class ZgwnuBonitaBusinessDataService {
     }
 
     private mapBusinessDataObject<T extends ZgwnuBonitaBusinessDataObjectInterface>(dataObject: Object): T {
+        console.log('dataObject typeof', typeof dataObject)
         let businessDataObject: T = <T>{}
 
         for (let dataObjectKey in dataObject) {
@@ -76,11 +77,17 @@ export class ZgwnuBonitaBusinessDataService {
                 break
               // mapping of custom objects (composed)
               case 'object': 
+                if (businessDataObject[dataObjectKey] instanceof Date) {
+                    console.log('Date', dataObject[dataObjectKey]) 
+                } else {
+                    console.log('NODate', dataObject[dataObjectKey]) 
+                }
                 businessDataObject[dataObjectKey] = this.mapBusinessDataObject<T>(dataObject[dataObjectKey])
                 break
               default:
                 console.log('dataProperty not mapped = ', dataObject[dataObjectKey])
               }
+              console.log('typeof businessDataObject[' + dataObjectKey + ']', typeof businessDataObject[dataObjectKey])
         }
 
         return businessDataObject
