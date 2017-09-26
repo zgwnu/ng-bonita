@@ -59,6 +59,42 @@ export class ZgwnuBonitaBusinessDataService {
             .catch(this.responseMapService.catchBonitaError)
     }
 
+    getBusinessData2<T extends ZgwnuBonitaBusinessDataObjectInterface>(businessDataType: string, 
+        persistenceId: number): Observable<T> {
+        return this.httpClient.get(
+            this.businessDataResourceUrl + '/' + 
+            this.configService.businessDataModelPackage + '.' + businessDataType + 
+                '/' + persistenceId.toString())
+            .map(body => this.mapBusinessDataObject2<T>(body))
+            .catch(this.responseMapService.catchBonitaError)
+    }
+
+    private mapBusinessDataObject2<T extends ZgwnuBonitaBusinessDataObjectInterface>(dataObject: Object): T {
+        let businessDataObject: T = <T>{}
+        for (let dataObjectKey in dataObject) {
+            switch(typeof dataObject[dataObjectKey]) {
+              // direct mapping object to object
+              case 'string': 
+                businessDataObject[dataObjectKey] = dataObject[dataObjectKey]
+                break
+              case 'number': 
+                businessDataObject[dataObjectKey] = dataObject[dataObjectKey]
+                break
+              case 'boolean': 
+                businessDataObject[dataObjectKey] = dataObject[dataObjectKey]
+                break
+              // indirect mapping of custom objects (that need a specific constructor)
+              case 'object': 
+                //businessDataObject.mapObject(dataObjectKey, dataObject[dataObjectKey])
+                businessDataObject[dataObjectKey] = this.mapBusinessDataObject2<T>(dataObject[dataObjectKey])
+                break
+              default:
+                console.log('dataProperty not mapped = ', dataObject[dataObjectKey])
+              }
+        }
+        return businessDataObject
+    }
+
     // Bonita Rest Api Business Data Query
     // --------------------------------------------------------------------------
     //
