@@ -63,5 +63,6 @@ export { ZgwnuBonitaFileUploadProgress } from './file-upload/zgwnu-bonita-file-u
 export { ZgwnuBonitaBusinessDataService } from './bdm/zgwnu-bonita-business-data.service'
 export { ZgwnuBonitaBusinessDataQueryParms } from './bdm/zgwnu-bonita-business-data-query-parms'
 export { ZgwnuBonitaBusinessDataObjectInterface } from './bdm/zgwnu-bonita-business-data-object.interface'
+export { ZgwnuBonitaBusinessDataListInterface } from './bdm/zgwnu-bonita-business-data-list.interface'
 export { ZgwnuBonitaIsDateTypeInterface } from './bdm/zgwnu-bonita-is-date-type.interface'
 export { ZgwnuBonitaBusinessDataContext } from './bdm/zgwnu-bonita-business-data-context'
