@@ -18,8 +18,7 @@ import { ZgwnuBonitaConfigService } from '../rest-api/zgwnu-bonita-config.servic
 import { ZgwnuBonitaResponseMapService } from '../rest-api/zgwnu-bonita-response-map.service'
 import { ZgwnuBonitaBusinessDataQueryParms } from './zgwnu-bonita-business-data-query-parms'
 import { ZgwnuBonitaBusinessDataContext } from './zgwnu-bonita-business-data-context'
-import { ZgwnuSingleBusinessDataRefence } from './zgwnu-single-business-data-reference'
-import { ZgwnuMultipleBusinessDataRefence } from './zgwnu-multiple-business-data-reference'
+import { ZgwnuBusinessDataReferenceInterface } from './zgwnu-business-data-reference.interface'
 import { ZgwnuBonitaBusinessDataObjectInterface } from './zgwnu-bonita-business-data-object.interface'
 import { ZgwnuBonitaBusinessDataListInterface } from './zgwnu-bonita-business-data-list.interface'
 import { ZgwnuBonitaIsDateTypeInterface } from './zgwnu-bonita-is-date-type.interface'
@@ -131,6 +130,16 @@ export class ZgwnuBonitaBusinessDataService {
             businessDataList.items.push(this.mapBusinessData<T>(dataObject, isDateType))
         }
         return businessDataList
+    }
+
+    // Bonita Rest Api get Business Data from context
+    // --------------------------------------------------------------------------
+    //    
+    // base on http://documentation.bonitasoft.com/?page=bdm-api#toc2
+    //
+    private getBusinessDataReference<T extends ZgwnuBusinessDataReferenceInterface>(caseId: string, businessDataObjectType: string): Observable<T> {
+        return this.httpClient.get<T>(
+            this.businessDataReferenceResourceUrl + '/' + caseId + '/' + businessDataObjectType)
     }
 
 }
