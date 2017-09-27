@@ -96,21 +96,24 @@ export class ZgwnuBonitaBusinessDataService {
     // Request URL template: ../API/bdm/businessData/_businessDataType_?q=_queryName_
     //                       &p=0&c=10&f=param=value
     //
-    queryBusinessData<T extends ZgwnuBonitaBusinessDataObjectInterface>( businessDataType: string, 
-        queryParms: ZgwnuBonitaBusinessDataQueryParms): Observable<T[]> {
+    queryBusinessData<T extends ZgwnuBonitaBusinessDataObjectInterface>(
+        businessDataType: string, 
+        queryParms: ZgwnuBonitaBusinessDataQueryParms,
+        isDateType: ZgwnuBonitaIsDateTypeInterface): Observable<T[]> {
         return this.httpClient.get<Object[]>(
             this.businessDataResourceUrl + '/' + 
             this.configService.businessDataModelPackage + '.' + businessDataType + 
             '?' + queryParms.getUrlEncondedParms())
-            .map(body => this.mapBusinessDataObjectArray<T>(body))
+            .map(body => this.mapBusinessDataObjectArray<T>(body, isDateType))
             .catch(this.responseMapService.catchBonitaError)
     }
 
-    private mapBusinessDataObjectArray<T extends ZgwnuBonitaBusinessDataObjectInterface>(dataObjectList: Object[]): T[] {
+    private mapBusinessDataObjectArray<T extends ZgwnuBonitaBusinessDataObjectInterface>(
+        dataObjectList: Object[], isDateType: ZgwnuBonitaIsDateTypeInterface): T[] {
         let businessDataObjectArray: T[] = []
 
         for (let dataObject of dataObjectList) {
-            businessDataObjectArray.push(this.mapBusinessDataObject(dataObject))
+            businessDataObjectArray.push(this.mapBusinessDataObject(dataObject, isDateType))
         }
 
         return businessDataObjectArray
