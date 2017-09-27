@@ -82,7 +82,16 @@ export class ZgwnuBonitaBusinessDataService {
                     businessDataObject[dataObjectKey] = dataObject[dataObjectKey]
                     break
                 case 'object': 
-                        businessDataObject[dataObjectKey] = this.mapBusinessData<Object>(dataObject[dataObjectKey], isDateType)
+                    if (dataObject[dataObjectKey] instanceof Array) {
+                        let dataArray: Object[] = []
+                        for (let dataItem of dataObject[dataObjectKey]) {
+                            dataArray.push(this.mapBusinessData<Object>(dataItem, isDateType))
+                        }
+                        businessDataObject[dataObjectKey] = dataArray
+                    } else {
+                        businessDataObject[dataObjectKey] = this.mapBusinessData<Object>(
+                            dataObject[dataObjectKey], isDateType)
+                    }
                     break
                 default:
                     console.log('dataProperty not mapped = ', dataObject[dataObjectKey])
