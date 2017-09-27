@@ -21,6 +21,7 @@ import { ZgwnuBonitaBusinessDataContext } from './zgwnu-bonita-business-data-con
 import { ZgwnuSingleBusinessDataRefence } from './zgwnu-single-business-data-reference'
 import { ZgwnuMultipleBusinessDataRefence } from './zgwnu-multiple-business-data-reference'
 import { ZgwnuBonitaBusinessDataObjectInterface } from './zgwnu-bonita-business-data-object.interface'
+import { ZgwnuBonitaBusinessDataListInterface } from './zgwnu-bonita-business-data-list.interface'
 import { ZgwnuBonitaIsDateTypeInterface } from './zgwnu-bonita-is-date-type.interface'
 
 @Injectable()
@@ -48,20 +49,24 @@ export class ZgwnuBonitaBusinessDataService {
     //
     // Request URL template: ../API/bdm/businessData/:businessDataType/:persistenceId
     //
-    getBusinessDataObject<T extends ZgwnuBonitaBusinessDataObjectInterface>(businessDataType: string, 
-        isDateType: ZgwnuBonitaIsDateTypeInterface, persistenceId: number): Observable<T> {
+    getBusinessData<T extends ZgwnuBonitaBusinessDataObjectInterface>(
+        businessDataType: string, 
+        persistenceId: number,  
+        isDateType: ZgwnuBonitaIsDateTypeInterface): Observable<T> {
+
         return this.httpClient.get(
             this.businessDataResourceUrl + '/' + 
             this.configService.businessDataModelPackage + '.' + businessDataType + 
                 '/' + persistenceId.toString())
-            .map(body => this.mapBusinessDataObject<T>(body, isDateType))
+            .map(body => this.mapBusinessData<T>(body, isDateType))
             .catch(this.responseMapService.catchBonitaError)
     }
 
-    private mapBusinessDataObject<T extends ZgwnuBonitaBusinessDataObjectInterface>(dataObject: Object,
+    private mapBusinessData<T extends ZgwnuBonitaBusinessDataObjectInterface>(
+        dataObject: Object,
         isDateType: ZgwnuBonitaIsDateTypeInterface): T {
-        let businessDataObject: Object = {}
 
+        let businessDataObject: Object = {}
         for (let dataObjectKey in dataObject) {
             if (isDateType(dataObjectKey)) {
                 businessDataObject[dataObjectKey] = new Date(dataObject[dataObjectKey])
@@ -77,14 +82,13 @@ export class ZgwnuBonitaBusinessDataService {
                     businessDataObject[dataObjectKey] = dataObject[dataObjectKey]
                     break
                 case 'object': 
-                        businessDataObject[dataObjectKey] = this.mapBusinessDataObject<Object>(dataObject[dataObjectKey], isDateType)
+                        businessDataObject[dataObjectKey] = this.mapBusinessData<Object>(dataObject[dataObjectKey], isDateType)
                     break
                 default:
                     console.log('dataProperty not mapped = ', dataObject[dataObjectKey])
                 }
             }
         }
-
         return <T>businessDataObject
     }
 
@@ -99,24 +103,25 @@ export class ZgwnuBonitaBusinessDataService {
     queryBusinessData<T extends ZgwnuBonitaBusinessDataObjectInterface>(
         businessDataType: string, 
         queryParms: ZgwnuBonitaBusinessDataQueryParms,
-        isDateType: ZgwnuBonitaIsDateTypeInterface): Observable<T[]> {
+        isDateType: ZgwnuBonitaIsDateTypeInterface): Observable<ZgwnuBonitaBusinessDataListInterface> {
+
         return this.httpClient.get<Object[]>(
             this.businessDataResourceUrl + '/' + 
             this.configService.businessDataModelPackage + '.' + businessDataType + 
             '?' + queryParms.getUrlEncondedParms())
-            .map(body => this.mapBusinessDataObjectArray<T>(body, isDateType))
+            .map(body => this.mapBusinessDataList<T>(body, isDateType))
             .catch(this.responseMapService.catchBonitaError)
     }
 
-    private mapBusinessDataObjectArray<T extends ZgwnuBonitaBusinessDataObjectInterface>(
-        dataObjectList: Object[], isDateType: ZgwnuBonitaIsDateTypeInterface): T[] {
-        let businessDataObjectArray: T[] = []
+    private mapBusinessDataList<T extends ZgwnuBonitaBusinessDataObjectInterface>(
+        dataObjectArray: Object[], 
+        isDateType: ZgwnuBonitaIsDateTypeInterface): ZgwnuBonitaBusinessDataListInterface {
 
-        for (let dataObject of dataObjectList) {
-            businessDataObjectArray.push(this.mapBusinessDataObject(dataObject, isDateType))
+        let businessDataList: ZgwnuBonitaBusinessDataListInterface = { items: [] }
+        for (let dataObject of dataObjectArray) {
+            businessDataList.items.push(this.mapBusinessData<T>(dataObject, isDateType))
         }
-
-        return businessDataObjectArray
+        return businessDataList
     }
 
 }
