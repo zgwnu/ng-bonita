@@ -17,11 +17,10 @@ import 'rxjs/add/operator/catch'
 import { ZgwnuBonitaConfigService } from '../rest-api/zgwnu-bonita-config.service'
 import { ZgwnuBonitaResponseMapService } from '../rest-api/zgwnu-bonita-response-map.service'
 import { ZgwnuBonitaBusinessDataQueryParms } from './zgwnu-bonita-business-data-query-parms'
-import { ZgwnuBonitaBusinessDataContext } from './zgwnu-bonita-business-data-context'
-import { ZgwnuBusinessDataReferenceInterface } from './zgwnu-business-data-reference.interface'
 import { ZgwnuBonitaBusinessDataObjectInterface } from './zgwnu-bonita-business-data-object.interface'
 import { ZgwnuBonitaBusinessDataListInterface } from './zgwnu-bonita-business-data-list.interface'
 import { ZgwnuBonitaIsDateTypeInterface } from './zgwnu-bonita-is-date-type.interface'
+import { ZgwnuIsDateTypeFunction } from './zgwnu-bonita-is-date-type.function'
 
 @Injectable()
 export class ZgwnuBonitaBusinessDataService {
@@ -51,7 +50,7 @@ export class ZgwnuBonitaBusinessDataService {
     getBusinessData<T extends ZgwnuBonitaBusinessDataObjectInterface>(
         businessDataType: string, 
         persistenceId: number,  
-        isDateType: ZgwnuBonitaIsDateTypeInterface): Observable<T> {
+        isDateType?: ZgwnuBonitaIsDateTypeInterface): Observable<T> {
 
         return this.httpClient.get(
             this.businessDataResourceUrl + '/' + 
@@ -63,9 +62,11 @@ export class ZgwnuBonitaBusinessDataService {
 
     private mapBusinessData<T extends ZgwnuBonitaBusinessDataObjectInterface>(
         dataObject: Object,
-        isDateType: ZgwnuBonitaIsDateTypeInterface): T {
+        isDateType?: ZgwnuBonitaIsDateTypeInterface): T {
 
+        if (!isDateType) isDateType = ZgwnuIsDateTypeFunction
         let businessDataObject: Object = {}
+
         for (let dataObjectKey in dataObject) {
             if (isDateType(dataObjectKey)) {
                 businessDataObject[dataObjectKey] = new Date(dataObject[dataObjectKey])
@@ -97,6 +98,7 @@ export class ZgwnuBonitaBusinessDataService {
                 }
             }
         }
+
         return <T>businessDataObject
     }
 
@@ -111,7 +113,7 @@ export class ZgwnuBonitaBusinessDataService {
     queryBusinessData<T extends ZgwnuBonitaBusinessDataObjectInterface>(
         businessDataType: string, 
         queryParms: ZgwnuBonitaBusinessDataQueryParms,
-        isDateType: ZgwnuBonitaIsDateTypeInterface): Observable<ZgwnuBonitaBusinessDataListInterface> {
+        isDateType?: ZgwnuBonitaIsDateTypeInterface): Observable<ZgwnuBonitaBusinessDataListInterface> {
 
         return this.httpClient.get<Object[]>(
             this.businessDataResourceUrl + '/' + 
@@ -123,23 +125,15 @@ export class ZgwnuBonitaBusinessDataService {
 
     private mapBusinessDataList<T extends ZgwnuBonitaBusinessDataObjectInterface>(
         dataObjectArray: Object[], 
-        isDateType: ZgwnuBonitaIsDateTypeInterface): ZgwnuBonitaBusinessDataListInterface {
+        isDateType?: ZgwnuBonitaIsDateTypeInterface): ZgwnuBonitaBusinessDataListInterface {
 
         let businessDataList: ZgwnuBonitaBusinessDataListInterface = { items: [] }
+
         for (let dataObject of dataObjectArray) {
             businessDataList.items.push(this.mapBusinessData<T>(dataObject, isDateType))
         }
+        
         return businessDataList
-    }
-
-    // Bonita Rest Api get Business Data from context
-    // --------------------------------------------------------------------------
-    //    
-    // base on http://documentation.bonitasoft.com/?page=bdm-api#toc2
-    //
-    private getBusinessDataReference<T extends ZgwnuBusinessDataReferenceInterface>(caseId: string, businessDataObjectType: string): Observable<T> {
-        return this.httpClient.get<T>(
-            this.businessDataReferenceResourceUrl + '/' + caseId + '/' + businessDataObjectType)
     }
 
 }
