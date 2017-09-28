@@ -1,5 +1,7 @@
 # @zgwnu/ng-bonita
-Angular Bonita Rest Api Services developed ZGW NU to create BPM application examples. 
+Angular Bonita Rest Api Services developed ZGW NU to create BPM application examples.  
+  
+See https://github.com/zgwnu/test-ng-bonita to look how to use this Module.
 
 # New
 All Services are Refactored to Angular HttpClient Module (@angular/common/http).
