@@ -17,12 +17,13 @@ __Minimum Required Angular Packages__
 * @angular/common
 * _and all packages you use for you're devevelopment config (JIT, AOT, CLI, ..etc.)_
 
+## Angular JIT Development
 __To use with JIT (Just In Time) Development you have to add the following definitions to "system.config.js"__ 
 * '@angular/common/http': 'npm:@angular/common/bundles/common-http.umd.js',
 * '@zgwnu/ng-bonita': 'npm:@zgwnu/ng-bonita/bundles/zgwnu-ng-bonita.umd.js'
 
-# Content
-All the Angular Services are based on the bonita Rest Api Documentation. See for additional info how to use the Rest Api https://documentation.bonitasoft.com/?page=_rest-api
+# Contents
+Angular Services based on the bonita Rest Api Documentation. See for additional info how to use the Rest Api https://documentation.bonitasoft.com/?page=_rest-api
 
 ## rest-api
 All basic Bonita Rest Api classes and settings that will be (re)used.
