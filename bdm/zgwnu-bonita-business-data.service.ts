@@ -23,6 +23,12 @@ import { ZgwnuBonitaIsDateTypeInterface } from './zgwnu-bonita-is-date-type.inte
 import { ZgwnuIsDateTypeFunction } from './zgwnu-bonita-is-date-type.function'
 
 @Injectable()
+/**
+ * 
+ * Bonita Rest Api Business Data Service
+ * based on http://documentation.bonitasoft.com/?page=bdm-api#toc0
+ * 
+*/
 export class ZgwnuBonitaBusinessDataService {
     private readonly RESOURCE_PATH = '/bdm'
     private readonly BUSSINESS_DATA_RESOURCE_PATH = this.RESOURCE_PATH + '/businessData'
@@ -40,13 +46,18 @@ export class ZgwnuBonitaBusinessDataService {
         this.businessDataReferenceResourceUrl = configService.bonitaUrls.apiUrl + this.BUSSINESS_DATA_REFERENCE_RESOURCE_PATH
     }
     
-    // Bonita Rest Api Business Data
-    // --------------------------------------------------------------------------
-    //
-    // based on http://documentation.bonitasoft.com/?page=bdm-api#toc0
-    //
-    // Request URL template: ../API/bdm/businessData/:businessDataType/:persistenceId
-    //
+    /**
+     * 
+     * Get Bonita Business Data for one Object
+     * based on http://documentation.bonitasoft.com/?page=bdm-api#toc0
+     * 
+     * @template T 
+     * @param businessDataType explained
+     * @param persistenceId 
+     * @param isDateType 
+     * @returns Business Data Object Data
+     * 
+     */
     getBusinessData<T extends ZgwnuBonitaBusinessDataObjectInterface>(
         businessDataType: string, 
         persistenceId: number,  
