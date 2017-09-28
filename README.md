@@ -33,10 +33,11 @@ Bonita BPM Case Document (document create, search, get) functionality.
 Bonita BPM Human Task functionality.
 ### bpm / user-task
 Bonita BPM User Task functionality.
-_assignTask and executeTask gives an error due to Angular Bug (HttpClient POST 'Http failure during parsing' error for valid json https://github.com/angular/angular/issues/19266)
-### bpm / process (NOT WORKING AT THIS MOMENT)
+_assignTask_ and _executeTask_ gives an error due to Angular Bug (HttpClient POST 'Http failure during parsing' error for valid json https://github.com/angular/angular/issues/19266)
+### bpm / process
 Bonita BPM Process (info and instantiation) functionality.
-## bdm (NOT WORKING AT THIS MOMENT)
+## bdm
 Functionality to retrieve Business Data.
-## file-upload (NOT WORKING AT THIS MOMENT)
+## file-upload
 Functionality to upload files to the Bonita server.
+_added progress indicator functionality_
