@@ -65,7 +65,6 @@ export class ZgwnuBonitaBpmUserTaskService {
             updateInput.assigned_id = this.configService.session.user_id
         }
 
-        console.log('assignUserTask', updateInput)
         return this.httpClient.put(
             this.resourceUrl + '/' + userTaskId,
             updateInput,

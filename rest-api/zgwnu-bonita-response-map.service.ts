@@ -24,7 +24,6 @@ export class ZgwnuBonitaResponseMapService {
     }
 
     catchBonitaError(httpError: HttpErrorResponse): ErrorObservable {
-        console.log('catchBonitaError', httpError)
         let bonitaError: ZgwnuBonitaErrorResponse = new ZgwnuBonitaErrorResponse()
         bonitaError.status = httpError.status
         bonitaError.statusText = httpError.statusText
