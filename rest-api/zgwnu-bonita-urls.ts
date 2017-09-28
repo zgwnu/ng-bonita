@@ -1,6 +1,9 @@
 export class ZgwnuBonitaUrls {
+    // Bonita Studio default (local development)
+    private readonly LOCAL_HOST_URL = 'http://localhost:8080'
+
     // Bonita Server Config Urls
-    private _hostUrl: string = 'http://localhost:8080'
+    private _hostUrl: string
     private _baseUrl: string
     private _apiUrl: string
     private _fileUploadUrl: string
@@ -10,7 +13,7 @@ export class ZgwnuBonitaUrls {
     private _imageUploadUrl: string
     private _formsDocumentImageUrl: string
 
-    // default bonita path configuration
+    // Bonita path configuration
     private readonly BASE_PATH = '/bonita'
     private readonly API_PATH = '/API'
     private readonly FILE_UPLOAD_PATH = '/portal/fileUpload'
@@ -22,8 +25,15 @@ export class ZgwnuBonitaUrls {
     
     constructor(hostUrl?: string)
     {
-        if (hostUrl) this._hostUrl = hostUrl
-        this._baseUrl = this._hostUrl + this.BASE_PATH
+        if (hostUrl) {
+            this.hostUrl = hostUrl 
+        } else {
+            this.hostUrl = this.LOCAL_HOST_URL
+        }
+    }
+
+    set hostUrl(hostUrl: string) {
+        this._baseUrl = hostUrl + this.BASE_PATH
         this._apiUrl = this._baseUrl + this.API_PATH
         this._fileUploadUrl = this._baseUrl + this.FILE_UPLOAD_PATH
         this._processUploadUrl = this._baseUrl + this.PROCESS_UPLOAD_PATH
