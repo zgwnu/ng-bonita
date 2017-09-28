@@ -24,21 +24,14 @@ export class ZgwnuBonitaResponseMapService {
     }
 
     catchBonitaError(httpError: HttpErrorResponse): ErrorObservable {
+        console.log('catchBonitaError', httpError)
         let bonitaError: ZgwnuBonitaErrorResponse = new ZgwnuBonitaErrorResponse()
         bonitaError.status = httpError.status
         bonitaError.statusText = httpError.statusText
-
-        if (httpError.error instanceof Error) {
-            // A client-side or network error occurred
-            let error: Error = httpError.error
-            bonitaError.message = error.message
-            if (error.name) bonitaError.explanations.push(error.name)
-            if (error.stack) bonitaError.explanations.push(error.stack)
-        } else {
-            // A Bonita Rest Api Server Error occured
-            if (httpError.error.message) bonitaError.message = httpError.error.message
-            if (httpError.error.exception) bonitaError.exception = httpError.error.exception
-            if (httpError.error.explanations) bonitaError.explanations = httpError.error.explanations
+        if (httpError.message) bonitaError.message = httpError.message
+        if (httpError.error) {
+            if (httpError.error.error) bonitaError.exception = httpError.error.error
+            if (httpError.error.text) bonitaError.explanations = httpError.error.text
         }
         return Observable.throw(bonitaError)
     }
