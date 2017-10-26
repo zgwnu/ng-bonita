@@ -5,12 +5,11 @@ ZaakgerichtWerken.nu Bonita Rest Api BPM User Task Service
 based on http://documentation.bonitasoft.com/?page=bpm-api#toc6
 
 Fixes:
-    Issue 1:    assignUserTask() HttpClient POST 'Http failure during parsing' error
+    Issue 1:    assignUserTask() HttpClient 'Http failure during parsing' error
                 Fixed by changing httpClient "responseType" parameter from
                 'json' to 'text'
 
 */
-
 
 // ANGULAR Imports
 import { Injectable } from '@angular/core'
