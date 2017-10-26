@@ -7,7 +7,7 @@ based on http://documentation.bonitasoft.com/?page=bpm-api#toc6
 Fixes:
     Issue 1:    assignUserTask() HttpClient POST 'Http failure during parsing' error
                 Fixed by changing httpClient "responseType" parameter from
-                'json' to 'json'
+                'json' to 'text'
 
 */
 
