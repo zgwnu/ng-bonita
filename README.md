@@ -7,7 +7,7 @@ See example at https://github.com/zgwnu/test-ng-bonita how to use this module.
 ## 1.0.4-alpha-1
 * All Services are Refactored to Angular HttpClient Module (@angular/common/http).
 ## 1.0.4-beta-1
-* Isssue 1: Fixed
+* Fix Issue1: https://github.com/zgwnu/ng-bonita/issues/1
 
 # Requirements
 * Angular 4.2.4 or higher
@@ -49,7 +49,6 @@ Bonita BPM Case Document (document create, search, get) functionality.
 Bonita BPM Human Task functionality.
 ### bpm / user-task
 Bonita BPM User Task functionality.
-_assignTask_ and _executeTask_ gives an error due to Angular Bug (HttpClient POST 'Http failure during parsing' error for valid json https://github.com/angular/angular/issues/19266)
 ### bpm / process
 Bonita BPM Process (info and instantiation) functionality.
 ## bdm
