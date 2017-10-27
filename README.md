@@ -1,13 +1,16 @@
 # @zgwnu/ng-bonita
 Angular Bonita Rest Api Services developed ZGW NU to create BPM application examples.  
   
-See example at https://github.com/zgwnu/test-ng-bonita.
+See example at https://github.com/zgwnu/test-ng-bonita how to use this module.
 
-# New
-All Services are Refactored to Angular HttpClient Module (@angular/common/http).
+# Release Notes
+## 1.0.4-alpha-1
+* All Services are Refactored to Angular HttpClient Module (@angular/common/http).
+## 1.0.4-beta-1
+* Isssue 1: Fixed
 
 # Requirements
-* Angular 4.3.6 or 4.4.x
+* Angular 4.2.4 or higher
 * Bonita BPM Community 7.4.2 (or higher, not tested on Commercial Licensed versions)
 
 # Install
