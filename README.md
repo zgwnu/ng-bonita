@@ -6,7 +6,7 @@ See example at https://github.com/zgwnu/test-ng-bonita how to use this module.
 # Release Notes
 ## 1.0.4-alpha-1
 * All Services are Refactored to Angular HttpClient Module (@angular/common/http).
-## 1.0.4-beta-1
+## 1.0.4-beta-2
 * Fix Issue1: https://github.com/zgwnu/ng-bonita/issues/1
 
 # Requirements
