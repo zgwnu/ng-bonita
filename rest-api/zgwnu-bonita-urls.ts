@@ -1,7 +1,4 @@
 export class ZgwnuBonitaUrls {
-    // Bonita Studio default (local development)
-    private readonly LOCAL_HOST_URL = 'http://localhost:8080'
-
     // Bonita Server Config Urls
     private _hostUrl: string
     private _baseUrl: string
@@ -28,7 +25,7 @@ export class ZgwnuBonitaUrls {
         if (hostUrl) {
             this.hostUrl = hostUrl 
         } else {
-            this.hostUrl = this.LOCAL_HOST_URL
+            this.hostUrl = location.origin
         }
     }
 
