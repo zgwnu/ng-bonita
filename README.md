@@ -8,7 +8,7 @@ See example at https://github.com/zgwnu/test-ng-bonita how to use this module.
 * All Services are Refactored to Angular HttpClient Module (@angular/common/http).
 ## 1.0.4-beta-2
 * Fix Issue1: https://github.com/zgwnu/ng-bonita/issues/1
-## 1.0.4-beta-2
+## 1.0.4-beta-3
 * Minor change default Bonita Api Urls are now based current Host
 
 # Requirements
