@@ -12,22 +12,14 @@ See example at https://github.com/zgwnu/test-ng-bonita how to use this module.
 * Minor change default Bonita Api Urls are now based on current Host (webserver)
 
 # Requirements
-* Angular 4.2.4 or higher
-* Bonita BPM Community 7.4.2 (or higher, not tested on Commercial Licensed versions)
+* CLI: @angular/cli 1.5.0 or higher based setup
+* LIB: @angular 4.2.4 or higher
+* BONITA BPM: Community 7.4.2 (or higher, not tested on Commercial Licensed versions)
 
 # Install
 ## NPM
 __npm install @zgwnu/ng-bonita --save__
 
-__Minimum Required Angular Packages__
-* @angular/core
-* @angular/common
-* _and all packages you use for you're devevelopment config (JIT, AOT, CLI, ..etc.)_
-
-## Angular JIT Development
-__To use with JIT (Just In Time) Development you have to add the following definitions to "system.config.js"__ 
-* '@angular/common/http': 'npm:@angular/common/bundles/common-http.umd.js',
-* '@zgwnu/ng-bonita': 'npm:@zgwnu/ng-bonita/bundles/zgwnu-ng-bonita.umd.js'
 
 # Contents
 Angular Services based on the bonita Rest Api Documentation. See for additional info how to use the Rest Api https://documentation.bonitasoft.com/?page=_rest-api
