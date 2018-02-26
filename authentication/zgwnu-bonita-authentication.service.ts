@@ -36,45 +36,34 @@ export class ZgwnuBonitaAuthenticationService {
     {
     }
 
-    loginNew(creds: ZgwnuBonitaCredentials): Observable<ZgwnuBonitaSession> {
+    login(creds: ZgwnuBonitaCredentials): Observable<ZgwnuBonitaSession> {
         return new Observable<ZgwnuBonitaSession>(observer => {
-            this.login(creds)
-                .subscribe(
-                    response => {
-                        this.sessionService.getSession()
-                            .subscribe(
-                                session => {
-                                    observer.next(session)
-                                    observer.complete()
-                                },
-                                error => observer.syncErrorValue(error)
-                            )
-                    },
-                    error => observer.syncErrorValue(error)
-                )
-            }
-        );
-    }
-
-
-    login(creds: ZgwnuBonitaCredentials): Observable<ZgwnuBonitaResponse> {
-        let loginUrl: string = this.configService.bonitaUrls.baseUrl + this.LOGIN_SERVICE_PATH
-        let loginBody: string = 
-            'username=' + creds.username + '&password=' + creds.password + '&redirect=false'
-        let loginHeaders: HttpHeaders = 
-            new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
-
-        return this.httpClient.post(
-            loginUrl, 
-            loginBody,
-            { 
-                headers: loginHeaders,
-                observe: 'response',
-                responseType: 'text'
-            }
-        )
-        .map(this.responseMapService.mapBonitaResponse)
-        .catch(this.responseMapService.catchBonitaError)
+            let loginUrl: string = this.configService.bonitaUrls.baseUrl + this.LOGIN_SERVICE_PATH
+            let loginBody: string = 
+                'username=' + creds.username + '&password=' + creds.password + '&redirect=false'
+            let loginHeaders: HttpHeaders = 
+                new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
+    
+            this.httpClient.post(loginUrl, loginBody,
+                { 
+                    headers: loginHeaders,
+                    observe: 'response',
+                    responseType: 'text'
+                }
+            )
+            .subscribe(
+                response => console.log('Login Response Headers ', response.headers),
+                error => observer.error(error),
+                () => {
+                    this.sessionService.getSession()
+                        .subscribe(
+                            session => observer.next(session),
+                            error => observer.error(error),
+                            () => observer.complete()
+                        )
+                }
+            )
+        });
     }
 
 }
