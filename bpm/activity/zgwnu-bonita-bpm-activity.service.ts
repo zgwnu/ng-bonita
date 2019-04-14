@@ -9,9 +9,8 @@ import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 
 // RXJS Imports
-import { Observable } from 'rxjs/Observable'
-import 'rxjs/add/operator/map'
-import 'rxjs/add/operator/catch'
+import { Observable } from 'rxjs';
+import { map, catchError } from 'rxjs/operators'
 
 // ZGWNU Ng Bonita Module Imports
 import { ZgwnuBonitaConfigService } from '../../rest-api/zgwnu-bonita-config.service'
@@ -20,6 +19,7 @@ import { ZgwnuBonitaResponse } from '../../rest-api/zgwnu-bonita-response'
 import { ZgwnuBonitaSearchParms } from '../zgwnu-bonita-search-parms'
 import { ZgwnuBonitaActivityDataInterface } from './zgwnu-bonita-activity-data.interface'
 import { ZgwnuBonitaActivity } from './zgwnu-bonita-activity'
+
 
 @Injectable()
 export class ZgwnuBonitaBpmActivityService {
@@ -35,11 +35,13 @@ export class ZgwnuBonitaBpmActivityService {
         this.resourceUrl = configService.bonitaUrls.apiUrl + this.RESOURCE_PATH
     }
 
-    searchActivities(searchParms: ZgwnuBonitaSearchParms): Observable<ZgwnuBonitaActivity[]> {
+    searchActivities(searchParms: ZgwnuBonitaSearchParms): Observable<ZgwnuBonitaActivity[]>  {
         return this.httpClient.get<ZgwnuBonitaActivityDataInterface[]>(
             this.resourceUrl + '?' + searchParms.getUrlEncondedParms())
-            .map(this.mapActivities)
-            .catch(this.responseMapService.catchBonitaError)
+            .pipe(
+                map(this.mapActivities),
+                catchError(this.responseMapService.catchBonitaError)
+            )
     }
 
     private mapActivities(body: ZgwnuBonitaActivityDataInterface[]): ZgwnuBonitaActivity[] {
@@ -53,8 +55,10 @@ export class ZgwnuBonitaBpmActivityService {
 
     getActivity(activityId: string): Observable<ZgwnuBonitaActivity> {
         return this.httpClient.get<ZgwnuBonitaActivityDataInterface>(this.resourceUrl + '/' + activityId)
-            .map(this.mapActivity)
-            .catch(this.responseMapService.catchBonitaError)
+        .pipe(
+            map(this.mapActivity),
+            catchError(this.responseMapService.catchBonitaError)
+        )
     }
 
     private mapActivity(body: ZgwnuBonitaActivityDataInterface): ZgwnuBonitaActivity {

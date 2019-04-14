@@ -10,9 +10,8 @@ import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 
 // RXJS Imports
-import { Observable } from 'rxjs/Observable'
-import 'rxjs/add/operator/map'
-import 'rxjs/add/operator/catch'
+import { Observable } from 'rxjs';
+import { map, catchError } from 'rxjs/operators'
 
 // ZGWNU Ng Bonita Module Imports
 import { ZgwnuBonitaConfigService } from '../../rest-api/zgwnu-bonita-config.service'
@@ -21,6 +20,7 @@ import { ZgwnuBonitaResponse } from '../../rest-api/zgwnu-bonita-response'
 import { ZgwnuBonitaSearchParms } from '../zgwnu-bonita-search-parms'
 import { ZgwnuBonitaCaseDataInterface } from './zgwnu-bonita-case-data.interface'
 import { ZgwnuBonitaCase } from './zgwnu-bonita-case'
+
 
 @Injectable()
 export class ZgwnuBonitaBpmCaseService {
@@ -39,8 +39,10 @@ export class ZgwnuBonitaBpmCaseService {
     searchCases(searchParms: ZgwnuBonitaSearchParms): Observable<ZgwnuBonitaCase[]> {
         return this.httpClient.get<ZgwnuBonitaCaseDataInterface[]>(
             this.resourceUrl + '?' + searchParms.getUrlEncondedParms())
-            .map(this.mapCases)
-            .catch(this.responseMapService.catchBonitaError)
+            .pipe(
+                map(this.mapCases),
+                catchError(this.responseMapService.catchBonitaError)
+            )
     }
 
     private mapCases(body: ZgwnuBonitaCaseDataInterface[]): ZgwnuBonitaCase[] {
@@ -55,8 +57,10 @@ export class ZgwnuBonitaBpmCaseService {
 
     getCase(caseId: string): Observable<ZgwnuBonitaCase> {
         return this.httpClient.get<ZgwnuBonitaCaseDataInterface>(this.resourceUrl + '/' + caseId)
-            .map(this.mapCase)
-            .catch(this.responseMapService.catchBonitaError)
+        .pipe(
+            map(this.mapCase),
+            catchError(this.responseMapService.catchBonitaError)
+        )
     }
 
     private mapCase(body: ZgwnuBonitaCaseDataInterface): ZgwnuBonitaCase {
@@ -66,7 +70,7 @@ export class ZgwnuBonitaBpmCaseService {
 
     getCaseContext(caseId: string): Observable<any> {
         return this.httpClient.get(this.resourceUrl + '/' + caseId + '/context')
-        .catch(this.responseMapService.catchBonitaError)    
+        .pipe(catchError(this.responseMapService.catchBonitaError))   
     }
 
 }

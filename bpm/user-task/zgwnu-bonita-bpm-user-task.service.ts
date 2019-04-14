@@ -16,9 +16,8 @@ import { Injectable } from '@angular/core'
 import { HttpClient, HttpResponse } from '@angular/common/http'
 
 // RXJS Imports
-import { Observable } from 'rxjs/Observable'
-import 'rxjs/add/operator/map'
-import 'rxjs/add/operator/catch'
+import { Observable } from 'rxjs'
+import { map, catchError } from 'rxjs/operators'
 
 // ZGWNU Ng Bonita Module Imports
 import { ZgwnuBonitaConfigService } from '../../rest-api/zgwnu-bonita-config.service'
@@ -45,8 +44,10 @@ export class ZgwnuBonitaBpmUserTaskService {
 
     getUserTask(userTaskId: string): Observable<ZgwnuBonitaUserTask> {
         return this.httpClient.get<ZgwnuBonitaUserTaskDataInterface>(this.resourceUrl + '/' + userTaskId)
-            .map(this.mapUserTask)
-            .catch(this.responseMapService.catchBonitaError)
+        .pipe(
+            map(this.mapUserTask),
+            catchError(this.responseMapService.catchBonitaError)
+        )
     }
 
     private mapUserTask(body: ZgwnuBonitaUserTaskDataInterface): ZgwnuBonitaUserTask {
@@ -56,7 +57,7 @@ export class ZgwnuBonitaBpmUserTaskService {
 
     getUserTaskContext(userTaskId: string): Observable<any> {
         return this.httpClient.get(this.resourceUrl + '/' + userTaskId + '/context')
-            .catch(this.responseMapService.catchBonitaError)
+        .pipe(catchError(this.responseMapService.catchBonitaError))
     }
 
 
@@ -80,8 +81,10 @@ export class ZgwnuBonitaBpmUserTaskService {
                 responseType: 'text'
             }
         )
-        .map(this.responseMapService.mapBonitaResponse)
-        .catch(this.responseMapService.catchBonitaError)
+        .pipe(
+            map(this.responseMapService.mapBonitaResponse),
+            catchError(this.responseMapService.catchBonitaError)
+        )
 
     }
     
@@ -95,8 +98,10 @@ export class ZgwnuBonitaBpmUserTaskService {
                 responseType: 'json'
             }
         )
-        .map(this.responseMapService.mapBonitaResponse)
-        .catch(this.responseMapService.catchBonitaError)
+        .pipe(
+            map(this.responseMapService.mapBonitaResponse),
+            catchError(this.responseMapService.catchBonitaError)
+        )
     }
 
 }

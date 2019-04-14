@@ -10,9 +10,8 @@ import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 
 // RXJS Imports
-import { Observable } from 'rxjs/Observable'
-import 'rxjs/add/operator/map'
-import 'rxjs/add/operator/catch'
+import { Observable } from 'rxjs'
+import { map, catchError } from 'rxjs/operators'
 
 // ZGWNU Ng Bonita Module Imports
 import { ZgwnuBonitaConfigService } from '../../rest-api/zgwnu-bonita-config.service'
@@ -43,8 +42,10 @@ export class ZgwnuBonitaBpmDataService {
     searchCaseVariables(searchParms: ZgwnuBonitaSearchParms): Observable<ZgwnuBonitaCaseVariable[]> {        
         return this.httpClient.get<ZgwnuCaseVariableDataInterface[]>(
             this.resourceUrl + '?' + searchParms.getUrlEncondedParms())
-            .map(this.mapCaseVariables)
-            .catch(this.responseMapService.catchBonitaError)
+            .pipe(
+                map(this.mapCaseVariables),
+                catchError(this.responseMapService.catchBonitaError)
+            )
     }
 
     private mapCaseVariables(body: ZgwnuCaseVariableDataInterface[]): ZgwnuBonitaCaseVariable[] {
@@ -59,8 +60,10 @@ export class ZgwnuBonitaBpmDataService {
     getCaseVariable(caseId: string, variableName: string): Observable<ZgwnuBonitaCaseVariable> {
         return this.httpClient.get<ZgwnuCaseVariableDataInterface>(
             this.resourceUrl + '/' + caseId + '/' + variableName)
-            .map(this.mapCaseVariable)
-            .catch(this.responseMapService.catchBonitaError)
+            .pipe(
+                map(this.mapCaseVariable),
+                catchError(this.responseMapService.catchBonitaError)
+            )
     }
 
     private mapCaseVariable(body: ZgwnuCaseVariableDataInterface): ZgwnuBonitaCaseVariable {

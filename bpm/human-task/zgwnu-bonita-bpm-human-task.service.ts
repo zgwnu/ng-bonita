@@ -10,9 +10,8 @@ import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 
 // RXJS Imports
-import { Observable } from 'rxjs/Observable'
-import 'rxjs/add/operator/map'
-import 'rxjs/add/operator/catch'
+import { Observable } from 'rxjs'
+import { map, catchError } from 'rxjs/operators'
 
 // ZGWNU Ng Bonita Module Imports
 import { ZgwnuBonitaConfigService } from '../../rest-api/zgwnu-bonita-config.service'
@@ -39,8 +38,10 @@ export class ZgwnuBonitaBpmHumanTaskService {
     searchHumanTasks(searchParms: ZgwnuBonitaSearchParms): Observable<ZgwnuBonitaHumanTask[]> {
         return this.httpClient.get<ZgwnuBonitaHumanTaskDataInterface[]>(
             this.resourceUrl + '?' + searchParms.getUrlEncondedParms())
-            .map(this.mapHumanTasks)
-            .catch(this.responseMapService.catchBonitaError)
+            .pipe(
+                map(this.mapHumanTasks),
+                catchError(this.responseMapService.catchBonitaError)
+            )
     }
 
     private mapHumanTasks(body: ZgwnuBonitaHumanTaskDataInterface[]): ZgwnuBonitaHumanTask[] {
@@ -54,8 +55,10 @@ export class ZgwnuBonitaBpmHumanTaskService {
 
     getHumanTask(humanTaskId: string): Observable<ZgwnuBonitaHumanTask> {
         return this.httpClient.get<ZgwnuBonitaHumanTaskDataInterface>(this.resourceUrl + '/' + humanTaskId)
-            .map(this.mapHumanTask)
-            .catch(this.responseMapService.catchBonitaError)
+        .pipe(
+            map(this.mapHumanTask),
+            catchError(this.responseMapService.catchBonitaError)
+        )
     }
 
     private mapHumanTask(body: ZgwnuBonitaHumanTaskDataInterface): ZgwnuBonitaHumanTask {

@@ -3,11 +3,8 @@ import { Injectable } from '@angular/core'
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http'
 
 // RXJS Imports
-import { Observable } from 'rxjs/Observable'
-import { ErrorObservable } from 'rxjs/observable/ErrorObservable'
-import 'rxjs/add/operator/map'
-import 'rxjs/add/operator/catch'
-import 'rxjs/add/observable/throw'
+import { Observable, throwError } from 'rxjs'
+
 
 // ZGWNU Ng Bonita Module Imports
 import { ZgwnuBonitaResponse } from '../rest-api/zgwnu-bonita-response'
@@ -23,7 +20,7 @@ export class ZgwnuBonitaResponseMapService {
         return bonitaResponse
     }
 
-    catchBonitaError(httpError: HttpErrorResponse): ErrorObservable {
+    catchBonitaError(httpError: HttpErrorResponse) : Observable<any> {
         let bonitaError: ZgwnuBonitaErrorResponse = new ZgwnuBonitaErrorResponse()
         bonitaError.status = httpError.status
         bonitaError.statusText = httpError.statusText
@@ -32,7 +29,7 @@ export class ZgwnuBonitaResponseMapService {
             if (httpError.error.error) bonitaError.exception = httpError.error.error
             if (httpError.error.text) bonitaError.explanations = httpError.error.text
         }
-        return Observable.throw(bonitaError)
+        return throwError(bonitaError)
     }
     
 }
