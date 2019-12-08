@@ -10,10 +10,7 @@ import { Injectable } from '@angular/core'
 import { HttpHeaders, HttpClient } from '@angular/common/http'
 
 // RXJS Imports
-import { Observable } from 'rxjs/Observable'
-import 'rxjs/add/observable/throw'
-import 'rxjs/add/operator/map'
-import 'rxjs/add/operator/catch'
+import { Observable } from 'rxjs';
 
 // ZGWNU Ng Bonita Module Imports
 import { ZgwnuBonitaConfigService } from '../rest-api/zgwnu-bonita-config.service'
@@ -22,6 +19,7 @@ import { ZgwnuBonitaSession } from '../rest-api/zgwnu-bonita-session'
 import { ZgwnuBonitaResponseMapService } from '../rest-api/zgwnu-bonita-response-map.service'
 import { ZgwnuBonitaResponse } from '../rest-api/zgwnu-bonita-response'
 import { ZgwnuBonitaCredentials } from './zgwnu-bonita-credentials'
+
 
 @Injectable()
 export class ZgwnuBonitaAuthenticationService {

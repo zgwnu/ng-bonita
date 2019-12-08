@@ -15,10 +15,8 @@ import { Injectable } from '@angular/core'
 import { HttpClient, HttpResponse, HttpRequest, HttpEvent, HttpEventType } from '@angular/common/http'
 
 // RXJS Imports
-import { Observable } from 'rxjs/Observable'
-import 'rxjs/add/operator/do'
-import { map } from 'rxjs/operator/map'
-import 'rxjs/add/operator/catch'
+import { Observable } from 'rxjs'
+import { map, catchError,   tap } from 'rxjs/operators'
 
 // ZGWNU Ng Bonita Module Imports
 import { ZgwnuBonitaConfigService } from '../rest-api/zgwnu-bonita-config.service'
@@ -80,8 +78,10 @@ export class ZgwnuBonitaFileUploadService {
             }
         )
         return this.httpClient.request(servletRequest)
-            .map(event => this.mapServletRequest(event, file, progress))
-            .catch(this.responseMapService.catchBonitaError)
+        .pipe(
+            map(event => this.mapServletRequest(event, file, progress)),
+            catchError(this.responseMapService.catchBonitaError)
+        )
     }
 
     private mapServletRequest(event: HttpEvent<Object>, file: File, 

@@ -10,9 +10,8 @@ import { Injectable } from '@angular/core'
 import { HttpClient, HttpResponse } from '@angular/common/http'
 
 // RXJS Imports
-import { Observable } from 'rxjs/Observable'
-import { map } from 'rxjs/operator/map'
-import 'rxjs/add/operator/catch'
+import { Observable } from 'rxjs'
+import { map, catchError } from 'rxjs/operators'
 
 // ZGWNU Ng Bonita Module Imports
 import { ZgwnuBonitaConfigService } from '../../rest-api/zgwnu-bonita-config.service'
@@ -44,8 +43,10 @@ export class ZgwnuBonitaBpmProcessService {
     searchProcessDefinitions(searchParms: ZgwnuBonitaSearchParms): Observable<ZgwnuBonitaProcessDefinition[]> {
         return this.httpClient.get<ZgwnuBonitaProcessDefinitionDataInterface[]>(
             this.resourceUrl + '?' + searchParms.getUrlEncondedParms())
-            .map(this.mapProcessDefinitions)
-            .catch(this.responseMapService.catchBonitaError)
+            .pipe(
+                map(this.mapProcessDefinitions),
+                catchError(this.responseMapService.catchBonitaError)
+            )
     }
 
     private mapProcessDefinitions(body: ZgwnuBonitaProcessDefinitionDataInterface[]): ZgwnuBonitaProcessDefinition[] {
@@ -59,8 +60,10 @@ export class ZgwnuBonitaBpmProcessService {
     getProcessDefinition(processDefinitionId: string): Observable<ZgwnuBonitaProcessDefinition> {
         return this.httpClient.get<ZgwnuBonitaProcessDefinitionDataInterface>(
             this.resourceUrl + '/' + processDefinitionId)
-            .map(this.mapProcessDefinition)
-            .catch(this.responseMapService.catchBonitaError)
+            .pipe(
+                map(this.mapProcessDefinition),
+                catchError(this.responseMapService.catchBonitaError)
+            )
     }
 
     private mapProcessDefinition(body: ZgwnuBonitaProcessDefinitionDataInterface): ZgwnuBonitaProcessDefinition {
@@ -84,8 +87,10 @@ export class ZgwnuBonitaBpmProcessService {
                 responseType: 'json'
             }
         )
-        .map(this.mapCreateCaseSuccessResponse)
-        .catch(this.responseMapService.catchBonitaError)
+        .pipe(
+            map(this.mapCreateCaseSuccessResponse),
+            catchError(this.responseMapService.catchBonitaError)
+        )
     }
 
     private mapCreateCaseSuccessResponse(response: HttpResponse<Object>): ZgwnuBonitaCreateCaseSuccessResponse {
@@ -117,8 +122,10 @@ export class ZgwnuBonitaBpmProcessService {
                 responseType: 'json'
             }
         )
-        .map(this.mapDeployProcessDefinitionSuccessResponse)
-        .catch(this.responseMapService.catchBonitaError)
+        .pipe(
+            map(this.mapDeployProcessDefinitionSuccessResponse),
+            catchError(this.responseMapService.catchBonitaError)
+        )
     }
 
     private mapDeployProcessDefinitionSuccessResponse(response: HttpResponse<Object>): ZgwnuBonitaDeployProcessDefinitionSuccessResponse {
@@ -153,9 +160,10 @@ export class ZgwnuBonitaBpmProcessService {
                 observe: 'response',
                 responseType: 'json'
             }
+        ).pipe(
+            map(this.mapUpdateProcessDefinitionSuccessResponse),
+            catchError(this.responseMapService.catchBonitaError)
         )
-        .map(this.mapUpdateProcessDefinitionSuccessResponse)
-        .catch(this.responseMapService.catchBonitaError)
     }
 
     private mapUpdateProcessDefinitionSuccessResponse(response: HttpResponse<Object>): ZgwnuBonitaProcessUpdateSuccessResponse {

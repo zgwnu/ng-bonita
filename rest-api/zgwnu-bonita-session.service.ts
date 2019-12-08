@@ -3,9 +3,8 @@ import { Injectable } from '@angular/core'
 import { HttpClient, HttpResponse } from '@angular/common/http'
 
 // RXJS Imports
-import { Observable } from 'rxjs/Observable'
-import 'rxjs/add/operator/map'
-import 'rxjs/add/operator/catch'
+import { Observable } from 'rxjs'
+import { map, catchError } from 'rxjs/operators'
 
 // ZGWNU Ng Bonita Module Imports
 import { ZgwnuBonitaConfigService } from '../rest-api/zgwnu-bonita-config.service'
@@ -31,8 +30,10 @@ export class ZgwnuBonitaSessionService {
             this.configService.bonitaUrls.apiUrl + this.SESSION_RESOURCE_PATH,
             { observe: 'response' }
         )
-        .map(response => this.mapBonitaSession(response, this.configService))
-        .catch(this.responseMapService.catchBonitaError)
+        .pipe(
+            map(response => this.mapBonitaSession(response, this.configService)),
+            catchError(this.responseMapService.catchBonitaError)
+        )
     }
 
     private mapBonitaSession(response: HttpResponse<ZgwnuBonitaSessionInterface>, configService: ZgwnuBonitaConfigService): ZgwnuBonitaSession {

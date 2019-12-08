@@ -9,9 +9,8 @@ import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 
 // RXJS Imports
-import { Observable } from 'rxjs/Observable'
-import 'rxjs/add/operator/map'
-import 'rxjs/add/operator/catch'
+import { Observable } from 'rxjs';
+import { map, catchError } from 'rxjs/operators'
 
 // ZGWNU Ng Bonita Module Imports
 import { ZgwnuBonitaConfigService } from '../rest-api/zgwnu-bonita-config.service'
@@ -21,6 +20,7 @@ import { ZgwnuBonitaBusinessDataObjectInterface } from './zgwnu-bonita-business-
 import { ZgwnuBonitaBusinessDataListInterface } from './zgwnu-bonita-business-data-list.interface'
 import { ZgwnuBonitaIsDateTypeInterface } from './zgwnu-bonita-is-date-type.interface'
 import { ZgwnuIsDateTypeFunction } from './zgwnu-bonita-is-date-type.function'
+
 
 @Injectable()
 /**
@@ -62,13 +62,15 @@ export class ZgwnuBonitaBusinessDataService {
         businessDataType: string, 
         persistenceId: number,  
         isDateType?: ZgwnuBonitaIsDateTypeInterface): Observable<T> {
-
         return this.httpClient.get(
             this.businessDataResourceUrl + '/' + 
             this.configService.businessDataModelPackage + '.' + businessDataType + 
                 '/' + persistenceId.toString())
-            .map(body => this.mapBusinessData<T>(body, isDateType))
-            .catch(this.responseMapService.catchBonitaError)
+            .pipe(
+                map(body => this.mapBusinessData<T>(body, isDateType)),
+                catchError(this.responseMapService.catchBonitaError)
+            )
+            
     }
 
     private mapBusinessData<T extends ZgwnuBonitaBusinessDataObjectInterface>(
@@ -139,8 +141,10 @@ export class ZgwnuBonitaBusinessDataService {
             this.businessDataResourceUrl + '/' + 
             this.configService.businessDataModelPackage + '.' + businessDataType + 
             '?' + queryParms.getUrlEncondedParms())
-            .map(body => this.mapBusinessDataList<T>(body, isDateType))
-            .catch(this.responseMapService.catchBonitaError)
+            .pipe(
+                map(body => this.mapBusinessDataList<T>(body, isDateType)),
+                catchError(this.responseMapService.catchBonitaError)
+            )
     }
 
     private mapBusinessDataList<T extends ZgwnuBonitaBusinessDataListInterface>(

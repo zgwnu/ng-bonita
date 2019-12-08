@@ -10,9 +10,8 @@ import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 
 // RXJS Imports
-import { Observable } from 'rxjs/Observable'
-import 'rxjs/add/operator/catch'
-import 'rxjs/add/operator/map'
+import { Observable } from 'rxjs'
+import { map, catchError } from 'rxjs/operators'
 
 // ZGWNU Ng Bonita Module Imports
 import { ZgwnuBonitaConfigService } from '../../rest-api/zgwnu-bonita-config.service'
@@ -57,8 +56,10 @@ export class ZgwnuBonitaBpmDocumentService {
                 responseType: 'json'
             }
         )
-        .map(this.mapDocument)
-        .catch(this.responseMapService.catchBonitaError)
+        .pipe(
+            map(this.mapDocument),
+            catchError(this.responseMapService.catchBonitaError)
+        )
     }
 
     updateDocument(documentId: string, documentUpdateInput: ZgwnuBonitaDocumentUpdateInput): Observable<ZgwnuBonitaDocument> {
@@ -71,24 +72,30 @@ export class ZgwnuBonitaBpmDocumentService {
                 responseType: 'json'
             }
         )
-        .map(this.mapDocument)
-        .catch(this.responseMapService.catchBonitaError)
+        .pipe(
+            map(this.mapDocument),
+            catchError(this.responseMapService.catchBonitaError)
+        )
     }
 
     getDocument(documentId: string): Observable<ZgwnuBonitaDocument> {
         return this.httpClient.get<ZgwnuBonitaDocumentDataInterface>(
             this.resourceUrl + '/' + documentId
         )
-        .map(this.mapDocument)
-        .catch(this.responseMapService.catchBonitaError)
+        .pipe(
+            map(this.mapDocument),
+            catchError(this.responseMapService.catchBonitaError)
+        )
     }
 
     searchDocuments(searchParms: ZgwnuBonitaSearchParms): Observable<ZgwnuBonitaDocument[]> {
         return this.httpClient.get<ZgwnuBonitaDocumentDataInterface[]>(
             this.resourceUrl + '?' + searchParms.getUrlEncondedParms()
         )
-        .map(this.mapDocuments)
-        .catch(this.responseMapService.catchBonitaError)
+        .pipe(
+            map(this.mapDocuments),
+            catchError(this.responseMapService.catchBonitaError)
+        )
     }
 
 }

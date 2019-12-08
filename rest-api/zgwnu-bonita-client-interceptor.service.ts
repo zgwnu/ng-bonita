@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpResponse } from '@angular/common/http'
 
-import { Observable } from 'rxjs/Observable'
-import 'rxjs/add/operator/do'
+import { Observable } from 'rxjs'
+import { map, catchError, tap } from 'rxjs/operators'
 
 @Injectable()
 export class ZgwnuBonitaClientInterceptorService implements HttpInterceptor {
@@ -10,8 +10,10 @@ export class ZgwnuBonitaClientInterceptorService implements HttpInterceptor {
   {
     return next
     .handle(req)
-    .do(event => {
-        //console.log('ZgwnuBonitaClientInterceptorService.event = ', event)
-    })
+    .pipe(
+      tap(event => {
+          //console.log('ZgwnuBonitaClientInterceptorService.event = ', event)
+      })
+    )
 }
 }
